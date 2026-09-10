@@ -1,0 +1,393 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'Space Grotesk', monospace;
+
+    /* Light Theme Base Colors */
+    --bg-light: #F8FAFC;
+    --bg-card-light: #FFFFFF;
+    --bg-card-hover-light: #F1F5F9;
+    --text-primary: #0F172A;
+    --text-secondary: #334155;
+    --text-muted: #64748B;
+
+    /* High Energy Vibrant Accents */
+    --accent-cyan: #00B4D8;
+    --accent-blue: #2563EB;
+    --accent-violet: #7C3AED;
+    --accent-emerald: #059669;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background-color: var(--bg-light);
+    color: var(--text-primary);
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.025em;
+    color: var(--text-primary);
+  }
+}
+
+/* Custom Typography Utilities */
+.font-display {
+  font-family: 'Outfit', sans-serif;
+}
+
+.font-sans-clean {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.font-tech {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+/* Continuous Shimmering Iridescent Text Gradients */
+@keyframes textShimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.text-gradient-cyan {
+  background: linear-gradient(135deg, #0284C7 0%, #06B6D4 40%, #2563EB 80%, #7C3AED 100%);
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textShimmer 5s ease-in-out infinite;
+}
+
+.text-gradient-violet {
+  background: linear-gradient(135deg, #2563EB 0%, #7C3AED 50%, #C026D3 100%);
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textShimmer 6s ease-in-out infinite;
+}
+
+.text-gradient-hawk {
+  background: linear-gradient(135deg, #0F172A 0%, #0284C7 40%, #7C3AED 80%, #0EA5E9 100%);
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textShimmer 5.5s ease-in-out infinite;
+}
+
+/* Glow & Halo Effects for Light Theme */
+.glow-cyan {
+  box-shadow: 0 10px 30px -5px rgba(2, 132, 199, 0.25), 0 0 15px rgba(6, 182, 212, 0.2);
+}
+
+.glow-cyan-sm {
+  box-shadow: 0 4px 15px -2px rgba(2, 132, 199, 0.2);
+}
+
+.glow-violet {
+  box-shadow: 0 10px 30px -5px rgba(124, 58, 237, 0.25);
+}
+
+/* Luminous Frosted Glassmorphism for Light Theme */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 12px 35px -8px rgba(15, 23, 42, 0.05), 0 1px 3px rgba(15, 23, 42, 0.03);
+}
+
+.glass-panel-hover {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(226, 232, 240, 0.85);
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.04);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel-hover:hover {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: rgba(14, 165, 233, 0.4);
+  box-shadow: 0 20px 40px -10px rgba(14, 165, 233, 0.15), 0 0 1px 1px rgba(14, 165, 233, 0.2);
+  transform: translateY(-4px);
+}
+
+/* Background Grids for Light Theme */
+.bg-grid-cyber {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
+}
+
+.bg-dots-cyber {
+  background-image: radial-gradient(rgba(2, 132, 199, 0.18) 1.2px, transparent 1.2px);
+  background-size: 28px 28px;
+}
+
+/* Custom Scrollbar for Light Theme */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0284C7;
+}
+
+/* Laser Flight Accent Animations */
+@keyframes laserDash {
+  to {
+    stroke-dashoffset: -1000;
+  }
+}
+
+.animate-laser {
+  stroke-dasharray: 8 16;
+  animation: laserDash 22s linear infinite;
+}
+
+@keyframes laserFast {
+  to {
+    stroke-dashoffset: -400;
+  }
+}
+
+.animate-laser-fast {
+  stroke-dasharray: 6 10;
+  animation: laserFast 9s linear infinite;
+}
+
+/* Radar & Pulse Animations */
+@keyframes radarPulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+}
+
+.animate-radar {
+  animation: radarPulse 2.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+}
+
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spinSlow 18s linear infinite;
+}
+
+@keyframes spinSlowReverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+.animate-spin-slow-reverse {
+  animation: spinSlowReverse 22s linear infinite;
+}
+
+/* Video Timeline Playhead Scrubbing Animation */
+@keyframes playheadScrub {
+  0% {
+    left: 0%;
+  }
+  100% {
+    left: 95%;
+  }
+}
+
+.animate-playhead {
+  animation: playheadScrub 3.6s linear infinite;
+}
+
+/* Soundwave Frequency Bar Animations */
+@keyframes soundwave {
+  0%, 100% {
+    height: 4px;
+  }
+  50% {
+    height: 22px;
+  }
+}
+
+.animate-soundwave-1 {
+  animation: soundwave 0.7s ease-in-out infinite;
+}
+.animate-soundwave-2 {
+  animation: soundwave 1s ease-in-out 0.2s infinite;
+}
+.animate-soundwave-3 {
+  animation: soundwave 0.85s ease-in-out 0.4s infinite;
+}
+.animate-soundwave-4 {
+  animation: soundwave 1.2s ease-in-out 0.1s infinite;
+}
+
+/* Button Shimmer Sweep */
+@keyframes buttonShimmer {
+  0% {
+    transform: translateX(-150%) skewX(-25deg);
+  }
+  100% {
+    transform: translateX(250%) skewX(-25deg);
+  }
+}
+
+.animate-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.animate-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  animation: buttonShimmer 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Border Beam Animation */
+@keyframes border-beam {
+  100% {
+    offset-distance: 100%;
+  }
+}
+
+.animate-border-beam {
+  animation: border-beam var(--duration, 10s) infinite linear;
+}
+
+/* Marquee Animations */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap, 1.5rem)));
+  }
+}
+
+@keyframes marquee-vertical {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-100% - var(--gap, 1.5rem)));
+  }
+}
+
+.animate-marquee {
+  animation: marquee var(--duration, 30s) linear infinite;
+}
+
+.animate-marquee-vertical {
+  animation: marquee-vertical var(--duration, 30s) linear infinite;
+}
+
+/* Gradient Fade Mask Utilities for Marquees */
+.mask-marquee-h {
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.mask-marquee-v {
+  mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+}
+
+/* Fluid Aurora Wave Animation */
+@keyframes auroraMove {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  50% {
+    transform: translate(40px, -30px) scale(1.08) rotate(15deg);
+  }
+  100% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+}
+
+.animate-aurora {
+  animation: auroraMove 15s ease-in-out infinite;
+}
+
+@keyframes auroraMoveReverse {
+  0% {
+    transform: translate(0, 0) scale(1.05) rotate(0deg);
+  }
+  50% {
+    transform: translate(-35px, 25px) scale(0.95) rotate(-12deg);
+  }
+  100% {
+    transform: translate(0, 0) scale(1.05) rotate(0deg);
+  }
+}
+
+.animate-aurora-reverse {
+  animation: auroraMoveReverse 18s ease-in-out infinite;
+}
+
+/* Floating Gentle Bobbing */
+@keyframes floatGentle {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float-gentle {
+  animation: floatGentle 5s ease-in-out infinite;
+}
+
+/* Accessibility: Respect Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

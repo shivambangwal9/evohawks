@@ -134,8 +134,8 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenProjectModal }
             </p>
           </div>
 
-          {/* Service Selector Tabs with layoutId */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-12">
+          {/* Service Selector Tabs with layoutId - Swipeable on mobile, grid on sm+ */}
+          <div className="flex sm:grid sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3 mb-8 sm:mb-12 overflow-x-auto pb-2 sm:pb-0 scrollbar-none touch-pan-x -mx-4 px-4 sm:mx-0 sm:px-0">
             {SERVICES_DATA.map((srv) => {
               const Icon = getIcon(srv.icon);
               const isActive = activeTab === srv.id;
@@ -143,7 +143,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenProjectModal }
                 <button
                   key={srv.id}
                   onClick={() => setActiveTab(srv.id)}
-                  className={`relative p-4 rounded-2xl border text-left transition-all duration-300 cursor-pointer flex flex-col justify-between overflow-hidden shadow-xs ${
+                  className={`flex-shrink-0 w-36 sm:w-auto relative p-3.5 sm:p-4 rounded-2xl border text-left transition-all duration-300 cursor-pointer flex flex-col justify-between overflow-hidden shadow-xs ${
                     isActive
                       ? 'bg-white border-sky-400 shadow-[0_6px_20px_rgba(2,132,199,0.2)]'
                       : 'bg-white/70 border-slate-200 hover:border-slate-300 hover:bg-white'
@@ -156,11 +156,11 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenProjectModal }
                       transition={{ type: "spring", stiffness: 450, damping: 30 }}
                     />
                   )}
-                  <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center justify-between mb-2 sm:mb-3">
                     <span className={`text-[10px] font-tech font-bold ${isActive ? 'text-sky-600' : 'text-slate-400'}`}>
                       0{srv.number}
                     </span>
-                    <Icon className={`w-4 h-4 ${isActive ? 'text-sky-600' : 'text-slate-400'}`} />
+                    <Icon className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isActive ? 'text-sky-600' : 'text-slate-400'}`} />
                   </div>
                   <div className="text-xs sm:text-sm font-display font-bold text-slate-900 leading-tight">
                     {srv.title}
@@ -171,7 +171,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenProjectModal }
           </div>
 
           {/* Detailed Active Service Showcase Card */}
-          <div className="relative rounded-3xl bg-white/95 border border-slate-200 p-8 sm:p-12 backdrop-blur-xl shadow-lg overflow-hidden">
+          <div className="relative rounded-2xl sm:rounded-3xl bg-white/95 border border-slate-200 p-5 sm:p-8 md:p-12 backdrop-blur-xl shadow-lg overflow-hidden">
             <BorderBeam size={160} duration={10} colorFrom="#0284C7" colorTo="#7C3AED" />
 
             <AnimatePresence mode="wait">
@@ -181,33 +181,33 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenProjectModal }
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -15 }}
                 transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center"
+                className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-10 items-center"
               >
                 {/* Left Specs */}
                 <div className="lg:col-span-7 flex flex-col items-start">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-14 h-14 rounded-2xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600 shadow-xs">
-                      <ActiveIcon className="w-7 h-7" />
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600 shadow-xs flex-shrink-0">
+                      <ActiveIcon className="w-6 h-6 sm:w-7 sm:h-7" />
                     </div>
                     <div>
-                      <span className="text-xs font-tech text-sky-600 font-bold tracking-widest uppercase">
+                      <span className="text-[11px] sm:text-xs font-tech text-sky-600 font-bold tracking-widest uppercase">
                         SERVICE 0{activeService.number} DISCIPLINE
                       </span>
-                      <h3 className="text-2xl sm:text-3xl font-display font-black text-slate-900">
+                      <h3 className="text-xl sm:text-2xl md:text-3xl font-display font-black text-slate-900">
                         {activeService.title}
                       </h3>
                     </div>
                   </div>
 
-                  <p className="text-base font-semibold text-slate-700 mb-3 font-sans-clean">
+                  <p className="text-sm sm:text-base font-semibold text-slate-700 mb-2 sm:mb-3 font-sans-clean">
                     {activeService.tagline}
                   </p>
 
-                  <p className="text-sm sm:text-base text-slate-600 font-sans-clean leading-relaxed mb-6">
+                  <p className="text-xs sm:text-sm md:text-base text-slate-600 font-sans-clean leading-relaxed mb-6">
                     {activeService.description}
                   </p>
 
-                  <div className="w-full pt-4 border-t border-slate-100 mb-8">
+                  <div className="w-full pt-4 border-t border-slate-100 mb-6 sm:mb-8">
                     <div className="text-xs font-tech uppercase text-sky-600 font-bold tracking-wider mb-3">
                       Included Capabilities &amp; Standards:
                     </div>
@@ -225,7 +225,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenProjectModal }
 
                   <MagneticButton
                     onClick={() => onOpenProjectModal(activeService.title)}
-                    className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-bold text-white bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:shadow-[0_6px_20px_rgba(2,132,199,0.35)] transition-all cursor-pointer"
+                    className="w-full sm:w-auto justify-center inline-flex items-center gap-2 px-6 sm:px-8 py-3.5 rounded-full text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:shadow-[0_6px_20px_rgba(2,132,199,0.35)] transition-all cursor-pointer"
                   >
                     <span>Request {activeService.title}</span>
                     <ArrowRight className="w-4 h-4" />
@@ -287,13 +287,13 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenProjectModal }
             </p>
           </div>
 
-          <div className="p-8 sm:p-10 rounded-3xl bg-white/95 border border-slate-200 shadow-xl relative overflow-hidden">
+          <div className="p-5 sm:p-8 md:p-10 rounded-2xl sm:rounded-3xl bg-white/95 border border-slate-200 shadow-xl relative overflow-hidden">
             <BorderBeam size={150} duration={14} colorFrom="#0284C7" colorTo="#7C3AED" />
 
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8">
               
               {/* Left Controls */}
-              <div className="md:col-span-8 space-y-6">
+              <div className="md:col-span-8 space-y-5 sm:space-y-6">
                 
                 {/* 1. Website Option */}
                 <div>
@@ -311,7 +311,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenProjectModal }
                         key={opt.id}
                         type="button"
                         onClick={() => setSelectedWebsite(opt.id as any)}
-                        className={`py-2.5 px-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer text-center ${
+                        className={`py-2 sm:py-2.5 px-2 rounded-xl text-[11px] sm:text-xs font-semibold border transition-all cursor-pointer text-center leading-tight ${
                           selectedWebsite === opt.id
                             ? 'bg-sky-50 border-sky-400 text-sky-700 shadow-xs'
                             : 'bg-slate-50 border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-100'
@@ -339,7 +339,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenProjectModal }
                         key={opt.id}
                         type="button"
                         onClick={() => setSelectedVideo(opt.id as any)}
-                        className={`py-2.5 px-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer text-center ${
+                        className={`py-2 sm:py-2.5 px-2 rounded-xl text-[11px] sm:text-xs font-semibold border transition-all cursor-pointer text-center leading-tight ${
                           selectedVideo === opt.id
                             ? 'bg-violet-50 border-violet-400 text-violet-700 shadow-xs'
                             : 'bg-slate-50 border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-100'
@@ -367,7 +367,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenProjectModal }
                         key={opt.id}
                         type="button"
                         onClick={() => setSelectedMarketing(opt.id as any)}
-                        className={`py-2.5 px-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer text-center ${
+                        className={`py-2 sm:py-2.5 px-2 rounded-xl text-[11px] sm:text-xs font-semibold border transition-all cursor-pointer text-center leading-tight ${
                           selectedMarketing === opt.id
                             ? 'bg-blue-50 border-blue-400 text-blue-700 shadow-xs'
                             : 'bg-slate-50 border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-100'

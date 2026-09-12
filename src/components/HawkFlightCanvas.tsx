@@ -29,35 +29,54 @@ export const HawkFlightCanvas: React.FC = () => {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
     };
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize, { passive: true });
 
     // High clarity vibrant particle colors for Light Theme
     const colors = ['#0284C7', '#0EA5E9', '#6366F1', '#8B5CF6', '#06B6D4'];
     const particles: Particle[] = [];
-    const particleCount = Math.min(width > 768 ? 55 : 25, 70);
+    const isMobile = width < 768;
+    const particleCount = isMobile ? 10 : 26;
 
     for (let i = 0; i < particleCount; i++) {
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.3) * 0.5,
-        vy: (Math.random() - 0.5) * 0.4,
-        size: Math.random() * 2.2 + 1.2,
-        alpha: Math.random() * 0.4 + 0.25,
+        vx: (Math.random() - 0.3) * 0.4,
+        vy: (Math.random() - 0.5) * 0.35,
+        size: Math.random() * 2 + 1,
+        alpha: Math.random() * 0.35 + 0.2,
         color: colors[Math.floor(Math.random() * colors.length)],
         pulseSpeed: Math.random() * 0.02 + 0.01,
       });
     }
 
-    let mouseX = width / 2;
-    let mouseY = height / 2;
+    let mouseX = -9999;
+    let mouseY = -9999;
     const handleMouseMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
     };
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    if (!isMobile) {
+      window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    }
+
+    const connectDist = 110;
+    const connectDistSq = connectDist * connectDist;
+    const mouseDist = 140;
+    const mouseDistSq = mouseDist * mouseDist;
+
+    let isPaused = false;
+    const handleVisibilityChange = () => {
+      isPaused = document.hidden;
+      if (!isPaused) {
+        animationFrameId = requestAnimationFrame(render);
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     const render = () => {
+      if (isPaused) return;
+
       ctx.clearRect(0, 0, width, height);
 
       // Draw particle nodes & aerodynamic laser connection lines
@@ -73,50 +92,47 @@ export const HawkFlightCanvas: React.FC = () => {
         if (p.y < 0) p.y = height;
         if (p.y > height) p.y = 0;
 
-        // Subtle pulsing
-        p.alpha += Math.sin(Date.now() * p.pulseSpeed * 0.05) * 0.005;
-        p.alpha = Math.max(0.2, Math.min(0.7, p.alpha));
-
-        // Draw particle
+        // Draw particle (zero shadowBlur for 60-120 FPS performance)
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fillStyle = p.color;
         ctx.globalAlpha = p.alpha;
-        ctx.shadowBlur = 6;
-        ctx.shadowColor = p.color;
         ctx.fill();
-        ctx.shadowBlur = 0;
 
-        // Connect nearby particles with subtle aerodynamic laser lines
+        // Connect nearby particles with subtle aerodynamic lines
         for (let j = i + 1; j < particles.length; j++) {
           const p2 = particles[j];
           const dx = p.x - p2.x;
           const dy = p.y - p2.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+          const distSq = dx * dx + dy * dy;
 
-          if (dist < 140) {
+          if (distSq < connectDistSq) {
+            const dist = Math.sqrt(distSq);
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
             ctx.strokeStyle = '#0284C7';
-            ctx.globalAlpha = (1 - dist / 140) * 0.22;
+            ctx.globalAlpha = (1 - dist / connectDist) * 0.2;
             ctx.lineWidth = 1;
             ctx.stroke();
           }
         }
 
-        // Slight attraction toward cursor
-        const mdx = mouseX - p.x;
-        const mdy = mouseY - p.y;
-        const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
-        if (mdist < 190) {
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(mouseX, mouseY);
-          ctx.strokeStyle = '#7C3AED';
-          ctx.globalAlpha = (1 - mdist / 190) * 0.3;
-          ctx.lineWidth = 1.2;
-          ctx.stroke();
+        // Slight attraction toward cursor if mouse active
+        if (mouseX > 0) {
+          const mdx = mouseX - p.x;
+          const mdy = mouseY - p.y;
+          const mdistSq = mdx * mdx + mdy * mdy;
+          if (mdistSq < mouseDistSq) {
+            const mdist = Math.sqrt(mdistSq);
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(mouseX, mouseY);
+            ctx.strokeStyle = '#7C3AED';
+            ctx.globalAlpha = (1 - mdist / mouseDist) * 0.25;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
         }
       }
 
@@ -129,6 +145,7 @@ export const HawkFlightCanvas: React.FC = () => {
     return () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);

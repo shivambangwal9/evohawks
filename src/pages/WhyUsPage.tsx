@@ -181,8 +181,42 @@ export const WhyUsPage: React.FC<WhyUsPageProps> = ({ onOpenProjectModal }) => {
             </p>
           </div>
 
-          {/* Desktop Matrix Table */}
-          <div className="rounded-3xl bg-white/95 border border-slate-200 overflow-hidden shadow-xl relative">
+          {/* Mobile Comparison Cards (< md) */}
+          <div className="block md:hidden space-y-4">
+            {comparisonRows.map((row, idx) => (
+              <div key={idx} className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
+                <h3 className="text-sm font-display font-bold text-slate-900 mb-3">
+                  {row.feature}
+                </h3>
+                
+                {/* Evo Hawks Winner Card */}
+                <div className="bg-sky-50 border border-sky-200 rounded-xl p-3 mb-2.5">
+                  <div className="text-[11px] font-tech text-sky-700 font-bold uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-sky-600 flex-shrink-0" />
+                    <span>🦅 Evo Hawks</span>
+                  </div>
+                  <p className="text-xs text-slate-800 font-medium">
+                    {row.evo}
+                  </p>
+                </div>
+
+                {/* Alternatives */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                  <div className="bg-slate-50 rounded-lg p-2.5 border border-slate-100">
+                    <span className="text-[10px] font-tech font-bold uppercase text-slate-400 block mb-0.5">Traditional Agency</span>
+                    <span className="text-slate-600 leading-snug">{row.traditional}</span>
+                  </div>
+                  <div className="bg-slate-50 rounded-lg p-2.5 border border-slate-100">
+                    <span className="text-[10px] font-tech font-bold uppercase text-slate-400 block mb-0.5">Freelancers</span>
+                    <span className="text-slate-600 leading-snug">{row.freelancers}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop Matrix Table (md+) */}
+          <div className="hidden md:block rounded-3xl bg-white/95 border border-slate-200 overflow-hidden shadow-xl relative">
             <BorderBeam size={180} duration={14} colorFrom="#0284C7" colorTo="#7C3AED" />
 
             <div className="overflow-x-auto">

@@ -18,7 +18,7 @@ export const Marquee: React.FC<MarqueeProps> = ({
   pauseOnHover = false,
   children,
   vertical = false,
-  repeat = 4,
+  repeat = 2,
   gap = '1.5rem',
   duration = '35s',
   ...props
@@ -37,7 +37,7 @@ export const Marquee: React.FC<MarqueeProps> = ({
       {Array.from({ length: repeat }).map((_, i) => (
         <div
           key={i}
-          className={`flex shrink-0 justify-around [gap:var(--gap)] ${
+          className={`flex shrink-0 justify-around [gap:var(--gap)] will-change-transform ${
             vertical
               ? 'animate-marquee-vertical flex-col'
               : 'animate-marquee flex-row'

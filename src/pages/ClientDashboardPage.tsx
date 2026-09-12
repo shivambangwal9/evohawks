@@ -264,7 +264,7 @@ export const ClientDashboardPage: React.FC<ClientDashboardPageProps> = ({ onNavi
                       value={feedbackMessage}
                       onChange={(e) => setFeedbackMessage(e.target.value)}
                       placeholder="e.g. Please update the hero CTA copy to 'Start Free Trial' and send test build..."
-                      className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 focus:outline-none focus:border-sky-500 focus:bg-white transition-all shadow-2xs"
+                      className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-base sm:text-xs text-slate-900 focus:outline-none focus:border-sky-500 focus:bg-white transition-all shadow-2xs"
                     />
 
                     {feedbackSent && (

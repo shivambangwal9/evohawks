@@ -166,7 +166,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setUser({
         id: 'usr-admin-1',
         name: 'Siddharth Nair',
-        email: email || 'admin@evohawks.com',
+        email: email || 'teamevohawks@gmail.com',
         role: 'admin',
         company: 'Evo Hawks Executive'
       });
@@ -188,7 +188,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setUser({
         id: 'usr-admin-1',
         name: 'Siddharth Nair',
-        email: 'admin@evohawks.com',
+        email: 'teamevohawks@gmail.com',
         role: 'admin',
         company: 'Evo Hawks Executive'
       });

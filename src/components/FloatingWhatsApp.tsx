@@ -12,7 +12,7 @@ export const FloatingWhatsApp: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end">
+    <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 flex flex-col items-end pb-safe">
       
       {/* Quick Chat Popover with AnimatePresence & BorderBeam */}
       <AnimatePresence>
@@ -22,7 +22,7 @@ export const FloatingWhatsApp: React.FC = () => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.85, y: 20 }}
             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="mb-3 w-80 rounded-2xl bg-[#0D111A] border border-emerald-500/30 p-4 shadow-[0_15px_40px_rgba(0,0,0,0.85)] backdrop-blur-xl relative overflow-hidden"
+            className="mb-3 w-[calc(100vw-2rem)] max-w-xs sm:w-80 rounded-2xl bg-[#0D111A] border border-emerald-500/30 p-4 shadow-[0_15px_40px_rgba(0,0,0,0.85)] backdrop-blur-xl relative overflow-hidden"
           >
             <BorderBeam size={90} duration={8} colorFrom="#10B981" colorTo="#00F0FF" />
 
@@ -35,7 +35,8 @@ export const FloatingWhatsApp: React.FC = () => {
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-gray-400 hover:text-white transition-colors cursor-pointer"
+                className="text-gray-400 hover:text-white transition-colors cursor-pointer p-1"
+                aria-label="Close WhatsApp chat popup"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -82,17 +83,17 @@ export const FloatingWhatsApp: React.FC = () => {
 
       {/* Floating Action Button with radar pulse */}
       <motion.button
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
+        whileHover={{ scale: 1.08 }}
+        whileTap={{ scale: 0.94 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="group relative flex items-center justify-center w-14 h-14 rounded-full bg-emerald-500 hover:bg-emerald-400 text-[#07090E] shadow-[0_0_25px_rgba(16,185,129,0.5)] transition-colors cursor-pointer"
+        className="group relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-emerald-500 hover:bg-emerald-400 text-[#07090E] shadow-[0_0_25px_rgba(16,185,129,0.5)] transition-colors cursor-pointer"
         aria-label="Chat on WhatsApp"
       >
-        <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-emerald-300 animate-ping" />
+        <div className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-emerald-300 animate-ping" />
         {isOpen ? (
-          <X className="w-6 h-6 text-[#07090E]" />
+          <X className="w-5 h-5 sm:w-6 sm:h-6 text-[#07090E]" />
         ) : (
-          <MessageCircle className="w-7 h-7 text-[#07090E] fill-current" />
+          <MessageCircle className="w-6 h-6 sm:w-7 sm:h-7 text-[#07090E] fill-current" />
         )}
       </motion.button>
     </div>

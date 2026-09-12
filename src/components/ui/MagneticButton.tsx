@@ -17,6 +17,7 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
   ...props
 }) => {
   const ref = useRef<HTMLButtonElement>(null);
+  const rectRef = useRef<{ left: number; top: number; width: number; height: number } | null>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
@@ -24,17 +25,25 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
   const springX = useSpring(x, springConfig);
   const springY = useSpring(y, springConfig);
 
+  const handleMouseEnter = () => {
+    if (ref.current) {
+      const r = ref.current.getBoundingClientRect();
+      rectRef.current = { left: r.left, top: r.top, width: r.width, height: r.height };
+    }
+  };
+
   const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!ref.current) return;
+    const rect = rectRef.current;
+    if (!rect || rect.width === 0 || rect.height === 0) return;
     const { clientX, clientY } = e;
-    const { left, top, width, height } = ref.current.getBoundingClientRect();
-    const middleX = clientX - (left + width / 2);
-    const middleY = clientY - (top + height / 2);
+    const middleX = clientX - (rect.left + rect.width / 2);
+    const middleY = clientY - (rect.top + rect.height / 2);
     x.set(middleX * strength);
     y.set(middleY * strength);
   };
 
   const handleMouseLeave = () => {
+    rectRef.current = null;
     x.set(0);
     y.set(0);
   };
@@ -43,11 +52,12 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
     <motion.button
       ref={ref}
       style={{ x: springX, y: springY }}
+      onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onClick={onClick}
       whileTap={{ scale: 0.96 }}
-      className={className}
+      className={`will-change-transform ${className}`}
       {...props}
     >
       {children}

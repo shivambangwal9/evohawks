@@ -35,7 +35,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   };
 
   return (
-    <footer className="relative bg-white/90 border-t border-slate-200/80 pt-20 pb-12 overflow-hidden">
+    <footer className="relative bg-white/90 border-t border-slate-200/80 pt-16 sm:pt-20 pb-12 pb-safe overflow-hidden">
       {/* Dynamic Background Glow */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[700px] h-[200px] bg-sky-400/10 rounded-full blur-[140px] pointer-events-none" />
 
@@ -157,8 +157,8 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         </div>
 
         {/* Large Brand Backdrop Silhouette */}
-        <div className="pt-10 pb-6 flex items-center justify-center opacity-5 select-none pointer-events-none">
-          <span className="text-6xl sm:text-8xl md:text-9xl font-display font-black tracking-tighter text-slate-900">
+        <div className="pt-8 sm:pt-10 pb-4 sm:pb-6 flex items-center justify-center opacity-5 select-none pointer-events-none overflow-hidden">
+          <span className="text-4xl sm:text-8xl md:text-9xl font-display font-black tracking-tighter text-slate-900 whitespace-nowrap">
             EVO HAWKS
           </span>
         </div>

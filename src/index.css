@@ -21,6 +21,13 @@
     --accent-emerald: #059669;
   }
 
+  html {
+    scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
   body {
     font-family: var(--font-body);
     background-color: var(--bg-light);
@@ -98,29 +105,31 @@
   box-shadow: 0 10px 30px -5px rgba(124, 58, 237, 0.25);
 }
 
-/* Luminous Frosted Glassmorphism for Light Theme */
+/* Luminous Frosted Glassmorphism for Light Theme - Optimized for 60-120 FPS */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.78);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(226, 232, 240, 0.9);
-  box-shadow: 0 12px 35px -8px rgba(15, 23, 42, 0.05), 0 1px 3px rgba(15, 23, 42, 0.03);
+  box-shadow: 0 10px 30px -8px rgba(15, 23, 42, 0.05), 0 1px 3px rgba(15, 23, 42, 0.03);
+  transform: translateZ(0);
 }
 
 .glass-panel-hover {
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(226, 232, 240, 0.85);
-  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.04);
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 8px 20px -5px rgba(15, 23, 42, 0.04);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateZ(0);
 }
 
 .glass-panel-hover:hover {
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.95);
   border-color: rgba(14, 165, 233, 0.4);
-  box-shadow: 0 20px 40px -10px rgba(14, 165, 233, 0.15), 0 0 1px 1px rgba(14, 165, 233, 0.2);
-  transform: translateY(-4px);
+  box-shadow: 0 16px 35px -10px rgba(14, 165, 233, 0.15), 0 0 1px 1px rgba(14, 165, 233, 0.2);
+  transform: translateY(-3px) translateZ(0);
 }
 
 /* Background Grids for Light Theme */
@@ -391,3 +400,31 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Mobile & Touch Utility Enhancements */
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* Safe Area Insets for Mobile Devices (Notches, Home Indicator) */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 1rem);
+}
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 1rem);
+}
+
+/* Smooth Touch Scrolling on iOS */
+.touch-pan-x {
+  touch-action: pan-x;
+  -webkit-overflow-scrolling: touch;
+}
+.touch-pan-y {
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+}
+

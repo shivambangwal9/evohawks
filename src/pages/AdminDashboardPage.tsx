@@ -234,7 +234,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
               placeholder="Search projects or clients..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-violet-500 focus:bg-white"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-base sm:text-sm text-slate-900 focus:outline-none focus:border-violet-500 focus:bg-white"
             />
           </div>
 
@@ -419,18 +419,18 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
       {/* CREATE PROJECT MODAL */}
       <AnimatePresence>
         {createModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-md">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/40 backdrop-blur-md">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200 relative overflow-hidden max-h-[90vh] overflow-y-auto"
+              className="bg-white rounded-2xl sm:rounded-3xl max-w-xl w-full p-5 sm:p-8 shadow-2xl border border-slate-200 relative overflow-hidden max-h-[88vh] overflow-y-auto"
             >
               <BorderBeam size={120} duration={8} colorFrom="#7C3AED" colorTo="#0284C7" />
               
-              <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
+              <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
                 <div>
-                  <h3 className="text-xl font-display font-black text-slate-900">Launch New Project</h3>
+                  <h3 className="text-lg sm:text-xl font-display font-black text-slate-900">Launch New Project</h3>
                   <p className="text-xs text-slate-500">Define scope, client credentials, and milestone checkpoints.</p>
                 </div>
                 <button
@@ -450,7 +450,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                     placeholder="e.g. Apex Luxury E-Commerce Portal"
                     value={newTitle}
                     onChange={(e) => setNewTitle(e.target.value)}
-                    className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
+                    className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-xs font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
                   />
                 </div>
 
@@ -463,7 +463,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                       placeholder="e.g. Karan Singhania"
                       value={newClientName}
                       onChange={(e) => setNewClientName(e.target.value)}
-                      className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
+                      className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-xs font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
                     />
                   </div>
                   <div>
@@ -474,7 +474,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                       placeholder="e.g. karan@apex.com"
                       value={newClientEmail}
                       onChange={(e) => setNewClientEmail(e.target.value)}
-                      className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
+                      className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-xs font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
                     />
                   </div>
                 </div>
@@ -485,7 +485,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                     <select
                       value={newCategory}
                       onChange={(e) => setNewCategory(e.target.value as ManagedProject['category'])}
-                      className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-violet-500 focus:bg-white"
+                      className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-xs focus:outline-none focus:border-violet-500 focus:bg-white"
                     >
                       <option value="Websites">Websites</option>
                       <option value="Video">Video &amp; Reels</option>
@@ -501,7 +501,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                       placeholder="₹65,000"
                       value={newBudget}
                       onChange={(e) => setNewBudget(e.target.value)}
-                      className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
+                      className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-xs font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
                     />
                   </div>
                   <div>
@@ -510,7 +510,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                       type="date"
                       value={newDeadline}
                       onChange={(e) => setNewDeadline(e.target.value)}
-                      className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
+                      className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-xs font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
                     />
                   </div>
                 </div>
@@ -522,7 +522,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                     placeholder="e.g. Aryan (Head of Tech)"
                     value={newStrategist}
                     onChange={(e) => setNewStrategist(e.target.value)}
-                    className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
+                    className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-xs font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
                   />
                 </div>
 
@@ -532,7 +532,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                     rows={3}
                     value={newDeliverablesInput}
                     onChange={(e) => setNewDeliverablesInput(e.target.value)}
-                    className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
+                    className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-xs font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
                   />
                 </div>
 
@@ -543,21 +543,21 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                     placeholder="Key specifications, rush flags, tech stack..."
                     value={newNotes}
                     onChange={(e) => setNewNotes(e.target.value)}
-                    className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
+                    className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-xs font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
                   />
                 </div>
 
-                <div className="pt-4 flex items-center justify-end gap-3">
+                <div className="pt-4 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-3">
                   <button
                     type="button"
                     onClick={() => setCreateModalOpen(false)}
-                    className="py-2.5 px-4 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 font-semibold cursor-pointer"
+                    className="py-2.5 px-4 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 font-semibold cursor-pointer text-center"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="py-2.5 px-6 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-bold hover:shadow-md cursor-pointer flex items-center gap-2"
+                    className="py-2.5 px-6 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-bold hover:shadow-md cursor-pointer flex items-center justify-center gap-2"
                   >
                     <Save className="w-4 h-4" />
                     <span>Launch Project</span>
@@ -572,16 +572,16 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
       {/* EDIT PROJECT MODAL */}
       <AnimatePresence>
         {editingProject && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-md">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/40 backdrop-blur-md">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200 relative overflow-hidden"
+              className="bg-white rounded-2xl sm:rounded-3xl max-w-xl w-full p-5 sm:p-8 shadow-2xl border border-slate-200 relative overflow-hidden max-h-[88vh] overflow-y-auto"
             >
-              <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
+              <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
                 <div>
-                  <h3 className="text-xl font-display font-black text-slate-900">Edit Project Specs</h3>
+                  <h3 className="text-lg sm:text-xl font-display font-black text-slate-900">Edit Project Specs</h3>
                   <p className="text-xs text-slate-500">Update progress, status, budget, and timeline.</p>
                 </div>
                 <button
@@ -599,17 +599,17 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                     type="text"
                     value={editingProject.title}
                     onChange={(e) => setEditingProject({ ...editingProject, title: e.target.value })}
-                    className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
+                    className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-xs font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-slate-700 font-bold mb-1">Status</label>
                     <select
                       value={editingProject.status}
                       onChange={(e) => setEditingProject({ ...editingProject, status: e.target.value as ManagedProject['status'] })}
-                      className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-violet-500 focus:bg-white"
+                      className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-xs focus:outline-none focus:border-violet-500 focus:bg-white"
                     >
                       <option value="Planning">Planning</option>
                       <option value="In Progress">In Progress</option>
@@ -630,14 +630,14 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-slate-700 font-bold mb-1">Budget</label>
                     <input
                       type="text"
                       value={editingProject.budget}
                       onChange={(e) => setEditingProject({ ...editingProject, budget: e.target.value })}
-                      className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
+                      className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-xs font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
                     />
                   </div>
                   <div>
@@ -646,7 +646,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                       type="date"
                       value={editingProject.deadline}
                       onChange={(e) => setEditingProject({ ...editingProject, deadline: e.target.value })}
-                      className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
+                      className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-xs font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
                     />
                   </div>
                 </div>
@@ -657,21 +657,21 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                     rows={2}
                     value={editingProject.notes || ''}
                     onChange={(e) => setEditingProject({ ...editingProject, notes: e.target.value })}
-                    className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
+                    className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-xs font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
                   />
                 </div>
 
-                <div className="pt-4 flex items-center justify-end gap-3">
+                <div className="pt-4 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-3">
                   <button
                     type="button"
                     onClick={() => setEditingProject(null)}
-                    className="py-2.5 px-4 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 font-semibold cursor-pointer"
+                    className="py-2.5 px-4 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 font-semibold cursor-pointer text-center"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="py-2.5 px-6 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-bold hover:shadow-md cursor-pointer flex items-center gap-2"
+                    className="py-2.5 px-6 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-bold hover:shadow-md cursor-pointer flex items-center justify-center gap-2"
                   >
                     <Save className="w-4 h-4" />
                     <span>Save Changes</span>

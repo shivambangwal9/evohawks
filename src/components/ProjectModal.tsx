@@ -70,7 +70,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.92, y: 20 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full max-w-lg bg-white/95 border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-2xl max-h-[90vh] overflow-y-auto overflow-hidden"
+            className="relative w-full max-w-lg bg-white/95 border border-slate-200 rounded-3xl p-5 sm:p-8 shadow-2xl max-h-[88vh] overflow-y-auto overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             <BorderBeam size={130} duration={10} colorFrom="#0284C7" colorTo="#7C3AED" />
@@ -78,18 +78,19 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="absolute top-5 right-5 w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-900 flex items-center justify-center transition-colors cursor-pointer z-10"
+              className="absolute top-4 right-4 sm:top-5 sm:right-5 w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-900 flex items-center justify-center transition-colors cursor-pointer z-10"
+              aria-label="Close project modal"
             >
               <X className="w-5 h-5" />
             </button>
 
             {submitted ? (
-              <div className="text-center py-8 space-y-4">
-                <div className="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 mx-auto">
-                  <CheckCircle2 className="w-8 h-8" />
+              <div className="text-center py-6 sm:py-8 space-y-4">
+                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 mx-auto">
+                  <CheckCircle2 className="w-7 h-7 sm:w-8 sm:h-8" />
                 </div>
 
-                <h3 className="text-2xl font-display font-bold text-slate-900">
+                <h3 className="text-xl sm:text-2xl font-display font-bold text-slate-900">
                   Inquiry Received!
                 </h3>
 
@@ -118,12 +119,12 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
               </div>
             ) : (
               <div>
-                <div className="mb-6">
+                <div className="mb-5 sm:mb-6">
                   <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-50 border border-sky-200 text-sky-700 text-[11px] font-tech font-bold mb-2">
                     <Sparkles className="w-3 h-3" />
                     <span>PROJECT ESTIMATION &amp; SCOPE</span>
                   </div>
-                  <h3 className="text-2xl font-display font-extrabold text-slate-900">
+                  <h3 className="text-xl sm:text-2xl font-display font-extrabold text-slate-900">
                     Start Your Project
                   </h3>
                   <p className="text-xs text-slate-500 mt-1">
@@ -131,9 +132,9 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                   </p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-3.5 sm:space-y-4">
                   <div>
-                    <label className="block text-[11px] font-tech text-slate-600 font-bold uppercase mb-1.5">
+                    <label className="block text-[11px] font-tech text-slate-600 font-bold uppercase mb-1">
                       Your Name *
                     </label>
                     <input
@@ -142,13 +143,13 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                       placeholder="Your Name"
                       value={formData.fullName}
                       onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 focus:outline-none focus:border-sky-500 focus:bg-white transition-all"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-base sm:text-xs text-slate-900 focus:outline-none focus:border-sky-500 focus:bg-white transition-all"
                     />
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-[11px] font-tech text-slate-600 font-bold uppercase mb-1.5">
+                      <label className="block text-[11px] font-tech text-slate-600 font-bold uppercase mb-1">
                         Email *
                       </label>
                       <input
@@ -157,12 +158,12 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                         placeholder="email@example.com"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 focus:outline-none focus:border-sky-500 focus:bg-white transition-all"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-base sm:text-xs text-slate-900 focus:outline-none focus:border-sky-500 focus:bg-white transition-all"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-[11px] font-tech text-slate-600 font-bold uppercase mb-1.5">
+                      <label className="block text-[11px] font-tech text-slate-600 font-bold uppercase mb-1">
                         Phone / WhatsApp *
                       </label>
                       <input
@@ -171,19 +172,19 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                         placeholder="+91 98765 43210"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 focus:outline-none focus:border-sky-500 focus:bg-white transition-all"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-base sm:text-xs text-slate-900 focus:outline-none focus:border-sky-500 focus:bg-white transition-all"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-tech text-slate-600 font-bold uppercase mb-1.5">
+                    <label className="block text-[11px] font-tech text-slate-600 font-bold uppercase mb-1">
                       Service *
                     </label>
                     <select
                       value={formData.service}
                       onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 focus:outline-none focus:border-sky-500 focus:bg-white transition-all cursor-pointer"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-base sm:text-xs text-slate-900 focus:outline-none focus:border-sky-500 focus:bg-white transition-all cursor-pointer"
                     >
                       {AGENCY_CONFIG.serviceOptions.map((opt) => (
                         <option key={opt} value={opt} className="bg-white text-slate-900">
@@ -194,13 +195,13 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-tech text-slate-600 font-bold uppercase mb-1.5">
+                    <label className="block text-[11px] font-tech text-slate-600 font-bold uppercase mb-1">
                       Estimated Budget
                     </label>
                     <select
                       value={formData.budget}
                       onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 focus:outline-none focus:border-sky-500 focus:bg-white transition-all cursor-pointer"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-base sm:text-xs text-slate-900 focus:outline-none focus:border-sky-500 focus:bg-white transition-all cursor-pointer"
                     >
                       {AGENCY_CONFIG.budgetRanges.map((b) => (
                         <option key={b.value} value={b.label} className="bg-white text-slate-900">
@@ -211,7 +212,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-tech text-slate-600 font-bold uppercase mb-1.5">
+                    <label className="block text-[11px] font-tech text-slate-600 font-bold uppercase mb-1">
                       Quick Details
                     </label>
                     <textarea
@@ -219,7 +220,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                       placeholder="Share a short summary of what you need..."
                       value={formData.notes}
                       onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 focus:outline-none focus:border-sky-500 focus:bg-white transition-all"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-base sm:text-xs text-slate-900 focus:outline-none focus:border-sky-500 focus:bg-white transition-all"
                     />
                   </div>
 

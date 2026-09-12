@@ -19,6 +19,7 @@ export const TiltCard: React.FC<TiltCardProps> = ({
   onClick,
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
+  const rectRef = useRef<{ left: number; top: number; width: number; height: number } | null>(null);
 
   const x = useMotionValue(0.5);
   const y = useMotionValue(0.5);
@@ -32,20 +33,26 @@ export const TiltCard: React.FC<TiltCardProps> = ({
   const glareX = useTransform(mouseXSpring, [0, 1], ['0%', '100%']);
   const glareY = useTransform(mouseYSpring, [0, 1], ['0%', '100%']);
 
+  const handleMouseEnter = () => {
+    if (cardRef.current) {
+      const r = cardRef.current.getBoundingClientRect();
+      rectRef.current = { left: r.left, top: r.top, width: r.width, height: r.height };
+    }
+  };
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
+    const rect = rectRef.current;
+    if (!rect || rect.width === 0 || rect.height === 0) return;
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
-    const xPct = mouseX / width;
-    const yPct = mouseY / height;
+    const xPct = mouseX / rect.width;
+    const yPct = mouseY / rect.height;
     x.set(xPct);
     y.set(yPct);
   };
 
   const handleMouseLeave = () => {
+    rectRef.current = null;
     x.set(0.5);
     y.set(0.5);
   };
@@ -53,6 +60,7 @@ export const TiltCard: React.FC<TiltCardProps> = ({
   return (
     <motion.div
       ref={cardRef}
+      onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onClick={onClick}
@@ -61,7 +69,7 @@ export const TiltCard: React.FC<TiltCardProps> = ({
         rotateY,
         transformStyle: 'preserve-3d',
       }}
-      className={`relative perspective-[1000px] transition-shadow duration-300 ${className}`}
+      className={`relative perspective-[1000px] transition-shadow duration-300 will-change-transform ${className}`}
     >
       {/* 3D Content Container */}
       <div className="relative w-full h-full rounded-[inherit] overflow-hidden">

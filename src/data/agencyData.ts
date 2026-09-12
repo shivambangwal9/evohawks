@@ -81,7 +81,7 @@ export const AGENCY_CONFIG = {
 
   // Centralized Contact & Socials (Change easily here)
   contact: {
-    email: "hello@evohawks.com",
+    email: "teamevohawks@gmail.com",
     phone: "+91 98765 43210",
     whatsapp: "+91 98765 43210",
     whatsappCleanNumber: "919876543210", // for direct WhatsApp API link

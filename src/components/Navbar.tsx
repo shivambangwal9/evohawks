@@ -55,6 +55,23 @@ export const Navbar: React.FC<NavbarProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') setMobileMenuOpen(false);
+      };
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        document.body.style.overflow = '';
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    } else {
+      document.body.style.overflow = '';
+    }
+  }, [mobileMenuOpen]);
+
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, pageId: PageId) => {
     e.preventDefault();
     setMobileMenuOpen(false);
@@ -66,13 +83,13 @@ export const Navbar: React.FC<NavbarProps> = ({
       <header 
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled 
-            ? 'bg-white/85 backdrop-blur-xl border-b border-slate-200/80 shadow-[0_4px_25px_rgba(15,23,42,0.06)] py-3' 
-            : 'bg-transparent py-5 md:py-6'
+            ? 'bg-white/90 backdrop-blur-xl border-b border-slate-200/80 shadow-[0_4px_25px_rgba(15,23,42,0.06)] py-2.5 sm:py-3' 
+            : 'bg-transparent py-3.5 sm:py-5 md:py-6'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 flex items-center justify-between gap-2">
           {/* Brand Logo */}
-          <div onClick={() => onNavigate('home')} className="cursor-pointer">
+          <div onClick={() => onNavigate('home')} className="cursor-pointer shrink-0">
             <Logo size="md" lightText={false} />
           </div>
 
@@ -104,8 +121,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             })}
           </nav>
 
-          {/* Right Action CTA Button & Portal Login with Magnetic effect */}
-          <div className="hidden sm:flex items-center gap-3">
+          {/* Desktop Right Action CTA Button & Portal Login with Magnetic effect */}
+          <div className="hidden lg:flex items-center gap-3">
             {/* User Auth Status Pill */}
             {user ? (
               <div className="flex items-center gap-1.5 bg-white/90 p-1 pl-3 rounded-full border border-slate-200 shadow-2xs">
@@ -154,20 +171,21 @@ export const Navbar: React.FC<NavbarProps> = ({
             </MagneticButton>
           </div>
 
-          {/* Mobile Hamburger Button */}
-          <div className="flex sm:hidden items-center gap-2">
+          {/* Mobile / Tablet Actions (Visible on screens < 1024px) */}
+          <div className="flex lg:hidden items-center gap-1.5 sm:gap-2">
             {user ? (
               <button
                 onClick={() => onNavigate(user.role === 'admin' ? 'admin-portal' : 'client-portal')}
-                className="p-2 rounded-xl bg-sky-50 text-sky-700 border border-sky-200 text-xs font-tech font-bold"
+                className="p-2 sm:px-3 sm:py-1.5 rounded-xl bg-sky-50 text-sky-700 border border-sky-200 text-xs font-tech font-bold flex items-center gap-1.5"
                 title="Dashboard"
               >
                 <LayoutDashboard className="w-4 h-4" />
+                <span className="hidden sm:inline">Portal</span>
               </button>
             ) : (
               <button
                 onClick={() => onNavigate('login')}
-                className="px-2.5 py-1.5 rounded-full text-[11px] font-tech font-bold text-slate-700 bg-white border border-slate-200"
+                className="px-2.5 py-1.5 rounded-full text-[11px] font-tech font-bold text-slate-700 bg-white/90 border border-slate-200 hover:border-sky-300"
               >
                 Login
               </button>
@@ -175,16 +193,17 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             <button
               onClick={() => onOpenProjectModal()}
-              className="px-3 py-1.5 rounded-full text-xs font-bold text-white bg-sky-600 hover:bg-sky-700 transition-colors cursor-pointer shadow-sm"
+              className="px-3 sm:px-4 py-1.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-sky-500 to-indigo-600 hover:shadow-md transition-all cursor-pointer shadow-xs active:scale-95"
             >
-              Start →
+              Start <span className="hidden sm:inline">Project</span> →
             </button>
+
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-xl text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-colors focus:outline-none cursor-pointer"
+              className="p-2 rounded-xl text-slate-700 hover:text-slate-900 bg-white/80 hover:bg-slate-100 border border-slate-200 transition-colors focus:outline-none cursor-pointer"
               aria-label="Toggle Navigation Menu"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6 text-sky-600" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5 text-sky-600" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
@@ -194,28 +213,29 @@ export const Navbar: React.FC<NavbarProps> = ({
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div 
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -15 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 z-40 bg-white/95 backdrop-blur-2xl lg:hidden flex flex-col justify-between pt-24 pb-8 px-6 border-b border-slate-200 overflow-y-auto"
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 z-40 bg-white/98 backdrop-blur-2xl lg:hidden flex flex-col justify-between pt-20 pb-6 px-5 sm:px-8 border-b border-slate-200 overflow-y-auto pb-safe"
             onClick={() => setMobileMenuOpen(false)}
           >
-            <div className="flex flex-col gap-2" onClick={(e) => e.stopPropagation()}>
-              <div className="text-xs uppercase tracking-wider font-tech text-sky-600 font-bold mb-1 px-3">
-                Navigation Menu
+            <div className="flex flex-col gap-1.5 pt-4" onClick={(e) => e.stopPropagation()}>
+              <div className="flex items-center justify-between text-xs uppercase tracking-wider font-tech text-sky-600 font-bold mb-2 px-2">
+                <span>Navigation Menu</span>
+                <span className="text-[10px] text-slate-400 font-normal">Tap to explore</span>
               </div>
               {navLinks.map((link, idx) => {
                 const isActive = currentPage === link.id;
                 return (
                   <motion.a
                     key={link.id}
-                    initial={{ opacity: 0, x: -15 }}
+                    initial={{ opacity: 0, x: -12 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: idx * 0.03 }}
+                    transition={{ delay: idx * 0.025 }}
                     href={`#${link.id}`}
                     onClick={(e) => handleLinkClick(e, link.id)}
-                    className={`flex items-center justify-between px-4 py-3 rounded-xl text-base font-semibold transition-colors border ${
+                    className={`flex items-center justify-between px-4 py-3 min-h-[46px] rounded-xl text-sm sm:text-base font-semibold transition-colors border ${
                       isActive 
                         ? 'bg-sky-50 border-sky-300 text-sky-600 shadow-xs' 
                         : 'text-slate-700 hover:text-slate-900 hover:bg-slate-50 border-slate-100'
@@ -229,9 +249,9 @@ export const Navbar: React.FC<NavbarProps> = ({
 
               {/* Portal link in mobile */}
               <motion.button
-                initial={{ opacity: 0, x: -15 }}
+                initial={{ opacity: 0, x: -12 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: navLinks.length * 0.03 }}
+                transition={{ delay: navLinks.length * 0.025 }}
                 onClick={() => {
                   setMobileMenuOpen(false);
                   if (user) {
@@ -240,7 +260,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     onNavigate('login');
                   }
                 }}
-                className="flex items-center justify-between px-4 py-3 rounded-xl text-base font-semibold transition-colors border bg-slate-50 border-slate-200 text-slate-800 cursor-pointer"
+                className="flex items-center justify-between px-4 py-3 min-h-[46px] rounded-xl text-sm sm:text-base font-semibold transition-colors border bg-slate-50 border-slate-200 text-slate-800 cursor-pointer mt-1"
               >
                 <div className="flex items-center gap-2">
                   <UserCheck className="w-4 h-4 text-sky-600" />
@@ -250,7 +270,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               </motion.button>
             </div>
 
-            <div className="flex flex-col gap-3 pt-6 border-t border-slate-200 mt-4" onClick={(e) => e.stopPropagation()}>
+            <div className="flex flex-col gap-2.5 pt-4 border-t border-slate-200 mt-4" onClick={(e) => e.stopPropagation()}>
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);

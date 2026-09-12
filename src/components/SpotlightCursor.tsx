@@ -1,46 +1,77 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 export const SpotlightCursor: React.FC = () => {
-  const [position, setPosition] = useState({ x: -100, y: -100 });
-  const [isVisible, setIsVisible] = useState(false);
+  const spotlightRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Only enable on non-touch desktop screens
-    if (window.matchMedia('(pointer: coarse)').matches) {
+    // Only enable on desktop screens with a mouse
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
       return;
     }
 
+    const el = spotlightRef.current;
+    if (!el) return;
+
+    let rafId: number | null = null;
+    let targetX = -500;
+    let targetY = -500;
+    let currentX = -500;
+    let currentY = -500;
+    let isVisible = false;
+
+    const updatePosition = () => {
+      // Smooth lerp (linear interpolation) for butter-smooth gliding cursor
+      currentX += (targetX - currentX) * 0.2;
+      currentY += (targetY - currentY) * 0.2;
+
+      el.style.transform = `translate3d(${currentX - 225}px, ${currentY - 225}px, 0)`;
+
+      if (isVisible) {
+        rafId = requestAnimationFrame(updatePosition);
+      }
+    };
+
     const handleMouseMove = (e: MouseEvent) => {
-      setPosition({ x: e.clientX, y: e.clientY });
-      if (!isVisible) setIsVisible(true);
+      targetX = e.clientX;
+      targetY = e.clientY;
+
+      if (!isVisible) {
+        isVisible = true;
+        el.style.opacity = '1';
+        rafId = requestAnimationFrame(updatePosition);
+      }
     };
 
     const handleMouseLeave = () => {
-      setIsVisible(false);
+      isVisible = false;
+      el.style.opacity = '0';
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
     };
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    document.body.addEventListener('mouseleave', handleMouseLeave);
+    document.documentElement.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
-      document.body.removeEventListener('mouseleave', handleMouseLeave);
+      document.documentElement.removeEventListener('mouseleave', handleMouseLeave);
+      if (rafId) cancelAnimationFrame(rafId);
     };
-  }, [isVisible]);
-
-  if (!isVisible) return null;
+  }, []);
 
   return (
     <div
-      className="fixed pointer-events-none z-30 transition-transform duration-75 ease-out -translate-x-1/2 -translate-y-1/2 hidden md:block"
+      ref={spotlightRef}
+      className="fixed top-0 left-0 pointer-events-none z-30 opacity-0 transition-opacity duration-300 hidden md:block will-change-transform"
       style={{
-        left: `${position.x}px`,
-        top: `${position.y}px`,
         width: '450px',
         height: '450px',
-        background: 'radial-gradient(circle, rgba(2, 132, 199, 0.1) 0%, rgba(124, 58, 237, 0.06) 45%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(2, 132, 199, 0.1) 0%, rgba(124, 58, 237, 0.05) 45%, transparent 70%)',
         borderRadius: '50%',
       }}
     />
   );
 };
+

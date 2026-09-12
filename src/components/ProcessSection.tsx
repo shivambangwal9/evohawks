@@ -58,8 +58,8 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenProjectMod
           </p>
         </motion.div>
 
-        {/* Step Selector Tab Bar */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-12">
+        {/* Step Selector Tab Bar - Swipeable on mobile, grid on sm+ */}
+        <div className="flex sm:grid sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3 mb-8 sm:mb-12 overflow-x-auto pb-2 sm:pb-0 scrollbar-none touch-pan-x -mx-4 px-4 sm:mx-0 sm:px-0">
           {PROCESS_DATA.map((stepItem, index) => {
             const Icon = getStepIcon(stepItem.icon);
             const isActive = activeStep === index;
@@ -69,7 +69,7 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenProjectMod
                 whileHover={{ scale: 1.03, y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setActiveStep(index)}
-                className={`p-4 rounded-2xl border text-left transition-all duration-300 cursor-pointer flex flex-col justify-between relative overflow-hidden shadow-xs ${
+                className={`flex-shrink-0 w-36 sm:w-auto p-3.5 sm:p-4 rounded-2xl border text-left transition-all duration-300 cursor-pointer flex flex-col justify-between relative overflow-hidden shadow-xs ${
                   isActive
                     ? 'bg-white border-sky-400 shadow-[0_6px_20px_rgba(2,132,199,0.2)]'
                     : 'bg-white/70 border-slate-200 hover:border-slate-300 hover:bg-white'
@@ -82,13 +82,13 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenProjectMod
                     transition={{ type: "spring", stiffness: 450, damping: 30 }}
                   />
                 )}
-                <div className="flex items-center justify-between mb-3">
-                  <span className={`text-xs font-tech font-extrabold ${isActive ? 'text-sky-600' : 'text-slate-400'}`}>
+                <div className="flex items-center justify-between mb-2 sm:mb-3">
+                  <span className={`text-[11px] sm:text-xs font-tech font-extrabold ${isActive ? 'text-sky-600' : 'text-slate-400'}`}>
                     STEP {stepItem.step}
                   </span>
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-sky-600' : 'text-slate-400'}`} />
+                  <Icon className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isActive ? 'text-sky-600' : 'text-slate-400'}`} />
                 </div>
-                <div className="text-sm font-display font-bold text-slate-900">
+                <div className="text-xs sm:text-sm font-display font-bold text-slate-900 leading-tight">
                   {stepItem.title}
                 </div>
               </motion.button>
@@ -101,7 +101,7 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenProjectMod
           const current = PROCESS_DATA[activeStep];
           const CurrentIcon = getStepIcon(current.icon);
           return (
-            <div className="relative rounded-3xl bg-white/95 border border-slate-200 p-8 sm:p-12 backdrop-blur-xl shadow-lg overflow-hidden">
+            <div className="relative rounded-2xl sm:rounded-3xl bg-white/95 border border-slate-200 p-5 sm:p-8 md:p-12 backdrop-blur-xl shadow-lg overflow-hidden">
               <BorderBeam size={160} duration={12} colorFrom="#0284C7" colorTo="#7C3AED" />
               <AnimatePresence mode="wait">
                 <motion.div
@@ -110,36 +110,36 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenProjectMod
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                  className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center"
+                  className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center"
                 >
                   
                   <div className="lg:col-span-7 flex flex-col items-start">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="w-13 h-13 rounded-2xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600 shadow-xs">
-                        <CurrentIcon className="w-7 h-7" />
+                      <div className="w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600 shadow-xs flex-shrink-0">
+                        <CurrentIcon className="w-5 h-5 sm:w-7 sm:h-7" />
                       </div>
                       <div>
-                        <span className="text-xs font-tech text-sky-600 font-bold tracking-widest uppercase">
+                        <span className="text-[11px] sm:text-xs font-tech text-sky-600 font-bold tracking-widest uppercase">
                           STAGE {current.step} OF 05
                         </span>
-                        <h3 className="text-2xl sm:text-3xl font-display font-black text-slate-900">
+                        <h3 className="text-xl sm:text-2xl md:text-3xl font-display font-black text-slate-900">
                           {current.title}
                         </h3>
                       </div>
                     </div>
 
-                    <p className="text-sm font-tech text-slate-500 uppercase tracking-wider mb-4 font-semibold">
+                    <p className="text-xs sm:text-sm font-tech text-slate-500 uppercase tracking-wider mb-3 sm:mb-4 font-semibold">
                       {current.tagline}
                     </p>
 
-                    <p className="text-base sm:text-lg text-slate-600 font-sans-clean leading-relaxed mb-8">
+                    <p className="text-sm sm:text-base md:text-lg text-slate-600 font-sans-clean leading-relaxed mb-6 sm:mb-8">
                       {current.description}
                     </p>
 
-                    <div className="flex flex-wrap items-center gap-4">
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full sm:w-auto">
                       <MagneticButton
                         onClick={onOpenProjectModal}
-                        className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-sky-500 to-indigo-600 hover:shadow-[0_6px_20px_rgba(2,132,199,0.35)] transition-all cursor-pointer"
+                        className="w-full sm:w-auto justify-center inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-sky-500 to-indigo-600 hover:shadow-[0_6px_20px_rgba(2,132,199,0.35)] transition-all cursor-pointer"
                       >
                         <span>Start with Step 01</span>
                         <ArrowRight className="w-4 h-4" />
@@ -148,7 +148,7 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenProjectMod
                       {activeStep < PROCESS_DATA.length - 1 && (
                         <button
                           onClick={() => setActiveStep(activeStep + 1)}
-                          className="px-5 py-3.5 rounded-full text-xs font-semibold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 transition-colors cursor-pointer"
+                          className="w-full sm:w-auto text-center px-5 py-3.5 rounded-full text-xs font-semibold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 transition-colors cursor-pointer"
                         >
                           Next: Step 0{activeStep + 2} →
                         </button>
@@ -157,7 +157,7 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenProjectMod
                   </div>
 
                   {/* Right Deliverables Column */}
-                  <div className="lg:col-span-5 bg-slate-50 rounded-2xl border border-slate-200 p-6 shadow-inner">
+                  <div className="lg:col-span-5 bg-slate-50 rounded-2xl border border-slate-200 p-4 sm:p-6 shadow-inner w-full">
                     <div className="text-xs font-tech text-sky-700 font-bold uppercase tracking-wider mb-4 flex items-center gap-2">
                       <CheckCircle2 className="w-4 h-4 text-sky-600" />
                       <span>Stage Deliverables &amp; Outcomes:</span>

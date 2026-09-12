@@ -37,7 +37,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
     e.preventDefault();
     setIsSubmitting(true);
     setTimeout(() => {
-      login(email || (activeRole === 'admin' ? 'admin@evohawks.com' : 'client@hyperion.com'), password, activeRole);
+      login(email || (activeRole === 'admin' ? 'teamevohawks@gmail.com' : 'client@hyperion.com'), password, activeRole);
       setIsSubmitting(false);
       onNavigate(activeRole === 'admin' ? 'admin-portal' : 'client-portal');
     }, 450);
@@ -117,7 +117,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
         </div>
 
         {/* Card Container */}
-        <div className="p-8 rounded-3xl bg-white/95 border border-slate-200 shadow-2xl backdrop-blur-xl relative overflow-hidden">
+        <div className="p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-white/95 border border-slate-200 shadow-2xl backdrop-blur-xl relative overflow-hidden">
           <BorderBeam 
             size={140} 
             duration={10} 
@@ -126,7 +126,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
           />
 
           {/* Quick 1-Click Instant Demo Launch Bar */}
-          <div className="mb-6 p-4 rounded-2xl bg-gradient-to-r from-sky-50 via-white to-indigo-50 border border-sky-200">
+          <div className="mb-6 p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-sky-50 via-white to-indigo-50 border border-sky-200">
             <div className="flex items-center justify-between mb-2">
               <span className="text-[11px] font-tech uppercase text-slate-500 font-bold flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-sky-600" />
@@ -139,7 +139,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
               <button
                 type="button"
                 onClick={() => handleInstantDemo('client')}
-                className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 text-white font-tech font-bold text-xs hover:shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 text-white font-tech font-bold text-xs hover:shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Zap className="w-3.5 h-3.5" />
                 <span>Launch Client Demo (Hyperion FinTech)</span>
@@ -148,7 +148,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
               <button
                 type="button"
                 onClick={() => handleInstantDemo('admin')}
-                className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-tech font-bold text-xs hover:shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-tech font-bold text-xs hover:shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 <ShieldCheck className="w-3.5 h-3.5" />
                 <span>Launch Admin Demo (Evo Hawks Lead)</span>
@@ -177,7 +177,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
                     placeholder="e.g. Hyperion FinTech"
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 focus:outline-none focus:border-sky-500 focus:bg-white transition-all shadow-2xs"
+                    className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-base sm:text-sm text-slate-900 focus:outline-none focus:border-sky-500 focus:bg-white transition-all shadow-2xs"
                   />
                 </div>
               </div>
@@ -191,10 +191,10 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
                 <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input
                   type="email"
-                  placeholder={activeRole === 'client' ? 'client@hyperion.com' : 'admin@evohawks.com'}
+                  placeholder={activeRole === 'client' ? 'client@hyperion.com' : 'teamevohawks@gmail.com'}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 focus:outline-none focus:border-sky-500 focus:bg-white transition-all shadow-2xs"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-base sm:text-sm text-slate-900 focus:outline-none focus:border-sky-500 focus:bg-white transition-all shadow-2xs"
                 />
               </div>
             </div>
@@ -210,7 +210,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
                   placeholder="••••••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-11 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 focus:outline-none focus:border-sky-500 focus:bg-white transition-all shadow-2xs"
+                  className="w-full pl-10 pr-11 py-3 rounded-xl bg-slate-50 border border-slate-200 text-base sm:text-sm text-slate-900 focus:outline-none focus:border-sky-500 focus:bg-white transition-all shadow-2xs"
                 />
                 <button
                   type="button"

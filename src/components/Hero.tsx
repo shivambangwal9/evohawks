@@ -61,12 +61,11 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
   };
 
   const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 25, filter: 'blur(6px)' },
+    hidden: { opacity: 0, y: 20 },
     visible: { 
       opacity: 1, 
       y: 0,
-      filter: 'blur(0px)',
-      transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] }
+      transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] }
     },
   };
 
@@ -85,11 +84,11 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
   return (
     <section 
       id="home" 
-      className="relative min-h-[96vh] pt-32 pb-16 flex flex-col justify-center overflow-hidden bg-transparent bg-grid-cyber"
+      className="relative min-h-[90vh] lg:min-h-[96vh] pt-24 sm:pt-30 md:pt-32 pb-12 sm:pb-16 flex flex-col justify-center overflow-hidden bg-transparent bg-grid-cyber"
     >
       {/* Aerodynamic Laser Flight Accent Lines for Light Theme */}
       <svg 
-        className="absolute inset-0 w-full h-full pointer-events-none opacity-40" 
+        className="absolute inset-0 w-full h-full pointer-events-none opacity-40 overflow-hidden" 
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs>
@@ -116,7 +115,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
       </svg>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center">
           
           {/* Left Hero Column: Kinetic Staggered Headline & Messaging */}
           <motion.div 
@@ -129,7 +128,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
             {/* Small Agency Badge with Glowing Pulse */}
             <motion.div 
               variants={itemVariants}
-              className="relative inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/85 border border-sky-300 text-xs font-semibold tracking-wider font-tech text-sky-700 shadow-[0_4px_15px_rgba(2,132,199,0.12)] mb-6 overflow-hidden group cursor-default"
+              className="relative inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/90 border border-sky-300 text-xs font-semibold tracking-wider font-tech text-sky-700 shadow-[0_4px_15px_rgba(2,132,199,0.12)] mb-5 sm:mb-6 overflow-hidden group cursor-default"
             >
               <BorderBeam size={100} duration={8} colorFrom="#0284C7" colorTo="#7C3AED" />
               <span className="w-2 h-2 rounded-full bg-sky-500 animate-ping" />
@@ -139,7 +138,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
             {/* Main Headline with Continuous Shimmering Typography */}
             <motion.h1 
               variants={itemVariants}
-              className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-display font-black tracking-tight text-slate-900 leading-[1.08] mb-6"
+              className="text-3.5xl sm:text-5xl md:text-6xl xl:text-7xl font-display font-black tracking-tight text-slate-900 leading-[1.08] mb-5 sm:mb-6 break-words"
             >
               We Build. <br />
               <span className="text-gradient-cyan">We Create.</span> <br />
@@ -149,7 +148,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
             {/* Supporting Text */}
             <motion.p 
               variants={itemVariants}
-              className="text-base sm:text-lg md:text-xl text-slate-600 max-w-2xl font-sans-clean leading-relaxed mb-8"
+              className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-600 max-w-2xl font-sans-clean leading-relaxed mb-6 sm:mb-8"
             >
               {AGENCY_CONFIG.heroDescription}
             </motion.p>
@@ -157,7 +156,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
             {/* Slogan pill */}
             <motion.div 
               variants={itemVariants}
-              className="flex items-center gap-2 text-xs font-tech tracking-widest text-slate-500 uppercase mb-8"
+              className="flex items-center gap-2 text-xs font-tech tracking-widest text-slate-500 uppercase mb-6 sm:mb-8"
             >
               <span className="text-sky-600 font-bold animate-bounce">⚡</span>
               <span>{AGENCY_CONFIG.slogan}</span>
@@ -166,19 +165,19 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
             {/* Action Buttons with 21st.dev Magnetic Attraction & Shimmer */}
             <motion.div 
               variants={itemVariants}
-              className="flex flex-wrap items-center gap-4 w-full sm:w-auto"
+              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 sm:gap-4 w-full sm:w-auto"
             >
               <MagneticButton
                 onClick={onOpenProjectModal}
-                className="w-full sm:w-auto relative inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full text-base font-bold text-white bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:shadow-[0_10px_30px_rgba(2,132,199,0.4)] transition-all duration-300 cursor-pointer group animate-shimmer overflow-hidden"
+                className="w-full sm:w-auto relative inline-flex items-center justify-center gap-2.5 px-7 sm:px-8 py-3.5 sm:py-4 rounded-full text-sm sm:text-base font-bold text-white bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:shadow-[0_10px_30px_rgba(2,132,199,0.4)] transition-all duration-300 cursor-pointer group animate-shimmer overflow-hidden shadow-md"
               >
                 <span>Start a Project</span>
-                <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1.5" />
+                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:translate-x-1.5" />
               </MagneticButton>
 
               <MagneticButton
                 onClick={() => scrollToSection('work')}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-full text-base font-semibold text-slate-800 bg-white/90 hover:bg-white border border-slate-300 hover:border-sky-500 hover:text-sky-600 shadow-xs hover:shadow-md transition-all duration-300 cursor-pointer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3.5 sm:py-4 rounded-full text-sm sm:text-base font-semibold text-slate-800 bg-white/90 hover:bg-white border border-slate-300 hover:border-sky-500 hover:text-sky-600 shadow-xs hover:shadow-md transition-all duration-300 cursor-pointer"
               >
                 <Layers className="w-4 h-4 text-sky-600" />
                 <span>Explore Our Work</span>
@@ -188,28 +187,115 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
             {/* Trust Indicator Badges */}
             <motion.div 
               variants={itemVariants}
-              className="mt-10 flex flex-wrap items-center gap-6 pt-6 border-t border-slate-200 text-xs font-medium text-slate-600"
+              className="mt-8 sm:mt-10 flex flex-wrap items-center gap-3.5 sm:gap-6 pt-5 sm:pt-6 border-t border-slate-200 text-xs font-medium text-slate-600 w-full"
             >
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-sky-600" />
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-600 shrink-0" />
                 <span>End-to-End Execution</span>
               </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-blue-600" />
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-600 shrink-0" />
                 <span>Modern High-Speed Code</span>
               </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-indigo-600" />
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-indigo-600 shrink-0" />
                 <span>Transparent Deliverables</span>
               </div>
             </motion.div>
 
           </motion.div>
 
-          {/* Right Hero Column: Fully Interactive 3D Floating Ecosystem Visual with MotionRing, Tilt & BorderBeams */}
-          <div className="lg:col-span-5 relative flex justify-center items-center mt-6 lg:mt-0">
+          {/* Right Hero Column: Fully Responsive 3D Floating Ecosystem Visual */}
+          <div className="lg:col-span-5 relative flex flex-col justify-center items-center mt-6 lg:mt-0 w-full">
             
-            <div className="relative w-full max-w-lg aspect-[4/4] flex items-center justify-center">
+            {/* MOBILE & TABLET ECOSYSTEM VIEW (< lg): Clean, Non-Overlapping Grid */}
+            <div className="block lg:hidden w-full max-w-md mx-auto space-y-3.5">
+              {/* Central Brand Badge for Mobile */}
+              <div className="flex items-center justify-center">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/95 border border-sky-300 shadow-[0_4px_18px_rgba(2,132,199,0.18)]">
+                  <Sparkles className="w-4 h-4 text-sky-600 animate-spin-slow" />
+                  <span className="text-xs font-tech font-extrabold text-slate-900 tracking-wider">EVO HAWKS ECOSYSTEM</span>
+                  <span className="text-[9px] font-tech text-sky-600 font-bold bg-sky-50 px-2 py-0.5 rounded-md">LIVE</span>
+                </div>
+              </div>
+
+              {/* 2x2 Grid for Mobile (Cleanly stacks on narrow viewports) */}
+              <div className="grid grid-cols-1 min-[420px]:grid-cols-2 gap-3 w-full">
+                {/* Mobile Card 1: Web Development */}
+                <div className="glass-panel p-3.5 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
+                  <BorderBeam size={80} duration={8} colorFrom="#0284C7" colorTo="#38BDF8" />
+                  <div className="flex items-center justify-between pb-1.5 border-b border-slate-100 mb-2">
+                    <span className="text-[11px] font-display font-bold text-slate-900">Web Dev</span>
+                    <span className="text-[10px] font-tech text-sky-600 font-bold flex items-center gap-1">
+                      <Code2 className="w-3 h-3" /> {loadSpeed}
+                    </span>
+                  </div>
+                  <div className="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden mb-1.5">
+                    <div className="bg-gradient-to-r from-sky-500 to-blue-600 h-full w-[98%]" />
+                  </div>
+                  <div className="flex justify-between text-[10px] text-slate-500 font-tech">
+                    <span>Performance</span>
+                    <span className="text-emerald-600 font-bold">99/100</span>
+                  </div>
+                </div>
+
+                {/* Mobile Card 2: Video Editing */}
+                <div className="glass-panel p-3.5 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
+                  <BorderBeam size={80} duration={9} colorFrom="#7C3AED" colorTo="#0284C7" />
+                  <div className="flex items-center justify-between pb-1.5 border-b border-slate-100 mb-2">
+                    <span className="text-[11px] font-display font-bold text-slate-900 flex items-center gap-1">
+                      <Video className="w-3 h-3 text-violet-600" /> Video Cut
+                    </span>
+                    <div className="flex items-end gap-0.5 h-3">
+                      <span className="w-0.5 bg-violet-500 rounded-full animate-soundwave-1" />
+                      <span className="w-0.5 bg-sky-500 rounded-full animate-soundwave-2" />
+                      <span className="w-0.5 bg-blue-500 rounded-full animate-soundwave-3" />
+                    </div>
+                  </div>
+                  <div className="flex justify-between text-[10px] text-slate-500 font-tech">
+                    <span>Retention</span>
+                    <span className="text-violet-600 font-bold">84% Viral</span>
+                  </div>
+                </div>
+
+                {/* Mobile Card 3: SEO Dominance */}
+                <div className="glass-panel p-3.5 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
+                  <BorderBeam size={80} duration={10} colorFrom="#059669" colorTo="#0284C7" />
+                  <div className="flex items-center justify-between pb-1.5 border-b border-slate-100 mb-2">
+                    <span className="text-[11px] font-display font-bold text-slate-900 flex items-center gap-1">
+                      <Search className="w-3 h-3 text-sky-600" /> SEO Rank
+                    </span>
+                    <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-600 font-tech font-bold">
+                      #1 RANK
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-[10px] text-slate-500 font-tech">
+                    <span>Organic Traffic</span>
+                    <span className="text-emerald-600 font-bold">+318%</span>
+                  </div>
+                </div>
+
+                {/* Mobile Card 4: Paid Ads / ROAS */}
+                <div className="glass-panel p-3.5 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
+                  <BorderBeam size={80} duration={11} colorFrom="#0EA5E9" colorTo="#DB2777" />
+                  <div className="flex items-center justify-between pb-1.5 border-b border-slate-100 mb-2">
+                    <span className="text-[11px] font-display font-bold text-slate-900 flex items-center gap-1">
+                      <TrendingUp className="w-3 h-3 text-sky-600" /> Ads Funnel
+                    </span>
+                    <span className="text-[9px] px-1.5 py-0.5 rounded bg-sky-50 text-sky-600 font-tech font-bold">
+                      ROAS {roasVal}
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-[10px] text-slate-500 font-tech">
+                    <span>Acquisition</span>
+                    <span className="text-emerald-600 font-bold">-34% CPA</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* DESKTOP VIEW (lg:flex): Full 3D Gyro Orbit with Tilt */}
+            <div className="hidden lg:flex relative w-full max-w-lg aspect-[4/4] items-center justify-center">
               
               {/* Central Motion Graphic Gyro Rings */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -230,20 +316,11 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
               </div>
 
               {/* Floating 3D Tilt Widget 1: Web Design & Code (Top Left) */}
-              <motion.div 
-                className="absolute top-0 left-0 sm:-left-4 z-30"
-                animate={{
-                  y: [0, -10, 0],
-                  rotate: [0, 1, 0]
-                }}
-                transition={{
-                  duration: 5.5,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
+              <div 
+                className="absolute top-0 -left-4 z-30 animate-float-gentle will-change-transform"
               >
-                <TiltCard tiltDegree={15} glareColor="#0284C7">
-                  <div className="glass-panel p-4 rounded-2xl border border-slate-200 shadow-[0_15px_35px_rgba(15,23,42,0.08)] w-52 sm:w-60 hover:border-sky-400 transition-all cursor-default group relative overflow-hidden">
+                <TiltCard tiltDegree={12} glareColor="#0284C7">
+                  <div className="glass-panel p-4 rounded-2xl border border-slate-200 shadow-[0_15px_35px_rgba(15,23,42,0.08)] w-60 hover:border-sky-400 transition-all cursor-default group relative overflow-hidden">
                     <BorderBeam size={100} duration={10} colorFrom="#0284C7" colorTo="#38BDF8" />
                     <div className="flex items-center justify-between pb-2 border-b border-slate-100 mb-2.5">
                       <div className="flex items-center gap-1.5">
@@ -268,31 +345,21 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
                     </div>
                   </div>
                 </TiltCard>
-              </motion.div>
+              </div>
 
               {/* Floating 3D Tilt Widget 2: Video Editing Timeline (Top Right) */}
-              <motion.div 
-                className="absolute top-4 right-0 sm:-right-4 z-30"
-                animate={{
-                  y: [0, 10, 0],
-                  rotate: [0, -1, 0]
-                }}
-                transition={{
-                  duration: 6.2,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 0.5
-                }}
+              <div 
+                className="absolute top-4 -right-4 z-30 animate-float-gentle will-change-transform"
+                style={{ animationDelay: '-2.5s' }}
               >
-                <TiltCard tiltDegree={15} glareColor="#7C3AED">
-                  <div className="glass-panel p-4 rounded-2xl border border-slate-200 shadow-[0_15px_35px_rgba(15,23,42,0.08)] w-56 sm:w-64 hover:border-violet-400 transition-all cursor-default relative overflow-hidden">
+                <TiltCard tiltDegree={12} glareColor="#7C3AED">
+                  <div className="glass-panel p-4 rounded-2xl border border-slate-200 shadow-[0_15px_35px_rgba(15,23,42,0.08)] w-64 hover:border-violet-400 transition-all cursor-default relative overflow-hidden">
                     <BorderBeam size={100} duration={12} colorFrom="#7C3AED" colorTo="#0284C7" />
                     <div className="flex items-center justify-between mb-2.5">
                       <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
                         <Video className="w-4 h-4 text-violet-600" />
                         <span>Video &amp; Reels Cut</span>
                       </div>
-                      {/* Animated soundwaves */}
                       <div className="flex items-end gap-1 h-3.5">
                         <span className="w-1 bg-violet-500 rounded-full animate-soundwave-1" />
                         <span className="w-1 bg-sky-500 rounded-full animate-soundwave-2" />
@@ -301,7 +368,6 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
                       </div>
                     </div>
                     
-                    {/* Timeline with animated playhead */}
                     <div className="relative bg-slate-50 p-1.5 rounded-lg border border-slate-200 flex items-center gap-1 overflow-hidden h-7">
                       <div className="absolute top-0 bottom-0 w-0.5 bg-sky-500 shadow-[0_0_8px_#0ea5e9] z-10 animate-playhead" />
                       <div className="w-6 h-5 rounded bg-violet-100 flex items-center justify-center text-[8px] font-bold text-violet-600">
@@ -319,24 +385,15 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
                     </div>
                   </div>
                 </TiltCard>
-              </motion.div>
+              </div>
 
               {/* Floating 3D Tilt Widget 3: SEO Ranker (Bottom Left) */}
-              <motion.div 
-                className="absolute bottom-6 left-0 sm:-left-3 z-30"
-                animate={{
-                  y: [0, 8, 0],
-                  rotate: [0, -0.8, 0]
-                }}
-                transition={{
-                  duration: 5.8,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 1
-                }}
+              <div 
+                className="absolute bottom-6 -left-3 z-30 animate-float-gentle will-change-transform"
+                style={{ animationDelay: '-1.5s' }}
               >
-                <TiltCard tiltDegree={15} glareColor="#0284C7">
-                  <div className="glass-panel p-4 rounded-2xl border border-slate-200 shadow-[0_15px_35px_rgba(15,23,42,0.08)] w-52 sm:w-60 hover:border-sky-400 transition-all cursor-default relative overflow-hidden">
+                <TiltCard tiltDegree={12} glareColor="#0284C7">
+                  <div className="glass-panel p-4 rounded-2xl border border-slate-200 shadow-[0_15px_35px_rgba(15,23,42,0.08)] w-60 hover:border-sky-400 transition-all cursor-default relative overflow-hidden">
                     <BorderBeam size={90} duration={11} colorFrom="#059669" colorTo="#0284C7" />
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
@@ -347,7 +404,6 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
                         #1 RANK
                       </span>
                     </div>
-                    {/* Mini animated curve */}
                     <svg viewBox="0 0 100 24" className="w-full h-6 my-1">
                       <path d="M0,20 Q25,18 45,10 T90,2 L100,2" fill="none" stroke="#0284C7" strokeWidth="2" />
                       <path d="M0,20 Q25,18 45,10 T90,2 L100,2 L100,24 L0,24 Z" fill="rgba(2,132,199,0.15)" />
@@ -358,24 +414,15 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
                     </div>
                   </div>
                 </TiltCard>
-              </motion.div>
+              </div>
 
               {/* Floating 3D Tilt Widget 4: Paid Marketing / ROAS Dashboard (Bottom Right) */}
-              <motion.div 
-                className="absolute bottom-2 right-0 sm:-right-3 z-30"
-                animate={{
-                  y: [0, -8, 0],
-                  rotate: [0, 0.8, 0]
-                }}
-                transition={{
-                  duration: 6.5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 1.5
-                }}
+              <div 
+                className="absolute bottom-2 -right-3 z-30 animate-float-gentle will-change-transform"
+                style={{ animationDelay: '-3.8s' }}
               >
-                <TiltCard tiltDegree={15} glareColor="#0EA5E9">
-                  <div className="glass-panel p-4 rounded-2xl border border-slate-200 shadow-[0_15px_35px_rgba(15,23,42,0.08)] w-54 sm:w-62 hover:border-sky-400 transition-all cursor-default relative overflow-hidden">
+                <TiltCard tiltDegree={12} glareColor="#0EA5E9">
+                  <div className="glass-panel p-4 rounded-2xl border border-slate-200 shadow-[0_15px_35px_rgba(15,23,42,0.08)] w-62 hover:border-sky-400 transition-all cursor-default relative overflow-hidden">
                     <BorderBeam size={100} duration={13} colorFrom="#0EA5E9" colorTo="#DB2777" />
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
@@ -393,7 +440,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
                     </div>
                   </div>
                 </TiltCard>
-              </motion.div>
+              </div>
 
             </div>
 

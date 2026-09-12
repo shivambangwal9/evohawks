@@ -1,7 +1,6 @@
 import React from 'react';
 import { TESTIMONIALS_DATA } from '../data/agencyData';
 import { Marquee } from './ui/Marquee';
-import { BorderBeam } from './ui/BorderBeam';
 import { MessageSquare, ShieldCheck, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -38,9 +37,8 @@ export const TestimonialsSection: React.FC = () => {
             {TESTIMONIALS_DATA.map((item) => (
               <div
                 key={item.id}
-                className="w-80 sm:w-96 relative rounded-3xl bg-white/90 border border-slate-200/90 hover:border-sky-400 p-7 flex flex-col justify-between transition-all duration-300 backdrop-blur-xl shadow-sm hover:shadow-xl group overflow-hidden"
+                className="w-80 sm:w-96 relative rounded-3xl bg-white border border-slate-200 hover:border-sky-400 p-7 flex flex-col justify-between transition-shadow duration-300 shadow-sm hover:shadow-xl group overflow-hidden"
               >
-                <BorderBeam size={100} duration={12} colorFrom="#0284C7" colorTo="#7C3AED" />
 
                 <div>
                   {/* Service Tag & 5-Star Rating */}

@@ -70,8 +70,8 @@ const INITIAL_PROJECTS: ManagedProject[] = [
     leadStrategist: 'Aryan (Head of Tech)',
     deliverables: [
       { id: 'd-1', title: 'Interactive Tailwind 4 & Framer Motion UI Kit', completed: true, link: 'https://github.com/evohawks/hyperion-ui' },
-      { id: 'd-2', title: 'Biometric Web Auth & Security Guardrails', completed: true, link: 'https://staging.hyperion.evohawks.com/auth' },
-      { id: 'd-3', title: 'Live Interactive Portfolio Chart System', completed: true, link: 'https://staging.hyperion.evohawks.com/analytics' },
+      { id: 'd-2', title: 'Biometric Web Auth & Security Guardrails', completed: true, link: 'https://staging.hyperion.evohawks.tech/auth' },
+      { id: 'd-3', title: 'Live Interactive Portfolio Chart System', completed: true, link: 'https://staging.hyperion.evohawks.tech/analytics' },
       { id: 'd-4', title: 'Production Docker Container & Edge CDN Setup', completed: false }
     ],
     milestones: [

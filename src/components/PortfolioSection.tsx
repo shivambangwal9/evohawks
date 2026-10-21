@@ -108,6 +108,9 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ onSelectServ
                         <img
                           src={project.image}
                           alt={project.title}
+                          width={600}
+                          height={400}
+                          decoding="async"
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90 group-hover:opacity-100"
                           loading="lazy"
                         />

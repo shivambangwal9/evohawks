@@ -164,8 +164,8 @@ export const AGENCY_CONFIG = {
   name: "Evo Hawks",
   tagline: "We Build. We Create. We Grow.",
   slogan: "See higher. Move faster. Grow further.",
-  badge: "DIGITAL CREATIVE & MARKETING AGENCY",
-  heroDescription: "Evo Hawks helps businesses build powerful digital presences through websites, creative content, video, and performance-driven marketing.",
+  badge: "EVO HAWKS • CREATIVE PRODUCTION & DIGITAL MARKETING AGENCY",
+  heroDescription: "Evo Hawks is a full-service creative production and digital marketing agency. We engineer high-converting websites, produce cinematic video, manage social media, run high-ROAS Meta Ads, and execute technical SEO for growing brands.",
   heroSubServices: ["Websites", "Video", "Social Media", "Paid Ads", "SEO", "Branding"],
   
   trustHeadline: "Your Digital Presence. One Creative Partner.",

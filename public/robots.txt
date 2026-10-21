@@ -1,4 +1,9 @@
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /admin-portal
+Disallow: /client-portal
+Disallow: /login
+Disallow: /*?*
 
 Sitemap: https://evohawks.tech/sitemap.xml

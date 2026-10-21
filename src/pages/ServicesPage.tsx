@@ -465,7 +465,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
 
                 <div className="pt-3 border-t border-white/10 flex items-center justify-between gap-2">
                   <a
-                    href={`#services/${srv.slug}`}
+                    href={`/services/${srv.slug}`}
                     onClick={(e) => {
                       if (onNavigate) {
                         e.preventDefault();

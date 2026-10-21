@@ -3,9 +3,18 @@ import { AGENCY_CONFIG } from '../data/agencyData';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BorderBeam } from './ui/BorderBeam';
 import { MessageCircle, X, ArrowRight } from 'lucide-react';
+import { trackEvent } from '../utils/analytics';
 
 export const FloatingWhatsApp: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const handleWhatsAppClick = (presetText: string, serviceCategory: string) => {
+    trackEvent('whatsapp_click', {
+      trigger_source: 'floating_widget',
+      service: serviceCategory,
+      text_intent: presetText
+    });
+  };
 
   const getQuickChatUrl = (presetText: string) => {
     return `https://wa.me/${AGENCY_CONFIG.contact.whatsappCleanNumber}?text=${encodeURIComponent(presetText)}`;
@@ -61,6 +70,7 @@ export const FloatingWhatsApp: React.FC = () => {
                 href={getQuickChatUrl("Hi Evo Hawks! I'd like to discuss building a website.")}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => handleWhatsAppClick("Website Inquiry", "Website Development")}
                 className="flex items-center justify-between p-2.5 rounded-xl bg-[#060810] hover:bg-[#0099FF]/15 text-xs font-semibold text-slate-300 hover:text-white transition-colors border border-white/5 hover:border-[#0099FF]/30 group"
               >
                 <span>🌐 Web Development Inquiry</span>
@@ -71,6 +81,7 @@ export const FloatingWhatsApp: React.FC = () => {
                 href={getQuickChatUrl("Hi Evo Hawks! I'd like to talk about Video & Reels editing.")}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => handleWhatsAppClick("Video Inquiry", "Video Production")}
                 className="flex items-center justify-between p-2.5 rounded-xl bg-[#060810] hover:bg-[#FF1361]/15 text-xs font-semibold text-slate-300 hover:text-white transition-colors border border-white/5 hover:border-[#FF1361]/30 group"
               >
                 <span>🎬 Video &amp; Reels Inquiry</span>
@@ -81,6 +92,7 @@ export const FloatingWhatsApp: React.FC = () => {
                 href={getQuickChatUrl("Hi Evo Hawks! I'd like to discuss full-stack digital marketing & SEO.")}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => handleWhatsAppClick("Marketing Inquiry", "Digital Marketing & SEO")}
                 className="flex items-center justify-between p-2.5 rounded-xl bg-[#060810] hover:bg-[#0099FF]/15 text-xs font-semibold text-slate-300 hover:text-white transition-colors border border-white/5 hover:border-[#0099FF]/30 group"
               >
                 <span>📈 Digital Marketing &amp; Ads</span>

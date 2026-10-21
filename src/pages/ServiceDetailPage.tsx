@@ -88,13 +88,14 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
       {/* Breadcrumb Navigation */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-2">
         <div className="flex items-center gap-2 text-xs font-tech text-slate-400">
-          <button 
-            onClick={() => onNavigate('services')}
+          <a 
+            href="/services"
+            onClick={(e) => { e.preventDefault(); onNavigate('services'); }}
             className="hover:text-[#0099FF] transition-colors flex items-center gap-1 cursor-pointer"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>All Services</span>
-          </button>
+          </a>
           <span>/</span>
           <span className="text-[#38BDF8] font-bold">{service.category}</span>
           <span>/</span>
@@ -457,10 +458,11 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               {relatedServices.map((rel, idx) => {
                 const cornerClass = idx % 2 === 0 ? 'rounded-[2.25rem] rounded-tl-sm' : 'rounded-[2.25rem] rounded-tr-sm';
                 return (
-                  <div 
+                  <a 
                     key={rel.id}
-                    onClick={() => onNavigate('service-detail', rel.id)}
-                    className={`p-6 ${cornerClass} bg-[#060810] hover:bg-[#0A0D18] border border-white/10 hover:border-[#0099FF]/50 transition-all cursor-pointer shadow-[0_0_20px_rgba(0,0,0,0.4)] flex flex-col justify-between`}
+                    href={`/services/${rel.id}`}
+                    onClick={(e) => { e.preventDefault(); onNavigate('service-detail', rel.id); }}
+                    className={`p-6 ${cornerClass} bg-[#060810] hover:bg-[#0A0D18] border border-white/10 hover:border-[#0099FF]/50 transition-all cursor-pointer shadow-[0_0_20px_rgba(0,0,0,0.4)] flex flex-col justify-between block`}
                   >
                     <div>
                       <span className="text-[10px] font-tech text-[#38BDF8] font-bold uppercase">{rel.category}</span>
@@ -471,7 +473,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                       <span>Explore Service</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </div>
-                  </div>
+                  </a>
                 );
               })}
             </div>

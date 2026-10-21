@@ -137,11 +137,17 @@ export const WorkPage: React.FC<WorkPageProps> = ({
                   >
                     <div>
                       {/* Media Thumbnail */}
-                      <div className="relative aspect-video w-full overflow-hidden bg-black cursor-pointer"
-                           onClick={() => onNavigate('case-study-detail', project.id)}>
+                      <a
+                        href={`/portfolio/${project.id}`}
+                        onClick={(e) => { e.preventDefault(); onNavigate('case-study-detail', project.id); }}
+                        className="relative aspect-video w-full overflow-hidden bg-black cursor-pointer block"
+                      >
                         <img
                           src={project.image}
                           alt={`${project.title} - ${project.industry}`}
+                          width={800}
+                          height={450}
+                          decoding="async"
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
                           loading="lazy"
                         />
@@ -156,7 +162,7 @@ export const WorkPage: React.FC<WorkPageProps> = ({
                             </span>
                           )}
                         </div>
-                      </div>
+                      </a>
 
                       {/* Card Content */}
                       <div className="p-6">
@@ -164,11 +170,13 @@ export const WorkPage: React.FC<WorkPageProps> = ({
                           {project.industry}
                         </div>
 
-                        <h3 
-                          onClick={() => onNavigate('case-study-detail', project.id)}
-                          className="text-xl font-display font-black text-white group-hover:text-[#38BDF8] transition-colors cursor-pointer mb-2"
-                        >
-                          {project.title}
+                        <h3 className="text-xl font-display font-black text-white group-hover:text-[#38BDF8] transition-colors mb-2">
+                          <a
+                            href={`/portfolio/${project.id}`}
+                            onClick={(e) => { e.preventDefault(); onNavigate('case-study-detail', project.id); }}
+                          >
+                            {project.title}
+                          </a>
                         </h3>
 
                         <p className="text-xs text-slate-400 line-clamp-2 font-sans-clean leading-relaxed mb-4">
@@ -188,13 +196,14 @@ export const WorkPage: React.FC<WorkPageProps> = ({
 
                     {/* Card Footer CTAs */}
                     <div className="p-6 pt-0 border-t border-white/5 mt-2 flex items-center justify-between">
-                      <button
-                        onClick={() => onNavigate('case-study-detail', project.id)}
+                      <a
+                        href={`/portfolio/${project.id}`}
+                        onClick={(e) => { e.preventDefault(); onNavigate('case-study-detail', project.id); }}
                         className="inline-flex items-center gap-1 text-xs font-tech font-bold text-[#38BDF8] hover:text-[#0099FF] cursor-pointer transition-colors"
                       >
                         <span>Read Case Study</span>
                         <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                      </button>
+                      </a>
 
                       <button
                         onClick={() => setSelectedProject(project)}

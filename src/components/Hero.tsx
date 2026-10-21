@@ -125,6 +125,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
               variants={itemVariants}
               className="text-3.5xl sm:text-5xl md:text-6xl xl:text-7xl font-display font-black tracking-tight text-white leading-[1.08] mb-5 sm:mb-6 break-words"
             >
+              <span className="sr-only">Evo Hawks — Creative Production &amp; Digital Marketing Agency. </span>
               We Build. <br />
               <span className="text-gradient-cerulean">We Create.</span> <br />
               <span className="text-gradient-neon-rose">We Grow.</span>

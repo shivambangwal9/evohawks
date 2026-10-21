@@ -86,6 +86,9 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
             <img
               src={project.image}
               alt={`${project.title} - ${project.industry}`}
+              width={1200}
+              height={675}
+              decoding="async"
               className="w-full h-full object-cover"
               loading="lazy"
             />

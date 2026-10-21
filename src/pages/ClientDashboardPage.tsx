@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
 import { motion } from 'framer-motion';
 import { BorderBeam } from '../components/ui/BorderBeam';
 import { TiltCard } from '../components/ui/TiltCard';
@@ -12,7 +12,8 @@ import {
   ShieldCheck,
   Building,
   User,
-  Smartphone
+  Smartphone,
+  AlertCircle
 } from 'lucide-react';
 import type { PageId } from '../hooks/usePageRouter';
 import { AGENCY_CONFIG } from '../data/agencyData';
@@ -45,12 +46,21 @@ export const ClientDashboardPage: React.FC<ClientDashboardPageProps> = ({ onNavi
     <div className="min-h-screen pt-28 pb-24 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
+        {/* Prototype Environment Notice */}
+        <div className="mb-6 p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-sans-clean flex items-start gap-3 shadow-xs">
+          <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+          <div>
+            <strong className="font-semibold block mb-0.5">Demo Client Workspace Preview</strong>
+            This client dashboard interface is operating in prototype demo mode. In production, client accounts authenticate through a secure server-side session, displaying only verified projects assigned to their organization.
+          </div>
+        </div>
+
         {/* Top Welcome Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8 border-b border-slate-200">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 border border-sky-200 text-xs font-tech text-sky-700 font-semibold mb-2">
               <span className="w-2 h-2 rounded-full bg-sky-500 animate-ping" />
-              <span>ACTIVE CLIENT SPRINT PORTAL</span>
+              <span>DEMO CLIENT SPRINT PORTAL</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-display font-black text-slate-900">
               Welcome, {user?.name || 'Valued Client'}

@@ -1,18 +1,28 @@
 import React, { useState } from 'react';
 import { AGENCY_CONFIG } from '../data/agencyData';
-import confetti from 'canvas-confetti';
 import { motion } from 'framer-motion';
 import { BorderBeam } from './ui/BorderBeam';
 import { MagneticButton } from './ui/MagneticButton';
 import { 
+  validateEnquiry, 
+  submitEnquiry, 
+  buildWhatsAppLeadUrl, 
+  buildMailtoLeadUrl,
+  type EnquiryPayload, 
+  type ValidationErrors 
+} from '../utils/leadService';
+import { 
   Mail, 
   MessageCircle, 
   MapPin, 
-  Clock, 
   CheckCircle2, 
-  Sparkles,
-  ArrowRight,
-  Loader2
+  Sparkles, 
+  ArrowRight, 
+  Loader2, 
+  AlertCircle,
+  RotateCcw,
+  ShieldCheck,
+  Send
 } from 'lucide-react';
 
 interface ContactSectionProps {
@@ -20,50 +30,83 @@ interface ContactSectionProps {
 }
 
 export const ContactSection: React.FC<ContactSectionProps> = ({ preselectedService = '' }) => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<EnquiryPayload>({
     fullName: '',
     businessName: '',
     email: '',
     phone: '',
     service: preselectedService || 'Website Development',
     budget: '25k-50k',
-    description: ''
+    description: '',
+    acceptedPrivacy: false,
+    botField: ''
   });
 
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // Sync preselectedService if passed from props
-  React.useEffect(() => {
-    if (preselectedService) {
-      setFormData(prev => ({ ...prev, service: preselectedService }));
-    }
-  }, [preselectedService]);
+  const [errors, setErrors] = useState<ValidationErrors>({});
+  const [submissionStatus, setSubmissionStatus] = useState<'idle' | 'submitting' | 'success' | 'unconfigured' | 'error'>('idle');
+  const [statusMessage, setStatusMessage] = useState<string>('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    const { name, value, type } = e.target;
+    const checked = (e.target as HTMLInputElement).checked;
+    
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+
+    // Clear error for field upon typing
+    if (errors[name as keyof ValidationErrors]) {
+      setErrors(prev => ({ ...prev, [name]: undefined }));
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
 
-    // Simulate submission and trigger confetti
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      confetti({
-        particleCount: 90,
-        spread: 75,
-        origin: { y: 0.6 }
-      });
-    }, 700);
+    // 1. Validate Form Inputs
+    const { isValid, errors: validationErrors } = validateEnquiry(formData);
+    if (!isValid) {
+      setErrors(validationErrors);
+      const firstKey = Object.keys(validationErrors)[0];
+      const element = document.getElementById(`field-${firstKey}`);
+      if (element) element.focus();
+      return;
+    }
+
+    setErrors({});
+    setSubmissionStatus('submitting');
+
+    // 2. Transmit via lead delivery service
+    const result = await submitEnquiry(formData);
+
+    if (result.success && result.status === 'sent') {
+      setSubmissionStatus('success');
+      setStatusMessage(result.message);
+    } else if (result.status === 'unconfigured') {
+      setSubmissionStatus('unconfigured');
+      setStatusMessage(result.message);
+    } else {
+      setSubmissionStatus('error');
+      setStatusMessage(result.message);
+    }
   };
 
-  const getWhatsAppEnquiryUrl = () => {
-    const message = `*New Project Enquiry - Evo Hawks*%0A%0A*Name:* ${formData.fullName || 'Client'}%0A*Business:* ${formData.businessName || 'N/A'}%0A*Email:* ${formData.email || 'N/A'}%0A*Phone/WhatsApp:* ${formData.phone || 'N/A'}%0A*Service Required:* ${formData.service}%0A*Budget:* ${formData.budget}%0A*Project Brief:* ${formData.description || 'Discuss scope'}`;
-    return `https://wa.me/${AGENCY_CONFIG.contact.whatsappCleanNumber}?text=${message}`;
+  const handleReset = () => {
+    setSubmissionStatus('idle');
+    setStatusMessage('');
+    setFormData({
+      fullName: '',
+      businessName: '',
+      email: '',
+      phone: '',
+      service: preselectedService || 'Website Development',
+      budget: '25k-50k',
+      description: '',
+      acceptedPrivacy: false,
+      botField: ''
+    });
+    setErrors({});
   };
 
   return (
@@ -94,7 +137,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ preselectedServi
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           
-          {/* Left Column: Direct Agency Contacts */}
+          {/* Left Column: Direct Agency Contacts & Information */}
           <motion.div 
             initial={{ opacity: 0, x: -25 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -110,7 +153,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ preselectedServi
                 Direct Contact &amp; Consultations
               </h3>
               <p className="text-xs sm:text-sm text-slate-600 font-sans-clean leading-relaxed">
-                Prefer talking directly? Connect with our creative director and strategy leads through WhatsApp, email, or scheduled call.
+                Connect directly with our team for strategic consultations, scope definitions, or custom enterprise requirements.
               </p>
 
               <div className="space-y-3 sm:space-y-4 pt-2">
@@ -124,7 +167,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ preselectedServi
                     <Mail className="w-5 h-5" />
                   </div>
                   <div className="min-w-0">
-                    <div className="text-[11px] font-tech text-slate-500 uppercase font-semibold">Email Us</div>
+                    <div className="text-[11px] font-tech text-slate-500 uppercase font-semibold">Official Business Email</div>
                     <div className="text-xs sm:text-sm font-semibold text-slate-900 group-hover:text-sky-600 transition-colors truncate">
                       {AGENCY_CONFIG.contact.email}
                     </div>
@@ -143,52 +186,42 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ preselectedServi
                     <MessageCircle className="w-5 h-5" />
                   </div>
                   <div className="min-w-0">
-                    <div className="text-[11px] font-tech text-slate-500 uppercase font-semibold">WhatsApp Instant Chat</div>
+                    <div className="text-[11px] font-tech text-slate-500 uppercase font-semibold">WhatsApp Direct</div>
                     <div className="text-xs sm:text-sm font-semibold text-slate-900 group-hover:text-emerald-600 transition-colors truncate">
                       {AGENCY_CONFIG.contact.whatsapp}
                     </div>
                   </div>
                 </motion.a>
 
-                {/* Location Item */}
+                {/* Operating Location */}
                 <div className="flex items-center gap-3.5 sm:gap-4 p-3 sm:p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
                   <div className="w-10 h-10 rounded-xl bg-violet-50 border border-violet-200 flex items-center justify-center text-violet-600 shrink-0">
                     <MapPin className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="text-[11px] font-tech text-slate-500 uppercase font-semibold">Location</div>
+                    <div className="text-[11px] font-tech text-slate-500 uppercase font-semibold">Operating Model</div>
                     <div className="text-xs sm:text-sm font-semibold text-slate-900">
-                      {AGENCY_CONFIG.contact.location}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Office Hours */}
-                <div className="flex items-center gap-3.5 sm:gap-4 p-3 sm:p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                  <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600 shrink-0">
-                    <Clock className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="text-[11px] font-tech text-slate-500 uppercase font-semibold">Working Hours</div>
-                    <div className="text-xs sm:text-sm font-semibold text-slate-900">
-                      {AGENCY_CONFIG.contact.workingHours}
+                      {AGENCY_CONFIG.contact.globalReach}
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Response Time Badge */}
-              <div className="pt-2">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-tech text-emerald-700 font-semibold shadow-xs">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span>{AGENCY_CONFIG.contact.responseTime}</span>
+              {/* Working Hours & SLA */}
+              <div className="p-4 rounded-2xl bg-slate-50/80 border border-slate-200 text-xs font-sans-clean text-slate-600 space-y-1">
+                <div className="font-semibold text-slate-800 flex items-center gap-1.5">
+                  <ShieldCheck className="w-4 h-4 text-sky-600" />
+                  <span>Working Hours &amp; Response SLA</span>
                 </div>
+                <div>{AGENCY_CONFIG.contact.workingHours}</div>
+                <div className="text-slate-500 text-[11px] font-tech">{AGENCY_CONFIG.contact.responseTime}</div>
               </div>
+
             </div>
 
           </motion.div>
 
-          {/* Right Column: High-Conversion Form with BorderBeam */}
+          {/* Right Column: Dynamic Form & Real Delivery */}
           <motion.div 
             initial={{ opacity: 0, x: 25 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -196,127 +229,260 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ preselectedServi
             transition={{ duration: 0.6 }}
             className="lg:col-span-7"
           >
-            <div className="p-5 sm:p-8 md:p-10 rounded-3xl bg-white/95 border border-slate-200 backdrop-blur-xl shadow-xl relative overflow-hidden">
+            <div className="p-6 sm:p-10 rounded-3xl bg-white/95 border border-slate-200 backdrop-blur-xl shadow-xl relative overflow-hidden">
               <BorderBeam size={150} duration={14} colorFrom="#0284C7" colorTo="#7C3AED" />
 
-              {isSubmitted ? (
+              {/* SUCCESS STATE */}
+              {submissionStatus === 'success' && (
                 <div className="text-center py-8 sm:py-10 space-y-4 sm:space-y-5 animate-in fade-in duration-300">
                   <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 mx-auto">
-                    <CheckCircle2 className="w-7 h-7 sm:w-8 sm:h-8" />
+                    <CheckCircle2 className="w-8 h-8" />
                   </div>
 
                   <h3 className="text-xl sm:text-2xl font-display font-bold text-slate-900">
-                    Project Brief Received!
+                    Enquiry Delivered Successfully
                   </h3>
 
                   <p className="text-xs sm:text-sm text-slate-600 max-w-md mx-auto font-sans-clean leading-relaxed">
-                    Thank you, <strong>{formData.fullName}</strong>. Our lead strategists have received your details and are analyzing your requirements. We will get back to you shortly.
+                    Thank you, <strong>{formData.fullName}</strong>. Your enquiry has been received at our production desk. Our team will review your brief for <strong>{formData.service}</strong> and respond within 24 business hours.
                   </p>
 
                   <div className="pt-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3">
                     <a
-                      href={getWhatsAppEnquiryUrl()}
+                      href={buildWhatsAppLeadUrl(formData)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-500 transition-colors shadow-md text-center"
                     >
                       <MessageCircle className="w-4 h-4" />
-                      <span>Continue on WhatsApp Now</span>
+                      <span>Optional: Open on WhatsApp</span>
                     </a>
 
                     <button
-                      onClick={() => {
-                        setIsSubmitted(false);
-                        setFormData({
-                          fullName: '',
-                          businessName: '',
-                          email: '',
-                          phone: '',
-                          service: 'Website Development',
-                          budget: '25k-50k',
-                          description: ''
-                        });
-                      }}
+                      onClick={handleReset}
                       className="px-5 py-3 rounded-full text-xs font-semibold text-slate-600 hover:text-slate-900 transition-colors cursor-pointer text-center"
                     >
-                      Submit Another Brief
+                      Submit Another Enquiry
                     </button>
                   </div>
                 </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
+              )}
+
+              {/* UNCONFIGURED ENDPOINT FALLBACK STATE */}
+              {submissionStatus === 'unconfigured' && (
+                <div className="py-6 sm:py-8 space-y-4 animate-in fade-in duration-300">
+                  <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 flex items-start gap-3">
+                    <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                    <div className="text-xs text-amber-800 leading-relaxed font-sans-clean">
+                      <strong className="font-semibold block mb-1">Direct Delivery Service Notice</strong>
+                      The web form delivery endpoint is currently awaiting production environment configuration (<code className="text-amber-900 bg-amber-100 px-1 py-0.5 rounded">VITE_CONTACT_FORM_ENDPOINT</code>).
+                      Your project brief has been compiled below — dispatch it directly to our leads via WhatsApp or Email:
+                    </div>
+                  </div>
+
+                  <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs font-mono text-slate-700 whitespace-pre-wrap leading-relaxed max-h-48 overflow-y-auto">
+                    {`Name: ${formData.fullName}\nBusiness: ${formData.businessName}\nEmail: ${formData.email}\nPhone: ${formData.phone}\nService: ${formData.service}\nBudget: ${formData.budget}\nBrief: ${formData.description || 'Discuss on call'}`}
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                    <a
+                      href={buildWhatsAppLeadUrl(formData)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 inline-flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition-colors"
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                      <span>Dispatch via WhatsApp</span>
+                    </a>
+
+                    <a
+                      href={buildMailtoLeadUrl(formData)}
+                      className="flex-1 inline-flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs shadow-md transition-colors"
+                    >
+                      <Send className="w-4 h-4" />
+                      <span>Send via Email Client</span>
+                    </a>
+                  </div>
+
+                  <div className="text-center pt-2">
+                    <button
+                      onClick={() => setSubmissionStatus('idle')}
+                      className="text-xs font-tech text-slate-500 hover:text-slate-800 transition-colors inline-flex items-center gap-1 cursor-pointer"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5" />
+                      <span>Edit Brief Details</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* ERROR STATE */}
+              {submissionStatus === 'error' && (
+                <div className="py-6 sm:py-8 space-y-4 animate-in fade-in duration-300">
+                  <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 flex items-start gap-3">
+                    <AlertCircle className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
+                    <div className="text-xs text-rose-800 leading-relaxed font-sans-clean">
+                      <strong className="font-semibold block mb-1">Transmission Notice</strong>
+                      {statusMessage || 'An unexpected error occurred while communicating with the destination service.'}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                    <button
+                      type="button"
+                      onClick={handleSubmit}
+                      className="flex-1 inline-flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-md transition-colors cursor-pointer"
+                    >
+                      <RotateCcw className="w-4 h-4" />
+                      <span>Retry Transmission</span>
+                    </button>
+
+                    <a
+                      href={buildWhatsAppLeadUrl(formData)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 inline-flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition-colors"
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                      <span>Send via WhatsApp</span>
+                    </a>
+                  </div>
+                </div>
+              )}
+
+              {/* ACTIVE FORM */}
+              {(submissionStatus === 'idle' || submissionStatus === 'submitting') && (
+                <form onSubmit={handleSubmit} noValidate className="space-y-4 sm:space-y-5">
                   
+                  {/* Honeypot field for bot spam */}
+                  <div style={{ display: 'none' }} aria-hidden="true">
+                    <input
+                      type="text"
+                      name="botField"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={formData.botField}
+                      onChange={handleChange}
+                    />
+                  </div>
+
                   {/* Name & Business Name */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-tech text-slate-600 uppercase font-bold mb-1.5">
+                      <label htmlFor="field-fullName" className="block text-xs font-tech text-slate-700 uppercase font-bold mb-1.5">
                         Full Name <span className="text-sky-600">*</span>
                       </label>
                       <input
+                        id="field-fullName"
                         type="text"
                         name="fullName"
                         required
+                        aria-required="true"
+                        aria-invalid={!!errors.fullName}
+                        aria-describedby={errors.fullName ? "error-fullName" : undefined}
                         placeholder="e.g. Rahul Sharma"
                         value={formData.fullName}
                         onChange={handleChange}
-                        className="w-full px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-slate-50 border border-slate-200 text-base sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:bg-white transition-all"
+                        className={`w-full px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-slate-50 border text-base sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white transition-all ${
+                          errors.fullName ? 'border-rose-400 focus:border-rose-500 bg-rose-50/30' : 'border-slate-200 focus:border-sky-500'
+                        }`}
                       />
+                      {errors.fullName && (
+                        <p id="error-fullName" role="alert" className="text-rose-600 text-[11px] font-sans-clean mt-1">
+                          {errors.fullName}
+                        </p>
+                      )}
                     </div>
 
                     <div>
-                      <label className="block text-xs font-tech text-slate-600 uppercase font-bold mb-1.5">
-                        Business / Brand Name
+                      <label htmlFor="field-businessName" className="block text-xs font-tech text-slate-700 uppercase font-bold mb-1.5">
+                        Business / Brand Name <span className="text-sky-600">*</span>
                       </label>
                       <input
+                        id="field-businessName"
                         type="text"
                         name="businessName"
+                        required
+                        aria-required="true"
+                        aria-invalid={!!errors.businessName}
+                        aria-describedby={errors.businessName ? "error-businessName" : undefined}
                         placeholder="e.g. Apex Studio"
                         value={formData.businessName}
                         onChange={handleChange}
-                        className="w-full px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-slate-50 border border-slate-200 text-base sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:bg-white transition-all"
+                        className={`w-full px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-slate-50 border text-base sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white transition-all ${
+                          errors.businessName ? 'border-rose-400 focus:border-rose-500 bg-rose-50/30' : 'border-slate-200 focus:border-sky-500'
+                        }`}
                       />
+                      {errors.businessName && (
+                        <p id="error-businessName" role="alert" className="text-rose-600 text-[11px] font-sans-clean mt-1">
+                          {errors.businessName}
+                        </p>
+                      )}
                     </div>
                   </div>
 
                   {/* Email & Phone / WhatsApp */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-tech text-slate-600 uppercase font-bold mb-1.5">
+                      <label htmlFor="field-email" className="block text-xs font-tech text-slate-700 uppercase font-bold mb-1.5">
                         Email Address <span className="text-sky-600">*</span>
                       </label>
                       <input
+                        id="field-email"
                         type="email"
                         name="email"
                         required
+                        aria-required="true"
+                        aria-invalid={!!errors.email}
+                        aria-describedby={errors.email ? "error-email" : undefined}
                         placeholder="rahul@company.com"
                         value={formData.email}
                         onChange={handleChange}
-                        className="w-full px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-slate-50 border border-slate-200 text-base sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:bg-white transition-all"
+                        className={`w-full px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-slate-50 border text-base sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white transition-all ${
+                          errors.email ? 'border-rose-400 focus:border-rose-500 bg-rose-50/30' : 'border-slate-200 focus:border-sky-500'
+                        }`}
                       />
+                      {errors.email && (
+                        <p id="error-email" role="alert" className="text-rose-600 text-[11px] font-sans-clean mt-1">
+                          {errors.email}
+                        </p>
+                      )}
                     </div>
 
                     <div>
-                      <label className="block text-xs font-tech text-slate-600 uppercase font-bold mb-1.5">
+                      <label htmlFor="field-phone" className="block text-xs font-tech text-slate-700 uppercase font-bold mb-1.5">
                         Phone / WhatsApp <span className="text-sky-600">*</span>
                       </label>
                       <input
+                        id="field-phone"
                         type="tel"
                         name="phone"
                         required
+                        aria-required="true"
+                        aria-invalid={!!errors.phone}
+                        aria-describedby={errors.phone ? "error-phone" : undefined}
                         placeholder="+91 98765 00000"
                         value={formData.phone}
                         onChange={handleChange}
-                        className="w-full px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-slate-50 border border-slate-200 text-base sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:bg-white transition-all"
+                        className={`w-full px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-slate-50 border text-base sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white transition-all ${
+                          errors.phone ? 'border-rose-400 focus:border-rose-500 bg-rose-50/30' : 'border-slate-200 focus:border-sky-500'
+                        }`}
                       />
+                      {errors.phone && (
+                        <p id="error-phone" role="alert" className="text-rose-600 text-[11px] font-sans-clean mt-1">
+                          {errors.phone}
+                        </p>
+                      )}
                     </div>
                   </div>
 
                   {/* Service Dropdown */}
                   <div>
-                    <label className="block text-xs font-tech text-slate-600 uppercase font-bold mb-1.5">
+                    <label htmlFor="field-service" className="block text-xs font-tech text-slate-700 uppercase font-bold mb-1.5">
                       Primary Service Needed <span className="text-sky-600">*</span>
                     </label>
                     <select
+                      id="field-service"
                       name="service"
                       value={formData.service}
                       onChange={handleChange}
@@ -332,8 +498,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ preselectedServi
 
                   {/* Budget Selector */}
                   <div>
-                    <label className="block text-xs font-tech text-slate-600 uppercase font-bold mb-1.5">
-                      Estimated Project Budget
+                    <label className="block text-xs font-tech text-slate-700 uppercase font-bold mb-1.5">
+                      Estimated Project Budget <span className="text-sky-600">*</span>
                     </label>
                     <div className="grid grid-cols-2 min-[480px]:grid-cols-3 gap-2">
                       {AGENCY_CONFIG.budgetRanges.map((range) => {
@@ -358,30 +524,53 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ preselectedServi
 
                   {/* Project Description */}
                   <div>
-                    <label className="block text-xs font-tech text-slate-600 uppercase font-bold mb-1.5">
-                      Project Goals &amp; Description
+                    <label htmlFor="field-description" className="block text-xs font-tech text-slate-700 uppercase font-bold mb-1.5">
+                      Project Goals &amp; Description <span className="text-slate-400 font-normal">(Optional)</span>
                     </label>
                     <textarea
+                      id="field-description"
                       name="description"
-                      rows={4}
-                      placeholder="Briefly describe your goals, required features, timeline, and current bottlenecks..."
+                      rows={3}
+                      placeholder="Briefly describe your objectives, key features, reference designs, and desired timeline..."
                       value={formData.description}
                       onChange={handleChange}
                       className="w-full px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-slate-50 border border-slate-200 text-base sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:bg-white transition-all"
                     />
                   </div>
 
-                  {/* Submit Button & WhatsApp Alternative with Magnetic effect */}
-                  <div className="pt-2 flex flex-col sm:flex-row items-center gap-4">
+                  {/* Privacy Policy Agreement */}
+                  <div className="pt-1">
+                    <label className="flex items-start gap-2.5 text-xs text-slate-600 font-sans-clean cursor-pointer select-none">
+                      <input
+                        id="field-acceptedPrivacy"
+                        type="checkbox"
+                        name="acceptedPrivacy"
+                        checked={formData.acceptedPrivacy}
+                        onChange={handleChange}
+                        className="mt-0.5 h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500 accent-sky-600 cursor-pointer"
+                      />
+                      <span>
+                        I consent to Evo Hawks storing and processing these details solely for preparing our project proposal. Confidentiality is strictly respected under our agency NDA.
+                      </span>
+                    </label>
+                    {errors.acceptedPrivacy && (
+                      <p role="alert" className="text-rose-600 text-[11px] font-sans-clean mt-1">
+                        {errors.acceptedPrivacy}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Submit Button & WhatsApp Alternative */}
+                  <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
                     <MagneticButton
                       type="submit"
-                      disabled={isSubmitting}
-                      className="w-full sm:flex-1 inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:shadow-[0_8px_25px_rgba(2,132,199,0.4)] transition-all cursor-pointer group disabled:opacity-50"
+                      disabled={submissionStatus === 'submitting'}
+                      className="w-full sm:flex-1 inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:shadow-[0_8px_25px_rgba(2,132,199,0.4)] transition-all cursor-pointer group disabled:opacity-60"
                     >
-                      {isSubmitting ? (
+                      {submissionStatus === 'submitting' ? (
                         <>
                           <Loader2 className="w-4 h-4 animate-spin" />
-                          <span>Processing Brief...</span>
+                          <span>Transmitting Brief...</span>
                         </>
                       ) : (
                         <>
@@ -392,10 +581,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ preselectedServi
                     </MagneticButton>
 
                     <a
-                      href={getWhatsAppEnquiryUrl()}
+                      href={buildWhatsAppLeadUrl(formData)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-4 rounded-xl text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-300 hover:bg-emerald-100 transition-colors"
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-300 hover:bg-emerald-100 transition-colors"
                     >
                       <MessageCircle className="w-4 h-4" />
                       <span>WhatsApp Direct</span>

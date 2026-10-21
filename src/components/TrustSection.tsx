@@ -10,11 +10,9 @@ import {
   Rocket, 
   Eye, 
   Sparkles, 
-  CheckCircle, 
-  Zap, 
-  TrendingUp, 
-  Award, 
-  Clock 
+  Award,
+  CheckCircle,
+  Zap
 } from 'lucide-react';
 
 export const TrustSection: React.FC = () => {
@@ -46,10 +44,10 @@ export const TrustSection: React.FC = () => {
   ];
 
   const stats = [
-    { label: "Client Satisfaction", value: 99.4, decimals: 1, suffix: "%", icon: Award, color: "#0284C7" },
-    { label: "Average Ad ROAS", value: 4.8, decimals: 1, suffix: "x", icon: TrendingUp, color: "#7C3AED" },
-    { label: "Web Page Speed", value: 0.4, decimals: 1, suffix: "s", icon: Clock, color: "#0EA5E9" },
-    { label: "Sprint Velocity", value: 100, decimals: 0, suffix: "%", icon: Zap, color: "#059669" },
+    { label: "Core Disciplines", value: 6, decimals: 0, suffix: "", icon: Layers, color: "#0284C7" },
+    { label: "Unified Creative Partner", value: 1, decimals: 0, suffix: "", icon: Sparkles, color: "#7C3AED" },
+    { label: "Code & Asset Ownership", value: 100, decimals: 0, suffix: "%", icon: ShieldCheck, color: "#059669" },
+    { label: "Milestone Transparency", value: 100, decimals: 0, suffix: "%", icon: Award, color: "#2563EB" },
   ];
 
   const containerVariants: Variants = {

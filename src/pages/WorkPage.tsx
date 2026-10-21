@@ -32,20 +32,20 @@ export const WorkPage: React.FC<WorkPageProps> = ({ onOpenProjectModal }) => {
     {
       title: "Hyperion FinTech Platform",
       category: "Web & High-Speed Architecture",
-      client: "Global Neo-Banking Concept",
-      metric1: "+340% Conversions",
-      metric2: "0.38s Load Time",
-      desc: "Architected modern Next.js interface with biometric web authenticators and interactive portfolio charts, resulting in an unprecedented increase in sign-up conversions.",
-      tags: ["Next.js 15", "Tailwind CSS", "Framer Motion 3D", "FinTech API"]
+      client: "Concept Architecture Benchmark",
+      focus1: "Next.js 15 App Router",
+      focus2: "Biometric Web Auth UI",
+      desc: "Architected a modern Next.js interface with responsive design, biometric authentication mockups, and interactive financial performance charts.",
+      tags: ["Next.js 15", "Tailwind CSS", "Framer Motion", "FinTech Concept"]
     },
     {
       title: "Verve Kinetic Brand Launch",
       category: "Reels Content & Brand Identity",
-      client: "Luxury Streetwear Collective",
-      metric1: "2.4M Impressions",
-      metric2: "84% Retention",
-      desc: "Produced high-tempo 9:16 vertical video cut series combined with a dark-mode lookbook e-commerce platform that drove organic viral reach across Instagram.",
-      tags: ["4K Video Editing", "Sound Design", "Viral Hooks", "Shopify Store"]
+      client: "Concept Creative Benchmark",
+      focus1: "9:16 Vertical Video",
+      focus2: "Sound & Motion Design",
+      desc: "Produced high-tempo 9:16 vertical video cut series combined with a modern lookbook storefront designed for brand storytelling across social media.",
+      tags: ["Video Editing", "Sound Design", "Motion Typography", "Storefront Concept"]
     }
   ];
 
@@ -75,20 +75,20 @@ export const WorkPage: React.FC<WorkPageProps> = ({ onOpenProjectModal }) => {
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto">
             <div className="p-4 rounded-2xl bg-white/80 border border-slate-200 shadow-xs">
-              <div className="text-2xl font-display font-black text-slate-900">100+</div>
-              <div className="text-[11px] font-tech text-slate-500 uppercase font-semibold">Deliverables Shipped</div>
+              <div className="text-2xl font-display font-black text-slate-900">6</div>
+              <div className="text-[11px] font-tech text-slate-500 uppercase font-semibold">Core Disciplines</div>
             </div>
             <div className="p-4 rounded-2xl bg-white/80 border border-slate-200 shadow-xs">
-              <div className="text-2xl font-display font-black text-sky-600">0.4s</div>
-              <div className="text-[11px] font-tech text-slate-500 uppercase font-semibold">Average Page Speed</div>
+              <div className="text-2xl font-display font-black text-sky-600">1</div>
+              <div className="text-[11px] font-tech text-slate-500 uppercase font-semibold">Unified Creative Team</div>
             </div>
             <div className="p-4 rounded-2xl bg-white/80 border border-slate-200 shadow-xs">
-              <div className="text-2xl font-display font-black text-violet-600">4.8x</div>
-              <div className="text-[11px] font-tech text-slate-500 uppercase font-semibold">Average Ad ROAS</div>
+              <div className="text-2xl font-display font-black text-violet-600">100%</div>
+              <div className="text-[11px] font-tech text-slate-500 uppercase font-semibold">Code &amp; Asset Ownership</div>
             </div>
             <div className="p-4 rounded-2xl bg-white/80 border border-slate-200 shadow-xs">
-              <div className="text-2xl font-display font-black text-emerald-600">99%</div>
-              <div className="text-[11px] font-tech text-slate-500 uppercase font-semibold">Client Satisfaction</div>
+              <div className="text-2xl font-display font-black text-emerald-600">Strict</div>
+              <div className="text-[11px] font-tech text-slate-500 uppercase font-semibold">NDA &amp; Client Privacy</div>
             </div>
           </div>
         </div>
@@ -264,12 +264,12 @@ export const WorkPage: React.FC<WorkPageProps> = ({ onOpenProjectModal }) => {
 
                   <div className="grid grid-cols-2 gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-200 mb-6">
                     <div className="text-center">
-                      <div className="text-xl font-display font-bold text-emerald-600">{study.metric1}</div>
-                      <div className="text-[10px] font-tech text-slate-500 uppercase font-semibold">Metric Lift</div>
+                      <div className="text-sm font-display font-bold text-slate-900">{study.focus1}</div>
+                      <div className="text-[10px] font-tech text-slate-500 uppercase font-semibold">Core Framework</div>
                     </div>
                     <div className="text-center border-l border-slate-200">
-                      <div className="text-xl font-display font-bold text-sky-600">{study.metric2}</div>
-                      <div className="text-[10px] font-tech text-slate-500 uppercase font-semibold">Benchmark</div>
+                      <div className="text-sm font-display font-bold text-sky-600">{study.focus2}</div>
+                      <div className="text-[10px] font-tech text-slate-500 uppercase font-semibold">Primary Focus</div>
                     </div>
                   </div>
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Logo } from './Logo';
 import { MagneticButton } from './ui/MagneticButton';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
 import { 
   Menu, 
   X, 
@@ -154,10 +154,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             ) : (
               <button
                 onClick={() => onNavigate('login')}
-                className="py-2 px-3.5 rounded-full text-xs font-tech font-bold text-slate-700 hover:text-sky-600 bg-white/80 hover:bg-white border border-slate-200/90 transition-all cursor-pointer flex items-center gap-1.5 shadow-2xs"
+                className="py-1.5 px-3 rounded-full text-xs font-tech font-bold text-slate-700 hover:text-sky-600 bg-white/80 hover:bg-white border border-slate-200/90 transition-all cursor-pointer flex items-center gap-1.5 shadow-2xs"
+                title="Preview client sprint tracker & admin portal"
               >
                 <UserCheck className="w-3.5 h-3.5 text-sky-600" />
-                <span>Portal Login</span>
+                <span>Portal Preview</span>
+                <span className="text-[9px] font-tech text-sky-700 bg-sky-100 px-1.5 py-0.2 rounded font-bold">DEMO</span>
               </button>
             )}
 
@@ -187,7 +189,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onClick={() => onNavigate('login')}
                 className="px-2.5 py-1.5 rounded-full text-[11px] font-tech font-bold text-slate-700 bg-white/90 border border-slate-200 hover:border-sky-300"
               >
-                Login
+                Demo Portal
               </button>
             )}
 
@@ -264,7 +266,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               >
                 <div className="flex items-center gap-2">
                   <UserCheck className="w-4 h-4 text-sky-600" />
-                  <span>{user ? `Dashboard (${user.role})` : 'Client & Admin Portal'}</span>
+                  <span>{user ? `Dashboard (Demo: ${user.role})` : 'Portal Preview (Demo)'}</span>
                 </div>
                 <ArrowRight className="w-4 h-4 text-slate-400" />
               </motion.button>

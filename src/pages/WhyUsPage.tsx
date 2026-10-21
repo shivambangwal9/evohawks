@@ -47,7 +47,7 @@ export const WhyUsPage: React.FC<WhyUsPageProps> = ({ onOpenProjectModal }) => {
     },
     {
       feature: "Code & Design Standards",
-      evo: "Bespoke React 19, Next.js, 4K Cinema Video, 0.4s load",
+      evo: "Bespoke React 19, Next.js, 4K Video, Performance Optimized",
       traditional: "Heavy bloated templates & generic stock visuals",
       freelancers: "Varying quality & inconsistent standards",
     },
@@ -268,7 +268,7 @@ export const WhyUsPage: React.FC<WhyUsPageProps> = ({ onOpenProjectModal }) => {
             </div>
             <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs">
               <Gauge className="w-8 h-8 text-violet-600 mx-auto mb-3" />
-              <h4 className="text-lg font-display font-bold text-slate-900 mb-1">0.4s Speed Target</h4>
+              <h4 className="text-lg font-display font-bold text-slate-900 mb-1">Performance Focus</h4>
               <p className="text-xs text-slate-500 leading-relaxed font-sans-clean">Optimized bundle sizing and edge hosting standard on all web builds.</p>
             </div>
             <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs">

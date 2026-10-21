@@ -35,7 +35,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ preselectedService = '
 
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-tech text-emerald-700 font-semibold shadow-xs">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span>Currently Accepting Sprints • Average 2-Hour Response Time</span>
+            <span>Currently Accepting Sprints • Typical Response Within 24 Business Hours</span>
           </div>
         </div>
       </section>
@@ -49,15 +49,15 @@ export const ContactPage: React.FC<ContactPageProps> = ({ preselectedService = '
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center text-xs font-tech text-slate-600">
             <div className="p-5 rounded-2xl bg-white border border-slate-200 flex items-center justify-center gap-3 shadow-xs font-medium">
               <ShieldCheck className="w-5 h-5 text-sky-600 flex-shrink-0" />
-              <span>Strict NDA &amp; Confidentiality Guarantee</span>
+              <span>Project Confidentiality &amp; IP Protection</span>
             </div>
             <div className="p-5 rounded-2xl bg-white border border-slate-200 flex items-center justify-center gap-3 shadow-xs font-medium">
               <Clock className="w-5 h-5 text-violet-600 flex-shrink-0" />
-              <span>48-Hour Proposal Turnaround</span>
+              <span>Structured Proposal &amp; Scope Review</span>
             </div>
             <div className="p-5 rounded-2xl bg-white border border-slate-200 flex items-center justify-center gap-3 shadow-xs font-medium">
               <MessageCircle className="w-5 h-5 text-emerald-600 flex-shrink-0" />
-              <span>Direct Lead WhatsApp Access</span>
+              <span>Direct WhatsApp &amp; Email Consultation</span>
             </div>
           </div>
         </div>

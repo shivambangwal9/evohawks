@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
-import type { UserRole } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
+import type { UserRole } from '../context/authTypes';
 import { motion } from 'framer-motion';
 import { BorderBeam } from '../components/ui/BorderBeam';
 import { MagneticButton } from '../components/ui/MagneticButton';
@@ -11,10 +11,9 @@ import {
   Lock, 
   Mail, 
   ArrowRight, 
-  Building, 
   Sparkles, 
-  CheckCircle2, 
-  Zap,
+  AlertTriangle,
+  Info,
   Eye,
   EyeOff
 } from 'lucide-react';
@@ -29,7 +28,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
   const [activeRole, setActiveRole] = useState<UserRole>('client');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [company, setCompany] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -37,10 +35,14 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
     e.preventDefault();
     setIsSubmitting(true);
     setTimeout(() => {
-      login(email || (activeRole === 'admin' ? 'teamevohawks@gmail.com' : 'client@hyperion.com'), password, activeRole);
+      login(
+        email || (activeRole === 'admin' ? 'teamevohawks@gmail.com' : 'demo-client@specimen.evohawks.tech'),
+        password,
+        activeRole
+      );
       setIsSubmitting(false);
       onNavigate(activeRole === 'admin' ? 'admin-portal' : 'client-portal');
-    }, 450);
+    }, 350);
   };
 
   const handleInstantDemo = (role: UserRole) => {
@@ -59,25 +61,34 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
       <div className="max-w-xl w-full mx-auto px-4 sm:px-6 relative z-10">
         
         {/* Header Branding */}
-        <div className="text-center mb-8 flex flex-col items-center">
+        <div className="text-center mb-6 flex flex-col items-center">
           <div className="mb-4">
             <Logo size="lg" />
           </div>
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-sky-200 text-xs font-tech text-sky-700 font-semibold mb-3 shadow-xs">
             <ShieldCheck className="w-3.5 h-3.5 text-sky-600" />
-            <span>AUTHENTICATION GATEWAY</span>
+            <span>PORTAL ARCHITECTURE PREVIEW (DEMO)</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-display font-black text-slate-900">
-            {activeRole === 'client' ? 'Client Project Portal' : 'Agency Control Center'}
+            {activeRole === 'client' ? 'Client Workspace Preview' : 'Agency Control Center Preview'}
           </h1>
           <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-sm">
             {activeRole === 'client' 
-              ? 'Inspect real-time sprint velocity, milestones & downloadable deliverables.' 
-              : 'Manage client deliverables, update project scopes, and monitor team output.'}
+              ? 'Evaluate the real-time sprint velocity, milestones, and deliverable review interface.' 
+              : 'Evaluate the internal agency deliverable manager and client sprint tracker.'}
           </p>
         </div>
 
-        {/* Dual Role Selector Tabs with layoutId */}
+        {/* Security & Prototype Architecture Notice */}
+        <div className="mb-6 p-4 rounded-2xl bg-amber-50/90 border border-amber-200/90 text-amber-900 text-xs font-sans-clean leading-relaxed shadow-xs flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+          <div>
+            <strong className="font-semibold block mb-0.5">Architecture &amp; Security Disclaimer:</strong>
+            This frontend portal operates in <strong>local demonstration mode</strong>. In production, secure authentication and data protection require connection to an enterprise authentication service (e.g., Supabase Auth, Firebase Auth, or JWT backend) with server-side Row-Level Security (RLS) to enforce client data segregation. Do not submit sensitive client data in this prototype sandbox.
+          </div>
+        </div>
+
+        {/* Dual Role Selector Tabs */}
         <div className="flex items-center p-1.5 rounded-2xl bg-white/80 border border-slate-200 shadow-xs mb-6 backdrop-blur-md">
           <button
             type="button"
@@ -94,7 +105,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
               />
             )}
             <UserCheck className="w-4 h-4" />
-            <span>Client Login</span>
+            <span>Client Portal</span>
           </button>
 
           <button
@@ -126,91 +137,72 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
           />
 
           {/* Quick 1-Click Instant Demo Launch Bar */}
-          <div className="mb-6 p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-sky-50 via-white to-indigo-50 border border-sky-200">
+          <div className="mb-6 p-4 rounded-2xl bg-gradient-to-r from-sky-50 via-white to-indigo-50 border border-sky-200">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-[11px] font-tech uppercase text-slate-500 font-bold flex items-center gap-1.5">
+              <span className="text-[11px] font-tech uppercase text-slate-600 font-bold flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-sky-600" />
                 <span>Instant Demo Access</span>
               </span>
-              <span className="text-[10px] font-tech text-sky-600 font-semibold">No typing required</span>
+              <span className="text-[10px] font-tech text-sky-700 font-semibold bg-sky-100 px-2 py-0.5 rounded">One-Click Preview</span>
             </div>
             
             {activeRole === 'client' ? (
               <button
                 type="button"
                 onClick={() => handleInstantDemo('client')}
-                className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 text-white font-tech font-bold text-xs hover:shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full py-2.5 px-4 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-tech font-bold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-sm"
               >
-                <Zap className="w-3.5 h-3.5" />
-                <span>Launch Client Demo (Hyperion FinTech)</span>
+                <span>Launch Demo Client Workspace</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </button>
             ) : (
               <button
                 type="button"
                 onClick={() => handleInstantDemo('admin')}
-                className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-tech font-bold text-xs hover:shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full py-2.5 px-4 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-tech font-bold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-sm"
               >
-                <ShieldCheck className="w-3.5 h-3.5" />
-                <span>Launch Admin Demo (Evo Hawks Lead)</span>
+                <span>Launch Demo Agency Control Center</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </button>
             )}
           </div>
 
           <div className="relative flex py-2 items-center mb-6">
-            <div className="flex-grow border-t border-slate-200" />
-            <span className="flex-shrink mx-4 text-[11px] font-tech text-slate-400 uppercase">Or Enter Credentials</span>
-            <div className="flex-grow border-t border-slate-200" />
+            <div className="flex-grow border-t border-slate-200"></div>
+            <span className="flex-shrink mx-4 text-[11px] font-tech text-slate-400 uppercase font-semibold">Or Custom Session</span>
+            <div className="flex-grow border-t border-slate-200"></div>
           </div>
 
-          {/* Form */}
+          {/* Simulated Login Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
-            
-            {activeRole === 'client' && (
-              <div>
-                <label className="block text-xs font-tech text-slate-600 uppercase font-bold mb-1.5">
-                  Company / Organization Name
-                </label>
-                <div className="relative">
-                  <Building className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                  <input
-                    type="text"
-                    placeholder="e.g. Hyperion FinTech"
-                    value={company}
-                    onChange={(e) => setCompany(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-base sm:text-sm text-slate-900 focus:outline-none focus:border-sky-500 focus:bg-white transition-all shadow-2xs"
-                  />
-                </div>
-              </div>
-            )}
-
             <div>
-              <label className="block text-xs font-tech text-slate-600 uppercase font-bold mb-1.5">
-                {activeRole === 'client' ? 'Client Email' : 'Admin Staff Email'}
+              <label className="block text-xs font-tech text-slate-700 uppercase font-bold mb-1.5">
+                {activeRole === 'client' ? 'Client Email' : 'Admin Email'}
               </label>
               <div className="relative">
                 <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input
                   type="email"
-                  placeholder={activeRole === 'client' ? 'client@hyperion.com' : 'teamevohawks@gmail.com'}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-base sm:text-sm text-slate-900 focus:outline-none focus:border-sky-500 focus:bg-white transition-all shadow-2xs"
+                  placeholder={activeRole === 'client' ? 'demo-client@specimen.evohawks.tech' : 'teamevohawks@gmail.com'}
+                  className="w-full pl-10 pr-4 py-2.5 sm:py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:bg-white transition-all"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-tech text-slate-600 uppercase font-bold mb-1.5">
-                Security Password
+              <label className="block text-xs font-tech text-slate-700 uppercase font-bold mb-1.5">
+                Session Password
               </label>
               <div className="relative">
                 <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input
                   type={showPassword ? 'text' : 'password'}
-                  placeholder="••••••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-11 py-3 rounded-xl bg-slate-50 border border-slate-200 text-base sm:text-sm text-slate-900 focus:outline-none focus:border-sky-500 focus:bg-white transition-all shadow-2xs"
+                  placeholder="Demo mode: Any password accepted"
+                  className="w-full pl-10 pr-10 py-2.5 sm:py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:bg-white transition-all"
                 />
                 <button
                   type="button"
@@ -220,28 +212,40 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
+              <p className="text-[10px] font-tech text-slate-400 mt-1">
+                Notice: In this demo preview, sessions are simulated locally for interface testing.
+              </p>
             </div>
 
-            <div className="pt-3">
+            <div className="pt-2">
               <MagneticButton
                 type="submit"
                 disabled={isSubmitting}
-                className={`w-full py-3.5 rounded-xl font-bold text-sm text-white transition-all cursor-pointer flex items-center justify-center gap-2 shadow-md ${
-                  activeRole === 'client'
-                    ? 'bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:shadow-[0_6px_20px_rgba(2,132,199,0.35)]'
-                    : 'bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 hover:shadow-[0_6px_20px_rgba(124,58,237,0.35)]'
+                className={`w-full py-3.5 rounded-xl text-white font-tech font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer ${
+                  activeRole === 'client' 
+                    ? 'bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:shadow-sky-500/20' 
+                    : 'bg-gradient-to-r from-violet-600 via-indigo-600 to-purple-600 hover:shadow-violet-500/20'
                 }`}
               >
-                <span>{isSubmitting ? 'Authenticating...' : `Enter ${activeRole === 'client' ? 'Client Portal' : 'Admin Center'}`}</span>
+                <span>{activeRole === 'client' ? 'Enter Client Workspace' : 'Enter Agency Control Center'}</span>
                 <ArrowRight className="w-4 h-4" />
               </MagneticButton>
             </div>
           </form>
 
-          {/* Security Guarantee Bottom */}
-          <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-center gap-2 text-[11px] font-tech text-slate-400">
-            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-            <span>256-Bit Encrypted Secure Session • Evo Hawks Gateway</span>
+          {/* Technical Integration Notice */}
+          <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-[11px] font-tech text-slate-500">
+            <span className="flex items-center gap-1">
+              <Info className="w-3.5 h-3.5 text-sky-600" />
+              <span>Production Backend: Unconnected</span>
+            </span>
+            <button
+              type="button"
+              onClick={() => onNavigate('contact')}
+              className="text-sky-600 hover:text-sky-800 font-semibold cursor-pointer"
+            >
+              Contact Agency Lead &rarr;
+            </button>
           </div>
 
         </div>

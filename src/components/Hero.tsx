@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { AGENCY_CONFIG } from '../data/agencyData';
 import { motion, type Variants } from 'framer-motion';
 import { BorderBeam } from './ui/BorderBeam';
@@ -15,12 +15,12 @@ import {
   Search, 
   Layers, 
   Flame,
-  CheckCircle2,
-  Play,
-  Cpu,
-  Zap,
-  Shield,
-  Gauge
+  CheckCircle2, 
+  Play, 
+  Cpu, 
+  Zap, 
+  Shield, 
+  Compass
 } from 'lucide-react';
 
 interface HeroProps {
@@ -28,20 +28,6 @@ interface HeroProps {
 }
 
 export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
-  const [loadSpeed, setLoadSpeed] = useState('0.42s');
-  const [roasVal, setRoasVal] = useState('4.8x');
-
-  useEffect(() => {
-    // Dynamic simulated micro-metric live oscillation
-    const interval = setInterval(() => {
-      const speeds = ['0.38s', '0.41s', '0.36s', '0.44s'];
-      const roas = ['4.8x', '5.1x', '4.9x', '5.2x'];
-      setLoadSpeed(speeds[Math.floor(Math.random() * speeds.length)]);
-      setRoasVal(roas[Math.floor(Math.random() * roas.length)]);
-    }, 3200);
-    return () => clearInterval(interval);
-  }, []);
-
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
@@ -71,14 +57,13 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
 
   const marqueeBadges = [
     { label: 'Next.js & React 19', icon: Code2, color: '#0284C7' },
-    { label: 'Framer Motion 3D', icon: Sparkles, color: '#7C3AED' },
-    { label: '4K Cinematic Cuts', icon: Video, color: '#0EA5E9' },
-    { label: 'SEO #1 Rank Systems', icon: Search, color: '#059669' },
-    { label: 'High-ROAS Meta Ads', icon: TrendingUp, color: '#DB2777' },
-    { label: '0.4s Ultra-Fast Load', icon: Gauge, color: '#0284C7' },
-    { label: 'Clean Enterprise Code', icon: Cpu, color: '#8B5CF6' },
-    { label: '24/7 Rapid Execution', icon: Zap, color: '#D97706' },
-    { label: 'Transparent SOW', icon: Shield, color: '#2563EB' },
+    { label: 'Framer Motion Dynamics', icon: Sparkles, color: '#7C3AED' },
+    { label: 'Cinematic Vertical Video', icon: Video, color: '#0EA5E9' },
+    { label: 'Technical SEO Structure', icon: Search, color: '#059669' },
+    { label: 'Targeted Paid Ads Funnels', icon: TrendingUp, color: '#DB2777' },
+    { label: 'High-Performance Architecture', icon: Cpu, color: '#0284C7' },
+    { label: 'Agile Sprint Execution', icon: Zap, color: '#D97706' },
+    { label: 'Transparent Milestone SOW', icon: Shield, color: '#2563EB' },
   ];
 
   return (
@@ -117,7 +102,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center">
           
-          {/* Left Hero Column: Kinetic Staggered Headline & Messaging */}
+          {/* Left Hero Column: Value Proposition & Clear Messaging */}
           <motion.div 
             className="lg:col-span-7 flex flex-col items-start text-left z-10"
             variants={containerVariants}
@@ -125,7 +110,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
             animate="visible"
           >
             
-            {/* Small Agency Badge with Glowing Pulse */}
+            {/* Agency Badge */}
             <motion.div 
               variants={itemVariants}
               className="relative inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/90 border border-sky-300 text-xs font-semibold tracking-wider font-tech text-sky-700 shadow-[0_4px_15px_rgba(2,132,199,0.12)] mb-5 sm:mb-6 overflow-hidden group cursor-default"
@@ -135,7 +120,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
               <span>{AGENCY_CONFIG.badge}</span>
             </motion.div>
 
-            {/* Main Headline with Continuous Shimmering Typography */}
+            {/* Main Headline */}
             <motion.h1 
               variants={itemVariants}
               className="text-3.5xl sm:text-5xl md:text-6xl xl:text-7xl font-display font-black tracking-tight text-slate-900 leading-[1.08] mb-5 sm:mb-6 break-words"
@@ -153,16 +138,16 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
               {AGENCY_CONFIG.heroDescription}
             </motion.p>
 
-            {/* Slogan pill */}
+            {/* Slogan Pill */}
             <motion.div 
               variants={itemVariants}
               className="flex items-center gap-2 text-xs font-tech tracking-widest text-slate-500 uppercase mb-6 sm:mb-8"
             >
-              <span className="text-sky-600 font-bold animate-bounce">⚡</span>
+              <Compass className="w-4 h-4 text-sky-600" />
               <span>{AGENCY_CONFIG.slogan}</span>
             </motion.div>
 
-            {/* Action Buttons with 21st.dev Magnetic Attraction & Shimmer */}
+            {/* Action Buttons */}
             <motion.div 
               variants={itemVariants}
               className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 sm:gap-4 w-full sm:w-auto"
@@ -171,7 +156,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
                 onClick={onOpenProjectModal}
                 className="w-full sm:w-auto relative inline-flex items-center justify-center gap-2.5 px-7 sm:px-8 py-3.5 sm:py-4 rounded-full text-sm sm:text-base font-bold text-white bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:shadow-[0_10px_30px_rgba(2,132,199,0.4)] transition-all duration-300 cursor-pointer group animate-shimmer overflow-hidden shadow-md"
               >
-                <span>Start a Project</span>
+                <span>Discuss Your Project</span>
                 <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:translate-x-1.5" />
               </MagneticButton>
 
@@ -191,110 +176,93 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
             >
               <div className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-600 shrink-0" />
-                <span>End-to-End Execution</span>
+                <span>Single Creative Partner</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-600 shrink-0" />
-                <span>Modern High-Speed Code</span>
+                <span>Modern Clean Code</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-indigo-600 shrink-0" />
-                <span>Transparent Deliverables</span>
+                <span>100% Asset Handover</span>
               </div>
             </motion.div>
 
           </motion.div>
 
-          {/* Right Hero Column: Fully Responsive 3D Floating Ecosystem Visual */}
+          {/* Right Hero Column: Responsive Ecosystem Cards (Truthful Capabilities) */}
           <div className="lg:col-span-5 relative flex flex-col justify-center items-center mt-6 lg:mt-0 w-full">
             
-            {/* MOBILE & TABLET ECOSYSTEM VIEW (< lg): Clean, Non-Overlapping Grid */}
+            {/* MOBILE & TABLET ECOSYSTEM VIEW (< lg) */}
             <div className="block lg:hidden w-full max-w-md mx-auto space-y-3.5">
-              {/* Central Brand Badge for Mobile */}
               <div className="flex items-center justify-center">
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/95 border border-sky-300 shadow-[0_4px_18px_rgba(2,132,199,0.18)]">
                   <Sparkles className="w-4 h-4 text-sky-600 animate-spin-slow" />
-                  <span className="text-xs font-tech font-extrabold text-slate-900 tracking-wider">EVO HAWKS ECOSYSTEM</span>
-                  <span className="text-[9px] font-tech text-sky-600 font-bold bg-sky-50 px-2 py-0.5 rounded-md">LIVE</span>
+                  <span className="text-xs font-tech font-extrabold text-slate-900 tracking-wider">EVO HAWKS DISCIPLINES</span>
                 </div>
               </div>
 
-              {/* 2x2 Grid for Mobile (Cleanly stacks on narrow viewports) */}
+              {/* 2x2 Clean Grid for Mobile */}
               <div className="grid grid-cols-1 min-[420px]:grid-cols-2 gap-3 w-full">
                 {/* Mobile Card 1: Web Development */}
-                <div className="glass-panel p-3.5 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
+                <div className="glass-panel p-3.5 rounded-2xl border border-slate-200 shadow-xs relative overflow-hidden">
                   <BorderBeam size={80} duration={8} colorFrom="#0284C7" colorTo="#38BDF8" />
                   <div className="flex items-center justify-between pb-1.5 border-b border-slate-100 mb-2">
-                    <span className="text-[11px] font-display font-bold text-slate-900">Web Dev</span>
-                    <span className="text-[10px] font-tech text-sky-600 font-bold flex items-center gap-1">
-                      <Code2 className="w-3 h-3" /> {loadSpeed}
+                    <span className="text-[11px] font-display font-bold text-slate-900 flex items-center gap-1">
+                      <Code2 className="w-3.5 h-3.5 text-sky-600" /> Web Dev
                     </span>
+                    <span className="text-[9px] font-tech text-sky-700 font-bold bg-sky-50 px-1.5 py-0.5 rounded">REACT 19</span>
                   </div>
-                  <div className="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden mb-1.5">
-                    <div className="bg-gradient-to-r from-sky-500 to-blue-600 h-full w-[98%]" />
-                  </div>
-                  <div className="flex justify-between text-[10px] text-slate-500 font-tech">
-                    <span>Performance</span>
-                    <span className="text-emerald-600 font-bold">99/100</span>
-                  </div>
+                  <p className="text-[11px] text-slate-600 font-sans-clean leading-tight">
+                    Custom responsive websites built with clean, modern code.
+                  </p>
                 </div>
 
                 {/* Mobile Card 2: Video Editing */}
-                <div className="glass-panel p-3.5 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
+                <div className="glass-panel p-3.5 rounded-2xl border border-slate-200 shadow-xs relative overflow-hidden">
                   <BorderBeam size={80} duration={9} colorFrom="#7C3AED" colorTo="#0284C7" />
                   <div className="flex items-center justify-between pb-1.5 border-b border-slate-100 mb-2">
                     <span className="text-[11px] font-display font-bold text-slate-900 flex items-center gap-1">
-                      <Video className="w-3 h-3 text-violet-600" /> Video Cut
+                      <Video className="w-3.5 h-3.5 text-violet-600" /> Video &amp; Reels
                     </span>
-                    <div className="flex items-end gap-0.5 h-3">
-                      <span className="w-0.5 bg-violet-500 rounded-full animate-soundwave-1" />
-                      <span className="w-0.5 bg-sky-500 rounded-full animate-soundwave-2" />
-                      <span className="w-0.5 bg-blue-500 rounded-full animate-soundwave-3" />
-                    </div>
+                    <span className="text-[9px] font-tech text-violet-700 font-bold bg-violet-50 px-1.5 py-0.5 rounded">9:16 CUTS</span>
                   </div>
-                  <div className="flex justify-between text-[10px] text-slate-500 font-tech">
-                    <span>Retention</span>
-                    <span className="text-violet-600 font-bold">84% Viral</span>
-                  </div>
+                  <p className="text-[11px] text-slate-600 font-sans-clean leading-tight">
+                    Dynamic pacing, motion graphics, and audio sync for socials.
+                  </p>
                 </div>
 
-                {/* Mobile Card 3: SEO Dominance */}
-                <div className="glass-panel p-3.5 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
+                {/* Mobile Card 3: SEO Architecture */}
+                <div className="glass-panel p-3.5 rounded-2xl border border-slate-200 shadow-xs relative overflow-hidden">
                   <BorderBeam size={80} duration={10} colorFrom="#059669" colorTo="#0284C7" />
                   <div className="flex items-center justify-between pb-1.5 border-b border-slate-100 mb-2">
                     <span className="text-[11px] font-display font-bold text-slate-900 flex items-center gap-1">
-                      <Search className="w-3 h-3 text-sky-600" /> SEO Rank
+                      <Search className="w-3.5 h-3.5 text-emerald-600" /> Search &amp; SEO
                     </span>
-                    <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-600 font-tech font-bold">
-                      #1 RANK
-                    </span>
+                    <span className="text-[9px] font-tech text-emerald-700 font-bold bg-emerald-50 px-1.5 py-0.5 rounded">ORGANIC</span>
                   </div>
-                  <div className="flex justify-between text-[10px] text-slate-500 font-tech">
-                    <span>Organic Traffic</span>
-                    <span className="text-emerald-600 font-bold">+318%</span>
-                  </div>
+                  <p className="text-[11px] text-slate-600 font-sans-clean leading-tight">
+                    Keyword intent, semantic markup, and Core Web Vitals structure.
+                  </p>
                 </div>
 
-                {/* Mobile Card 4: Paid Ads / ROAS */}
-                <div className="glass-panel p-3.5 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
+                {/* Mobile Card 4: Paid Marketing */}
+                <div className="glass-panel p-3.5 rounded-2xl border border-slate-200 shadow-xs relative overflow-hidden">
                   <BorderBeam size={80} duration={11} colorFrom="#0EA5E9" colorTo="#DB2777" />
                   <div className="flex items-center justify-between pb-1.5 border-b border-slate-100 mb-2">
                     <span className="text-[11px] font-display font-bold text-slate-900 flex items-center gap-1">
-                      <TrendingUp className="w-3 h-3 text-sky-600" /> Ads Funnel
+                      <TrendingUp className="w-3.5 h-3.5 text-pink-600" /> Paid Ads
                     </span>
-                    <span className="text-[9px] px-1.5 py-0.5 rounded bg-sky-50 text-sky-600 font-tech font-bold">
-                      ROAS {roasVal}
-                    </span>
+                    <span className="text-[9px] font-tech text-pink-700 font-bold bg-pink-50 px-1.5 py-0.5 rounded">FUNNELS</span>
                   </div>
-                  <div className="flex justify-between text-[10px] text-slate-500 font-tech">
-                    <span>Acquisition</span>
-                    <span className="text-emerald-600 font-bold">-34% CPA</span>
-                  </div>
+                  <p className="text-[11px] text-slate-600 font-sans-clean leading-tight">
+                    Meta &amp; Google ad creatives paired with conversion landing pages.
+                  </p>
                 </div>
               </div>
             </div>
 
-            {/* DESKTOP VIEW (lg:flex): Full 3D Gyro Orbit with Tilt */}
+            {/* DESKTOP VIEW (lg:flex): 3D Orbit with Honest Capability Displays */}
             <div className="hidden lg:flex relative w-full max-w-lg aspect-[4/4] items-center justify-center">
               
               {/* Central Motion Graphic Gyro Rings */}
@@ -311,43 +279,40 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
                   <span className="text-[10px] font-tech text-slate-900 font-bold mt-1 tracking-widest uppercase">
                     EVO HAWKS
                   </span>
-                  <span className="text-[8px] font-tech text-sky-600 font-bold uppercase">ECOSYSTEM</span>
+                  <span className="text-[8px] font-tech text-sky-600 font-bold uppercase">CAPABILITIES</span>
                 </div>
               </div>
 
-              {/* Floating 3D Tilt Widget 1: Web Design & Code (Top Left) */}
-              <div 
-                className="absolute top-0 -left-4 z-30 animate-float-gentle will-change-transform"
-              >
+              {/* Floating 3D Tilt Widget 1: Web Development (Top Left) */}
+              <div className="absolute top-0 -left-4 z-30 animate-float-gentle will-change-transform">
                 <TiltCard tiltDegree={12} glareColor="#0284C7">
                   <div className="glass-panel p-4 rounded-2xl border border-slate-200 shadow-[0_15px_35px_rgba(15,23,42,0.08)] w-60 hover:border-sky-400 transition-all cursor-default group relative overflow-hidden">
                     <BorderBeam size={100} duration={10} colorFrom="#0284C7" colorTo="#38BDF8" />
-                    <div className="flex items-center justify-between pb-2 border-b border-slate-100 mb-2.5">
+                    <div className="flex items-center justify-between pb-2 border-b border-slate-100 mb-2">
                       <div className="flex items-center gap-1.5">
-                        <span className="w-2.5 h-2.5 rounded-full bg-red-400 animate-pulse" />
-                        <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
-                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+                        <span className="w-2.5 h-2.5 rounded-full bg-sky-500" />
+                        <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
+                        <span className="w-2.5 h-2.5 rounded-full bg-indigo-500" />
                       </div>
-                      <span className="text-[10px] font-tech text-sky-600 font-bold flex items-center gap-1">
-                        <Code2 className="w-3.5 h-3.5" /> {loadSpeed}
+                      <span className="text-[10px] font-tech text-sky-700 font-bold flex items-center gap-1">
+                        <Code2 className="w-3.5 h-3.5" /> React 19
                       </span>
                     </div>
-                    <div className="text-xs font-display font-bold text-slate-900 mb-1.5 flex items-center justify-between">
-                      <span>Web Development</span>
-                      <span className="text-[9px] font-tech text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded font-bold">FAST</span>
+                    <div className="text-xs font-display font-bold text-slate-900 mb-1">
+                      Web Development
                     </div>
-                    <div className="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
-                      <div className="bg-gradient-to-r from-sky-500 to-blue-600 h-full w-[98%] animate-pulse" />
-                    </div>
-                    <div className="flex justify-between text-[10px] text-slate-500 font-tech mt-2">
-                      <span>Performance Score</span>
-                      <span className="text-sky-600 font-bold">99/100</span>
+                    <p className="text-[11px] text-slate-600 font-sans-clean leading-snug">
+                      High-speed responsive sites, bespoke landing pages &amp; web apps.
+                    </p>
+                    <div className="flex items-center gap-1.5 text-[10px] font-tech text-sky-700 font-medium mt-2 pt-2 border-t border-slate-100">
+                      <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                      <span>Clean semantic code</span>
                     </div>
                   </div>
                 </TiltCard>
               </div>
 
-              {/* Floating 3D Tilt Widget 2: Video Editing Timeline (Top Right) */}
+              {/* Floating 3D Tilt Widget 2: Video Editing (Top Right) */}
               <div 
                 className="absolute top-4 -right-4 z-30 animate-float-gentle will-change-transform"
                 style={{ animationDelay: '-2.5s' }}
@@ -355,21 +320,17 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
                 <TiltCard tiltDegree={12} glareColor="#7C3AED">
                   <div className="glass-panel p-4 rounded-2xl border border-slate-200 shadow-[0_15px_35px_rgba(15,23,42,0.08)] w-64 hover:border-violet-400 transition-all cursor-default relative overflow-hidden">
                     <BorderBeam size={100} duration={12} colorFrom="#7C3AED" colorTo="#0284C7" />
-                    <div className="flex items-center justify-between mb-2.5">
+                    <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
                         <Video className="w-4 h-4 text-violet-600" />
-                        <span>Video &amp; Reels Cut</span>
+                        <span>Video &amp; Reels</span>
                       </div>
-                      <div className="flex items-end gap-1 h-3.5">
-                        <span className="w-1 bg-violet-500 rounded-full animate-soundwave-1" />
-                        <span className="w-1 bg-sky-500 rounded-full animate-soundwave-2" />
-                        <span className="w-1 bg-blue-500 rounded-full animate-soundwave-3" />
-                        <span className="w-1 bg-indigo-500 rounded-full animate-soundwave-4" />
-                      </div>
+                      <span className="text-[9px] font-tech text-violet-700 bg-violet-50 px-2 py-0.5 rounded font-bold">
+                        9:16 &amp; 16:9
+                      </span>
                     </div>
                     
                     <div className="relative bg-slate-50 p-1.5 rounded-lg border border-slate-200 flex items-center gap-1 overflow-hidden h-7">
-                      <div className="absolute top-0 bottom-0 w-0.5 bg-sky-500 shadow-[0_0_8px_#0ea5e9] z-10 animate-playhead" />
                       <div className="w-6 h-5 rounded bg-violet-100 flex items-center justify-center text-[8px] font-bold text-violet-600">
                         <Play className="w-2.5 h-2.5 fill-current" />
                       </div>
@@ -379,64 +340,65 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
                         <div className="h-full w-1/4 bg-blue-200/70 rounded-xs flex items-center justify-center text-[8px] text-blue-900 font-tech">CTA</div>
                       </div>
                     </div>
-                    <div className="text-[10px] text-slate-500 mt-2 font-tech flex justify-between">
-                      <span>Viral Audio Master</span>
-                      <span className="text-violet-600 font-bold">Retention 84%</span>
+                    <div className="text-[10px] text-slate-600 mt-2 font-tech flex justify-between">
+                      <span>Sound Design</span>
+                      <span className="text-violet-700 font-medium">Motion Overlays</span>
                     </div>
                   </div>
                 </TiltCard>
               </div>
 
-              {/* Floating 3D Tilt Widget 3: SEO Ranker (Bottom Left) */}
+              {/* Floating 3D Tilt Widget 3: SEO Architecture (Bottom Left) */}
               <div 
                 className="absolute bottom-6 -left-3 z-30 animate-float-gentle will-change-transform"
                 style={{ animationDelay: '-1.5s' }}
               >
-                <TiltCard tiltDegree={12} glareColor="#0284C7">
-                  <div className="glass-panel p-4 rounded-2xl border border-slate-200 shadow-[0_15px_35px_rgba(15,23,42,0.08)] w-60 hover:border-sky-400 transition-all cursor-default relative overflow-hidden">
+                <TiltCard tiltDegree={12} glareColor="#059669">
+                  <div className="glass-panel p-4 rounded-2xl border border-slate-200 shadow-[0_15px_35px_rgba(15,23,42,0.08)] w-60 hover:border-emerald-400 transition-all cursor-default relative overflow-hidden">
                     <BorderBeam size={90} duration={11} colorFrom="#059669" colorTo="#0284C7" />
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
-                        <Search className="w-4 h-4 text-sky-600" />
-                        <span>SEO Dominance</span>
+                        <Search className="w-4 h-4 text-emerald-600" />
+                        <span>Search &amp; SEO</span>
                       </div>
-                      <span className="text-[9px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 font-tech font-bold animate-pulse border border-emerald-200">
-                        #1 RANK
+                      <span className="text-[9px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-tech font-bold border border-emerald-200">
+                        ORGANIC
                       </span>
                     </div>
-                    <svg viewBox="0 0 100 24" className="w-full h-6 my-1">
-                      <path d="M0,20 Q25,18 45,10 T90,2 L100,2" fill="none" stroke="#0284C7" strokeWidth="2" />
-                      <path d="M0,20 Q25,18 45,10 T90,2 L100,2 L100,24 L0,24 Z" fill="rgba(2,132,199,0.15)" />
-                    </svg>
-                    <div className="flex items-center justify-between text-[10px] font-tech text-slate-600">
-                      <span className="text-slate-900 font-bold text-xs">+318%</span>
-                      <span className="text-emerald-600 font-bold">▲ Organic Growth</span>
+                    <p className="text-[11px] text-slate-600 font-sans-clean leading-snug">
+                      Keyword intent mapping, schema metadata, and technical site structure.
+                    </p>
+                    <div className="flex items-center gap-1.5 text-[10px] font-tech text-emerald-700 font-medium mt-2 pt-2 border-t border-slate-100">
+                      <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                      <span>Sustainable discoverability</span>
                     </div>
                   </div>
                 </TiltCard>
               </div>
 
-              {/* Floating 3D Tilt Widget 4: Paid Marketing / ROAS Dashboard (Bottom Right) */}
+              {/* Floating 3D Tilt Widget 4: Paid Marketing (Bottom Right) */}
               <div 
                 className="absolute bottom-2 -right-3 z-30 animate-float-gentle will-change-transform"
                 style={{ animationDelay: '-3.8s' }}
               >
-                <TiltCard tiltDegree={12} glareColor="#0EA5E9">
-                  <div className="glass-panel p-4 rounded-2xl border border-slate-200 shadow-[0_15px_35px_rgba(15,23,42,0.08)] w-62 hover:border-sky-400 transition-all cursor-default relative overflow-hidden">
+                <TiltCard tiltDegree={12} glareColor="#DB2777">
+                  <div className="glass-panel p-4 rounded-2xl border border-slate-200 shadow-[0_15px_35px_rgba(15,23,42,0.08)] w-62 hover:border-pink-400 transition-all cursor-default relative overflow-hidden">
                     <BorderBeam size={100} duration={13} colorFrom="#0EA5E9" colorTo="#DB2777" />
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
-                        <TrendingUp className="w-4 h-4 text-sky-600" />
-                        <span>Meta &amp; Google Ads</span>
+                        <TrendingUp className="w-4 h-4 text-pink-600" />
+                        <span>Paid Advertising</span>
                       </div>
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-sky-50 text-sky-600 border border-sky-200 font-tech font-extrabold">
-                        ROAS {roasVal}
+                      <span className="text-[9px] px-2 py-0.5 rounded-full bg-pink-50 text-pink-700 border border-pink-200 font-tech font-bold">
+                        META &amp; GOOGLE
                       </span>
                     </div>
-                    <div className="text-[10px] text-slate-500 font-tech">High-Converting Lead Funnel</div>
-                    <div className="flex items-center justify-between mt-2 text-[10px] font-tech text-slate-600 border-t border-slate-100 pt-1.5">
-                      <span>Target Acquisition</span>
-                      <span className="text-emerald-600 font-bold">-34% CPA</span>
+                    <p className="text-[11px] text-slate-600 font-sans-clean leading-snug">
+                      Targeted ad creative production paired with conversion landing pages.
+                    </p>
+                    <div className="flex items-center gap-1.5 text-[10px] font-tech text-pink-700 font-medium mt-2 pt-2 border-t border-slate-100">
+                      <CheckCircle2 className="w-3 h-3 text-pink-600" />
+                      <span>Transparent fee separation</span>
                     </div>
                   </div>
                 </TiltCard>
@@ -448,11 +410,11 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
 
         </div>
 
-        {/* 21st.dev Infinite Marquee Bar for Capabilities & Superpowers */}
+        {/* Marquee Bar for Capabilities */}
         <div className="mt-16 sm:mt-20 pt-8 border-t border-slate-200/80 relative">
           <div className="mb-4 text-xs uppercase font-tech tracking-widest text-slate-500 flex items-center justify-center gap-2">
-            <Flame className="w-4 h-4 text-sky-600 animate-pulse" />
-            <span>Full-Stack Agency Superpowers &amp; Technology Stack</span>
+            <Flame className="w-4 h-4 text-sky-600" />
+            <span>Core Digital Disciplines &amp; Technology Stack</span>
           </div>
 
           <div className="relative mask-marquee-h overflow-hidden py-2">
@@ -464,7 +426,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
                     key={idx}
                     className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 hover:bg-white border border-slate-200/90 hover:border-sky-400 shadow-xs hover:shadow-md transition-all cursor-default group"
                   >
-                    <Icon className="w-3.5 h-3.5 text-sky-600 group-hover:scale-120 transition-transform" />
+                    <Icon className="w-3.5 h-3.5 text-sky-600 group-hover:scale-110 transition-transform" />
                     <span className="text-xs font-tech font-semibold text-slate-700 group-hover:text-slate-900 whitespace-nowrap">
                       {badge.label}
                     </span>

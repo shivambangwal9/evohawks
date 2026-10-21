@@ -16,23 +16,23 @@ import {
   MessageSquare 
 } from 'lucide-react';
 
+const ProcessStepIcon: React.FC<{ iconName: string; className?: string }> = ({ iconName, className }) => {
+  switch (iconName) {
+    case 'Compass': return <Compass className={className} />;
+    case 'Target': return <Target className={className} />;
+    case 'Sparkles': return <Sparkles className={className} />;
+    case 'Rocket': return <Rocket className={className} />;
+    case 'Activity': return <Activity className={className} />;
+    default: return <GitCommit className={className} />;
+  }
+};
+
 interface ProcessPageProps {
   onOpenProjectModal: (service?: string) => void;
 }
 
 export const ProcessPage: React.FC<ProcessPageProps> = ({ onOpenProjectModal }) => {
   const [activeStep, setActiveStep] = useState<number>(0);
-
-  const getStepIcon = (iconName: string) => {
-    switch (iconName) {
-      case 'Compass': return Compass;
-      case 'Target': return Target;
-      case 'Sparkles': return Sparkles;
-      case 'Rocket': return Rocket;
-      case 'Activity': return Activity;
-      default: return GitCommit;
-    }
-  };
 
   const weeklyCadence = [
     {
@@ -111,7 +111,6 @@ export const ProcessPage: React.FC<ProcessPageProps> = ({ onOpenProjectModal }) 
           {/* Tab Selector - Swipeable on mobile, grid on sm+ */}
           <div className="flex sm:grid sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3 mb-8 sm:mb-12 overflow-x-auto pb-2 sm:pb-0 scrollbar-none touch-pan-x -mx-4 px-4 sm:mx-0 sm:px-0">
             {PROCESS_DATA.map((stepItem, index) => {
-              const Icon = getStepIcon(stepItem.icon);
               const isActive = activeStep === index;
               return (
                 <button
@@ -134,7 +133,7 @@ export const ProcessPage: React.FC<ProcessPageProps> = ({ onOpenProjectModal }) 
                     <span className={`text-[11px] sm:text-xs font-tech font-extrabold ${isActive ? 'text-sky-600' : 'text-slate-400'}`}>
                       STAGE 0{stepItem.step}
                     </span>
-                    <Icon className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isActive ? 'text-sky-600' : 'text-slate-400'}`} />
+                    <ProcessStepIcon iconName={stepItem.icon} className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isActive ? 'text-sky-600' : 'text-slate-400'}`} />
                   </div>
                   <div className="text-xs sm:text-sm font-display font-bold text-slate-900 leading-tight">
                     {stepItem.title}
@@ -147,7 +146,6 @@ export const ProcessPage: React.FC<ProcessPageProps> = ({ onOpenProjectModal }) 
           {/* Active Stage Card */}
           {(() => {
             const current = PROCESS_DATA[activeStep];
-            const CurrentIcon = getStepIcon(current.icon);
             return (
               <div className="relative rounded-2xl sm:rounded-3xl bg-white/95 border border-slate-200 p-5 sm:p-8 md:p-12 backdrop-blur-xl shadow-lg overflow-hidden">
                 <BorderBeam size={160} duration={12} colorFrom="#0284C7" colorTo="#7C3AED" />
@@ -164,7 +162,7 @@ export const ProcessPage: React.FC<ProcessPageProps> = ({ onOpenProjectModal }) 
                     <div className="lg:col-span-7 flex flex-col items-start">
                       <div className="flex items-center gap-3 mb-4">
                         <div className="w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600 shadow-xs flex-shrink-0">
-                          <CurrentIcon className="w-5 h-5 sm:w-7 sm:h-7" />
+                          <ProcessStepIcon iconName={current.icon} className="w-5 h-5 sm:w-7 sm:h-7" />
                         </div>
                         <div>
                           <span className="text-[11px] sm:text-xs font-tech text-sky-600 font-bold tracking-widest uppercase">

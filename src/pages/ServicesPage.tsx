@@ -20,6 +20,18 @@ import {
   ShieldCheck 
 } from 'lucide-react';
 
+const ServiceIcon: React.FC<{ iconName: string; className?: string }> = ({ iconName, className }) => {
+  switch (iconName) {
+    case 'Globe': return <Globe className={className} />;
+    case 'Palette': return <Palette className={className} />;
+    case 'Video': return <Video className={className} />;
+    case 'Share2': return <Share2 className={className} />;
+    case 'Search': return <Search className={className} />;
+    case 'TrendingUp': return <TrendingUp className={className} />;
+    default: return <Sparkles className={className} />;
+  }
+};
+
 interface ServicesPageProps {
   onOpenProjectModal: (service?: string) => void;
 }
@@ -32,18 +44,6 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenProjectModal }
   const [selectedVideo, setSelectedVideo] = useState<'none' | 'starter' | 'pro' | 'viral'>('pro');
   const [selectedMarketing, setSelectedMarketing] = useState<'none' | 'seo' | 'ads' | 'full'>('full');
   const [rushDelivery, setRushDelivery] = useState<boolean>(false);
-
-  const getIcon = (iconName: string) => {
-    switch (iconName) {
-      case 'Globe': return Globe;
-      case 'Palette': return Palette;
-      case 'Video': return Video;
-      case 'Share2': return Share2;
-      case 'Search': return Search;
-      case 'TrendingUp': return TrendingUp;
-      default: return Sparkles;
-    }
-  };
 
   // Cost calculation helper
   const calculateEstimate = () => {
@@ -77,7 +77,6 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenProjectModal }
 
   const estimate = calculateEstimate();
   const activeService = SERVICES_DATA.find(s => s.id === activeTab) || SERVICES_DATA[0];
-  const ActiveIcon = getIcon(activeService.icon);
 
   return (
     <motion.div
@@ -137,7 +136,6 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenProjectModal }
           {/* Service Selector Tabs with layoutId - Swipeable on mobile, grid on sm+ */}
           <div className="flex sm:grid sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3 mb-8 sm:mb-12 overflow-x-auto pb-2 sm:pb-0 scrollbar-none touch-pan-x -mx-4 px-4 sm:mx-0 sm:px-0">
             {SERVICES_DATA.map((srv) => {
-              const Icon = getIcon(srv.icon);
               const isActive = activeTab === srv.id;
               return (
                 <button
@@ -160,7 +158,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenProjectModal }
                     <span className={`text-[10px] font-tech font-bold ${isActive ? 'text-sky-600' : 'text-slate-400'}`}>
                       0{srv.number}
                     </span>
-                    <Icon className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isActive ? 'text-sky-600' : 'text-slate-400'}`} />
+                    <ServiceIcon iconName={srv.icon} className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isActive ? 'text-sky-600' : 'text-slate-400'}`} />
                   </div>
                   <div className="text-xs sm:text-sm font-display font-bold text-slate-900 leading-tight">
                     {srv.title}
@@ -187,7 +185,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenProjectModal }
                 <div className="lg:col-span-7 flex flex-col items-start">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600 shadow-xs flex-shrink-0">
-                      <ActiveIcon className="w-6 h-6 sm:w-7 sm:h-7" />
+                      <ServiceIcon iconName={activeService.icon} className="w-6 h-6 sm:w-7 sm:h-7" />
                     </div>
                     <div>
                       <span className="text-[11px] sm:text-xs font-tech text-sky-600 font-bold tracking-widest uppercase">
@@ -410,16 +408,16 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenProjectModal }
 
                   <div className="text-[11px] text-slate-600 space-y-2 text-left border-t border-sky-100 pt-4 mb-6">
                     <div className="flex items-center gap-2">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                      <span>Dedicated Senior Lead</span>
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
+                      <span>Dedicated Senior Project Lead</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                      <span>Source Code &amp; Assets Included</span>
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
+                      <span>100% Client Ownership of Code &amp; Assets</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                      <span>Fixed Price Guarantee</span>
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
+                      <span>Milestone-Based Fixed Quote</span>
                     </div>
                   </div>
                 </div>
@@ -428,10 +426,38 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenProjectModal }
                   onClick={() => onOpenProjectModal(`Custom Estimate (${estimate.priceStr})`)}
                   className="w-full py-3.5 rounded-xl bg-gradient-to-r from-sky-500 to-indigo-600 text-white font-bold text-xs sm:text-sm hover:shadow-[0_6px_20px_rgba(2,132,199,0.35)] transition-all cursor-pointer"
                 >
-                  Lock In This Scope &rarr;
+                  Request Official Scope Lock &rarr;
                 </MagneticButton>
               </div>
 
+            </div>
+
+            {/* Scope & Cost Transparency Notice (Phase 8) */}
+            <div className="mt-8 pt-6 border-t border-slate-200/80 grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
+              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/70 text-xs">
+                <div className="font-tech font-bold text-slate-800 uppercase tracking-wider mb-1">
+                  1. Creative &amp; Engineering Scope
+                </div>
+                <p className="text-slate-600 text-[11px] leading-relaxed">
+                  Estimator reflects Evo Hawks creative, technical design, production, and implementation service fees.
+                </p>
+              </div>
+              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/70 text-xs">
+                <div className="font-tech font-bold text-slate-800 uppercase tracking-wider mb-1">
+                  2. Direct Ad Spend &amp; Media Fees
+                </div>
+                <p className="text-slate-600 text-[11px] leading-relaxed">
+                  Paid advertising budgets (Meta, Google) and influencer payouts are paid directly by client to platforms. No hidden markup.
+                </p>
+              </div>
+              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/70 text-xs">
+                <div className="font-tech font-bold text-slate-800 uppercase tracking-wider mb-1">
+                  3. Infrastructure &amp; Licensing
+                </div>
+                <p className="text-slate-600 text-[11px] leading-relaxed">
+                  Domain registrations, server hosting fees, and third-party SaaS/API licenses remain registered under client ownership.
+                </p>
+              </div>
             </div>
 
           </div>

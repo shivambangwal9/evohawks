@@ -1,183 +1,168 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import type { 
+  UserRole, 
+  User, 
+  ManagedProject 
+} from './authTypes';
+import { AuthContext } from './authContextInstance';
 
-export type UserRole = 'admin' | 'client';
+/**
+ * ARCHITECTURAL NOTICE — PROTOTYPE PORTAL CONTEXT
+ * 
+ * This authentication context provides an interactive demo simulation of Evo Hawks'
+ * client and agency dashboard.
+ * 
+ * PRODUCTION REQUIREMENTS:
+ * To deploy real authentication and client access control:
+ * 1. Connect a managed authentication service (e.g., Supabase Auth, Firebase Auth, Clerk, or AWS Cognito).
+ * 2. Implement Row-Level Security (RLS) on PostgreSQL so client accounts can strictly view their own project records.
+ * 3. Never store admin secrets, service roles, or unencrypted passwords in the browser.
+ * 4. Use HttpOnly cookies or secure token rotation for session management.
+ */
 
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: UserRole;
-  company?: string;
-  avatar?: string;
-}
-
-export interface ProjectDeliverable {
-  id: string;
-  title: string;
-  completed: boolean;
-  link?: string;
-}
-
-export interface ProjectMilestone {
-  step: string;
-  title: string;
-  date: string;
-  status: 'completed' | 'current' | 'upcoming';
-}
-
-export interface ManagedProject {
-  id: string;
-  title: string;
-  clientName: string;
-  clientEmail: string;
-  category: 'Websites' | 'Design' | 'Video' | 'Social' | 'Marketing';
-  status: 'Planning' | 'In Progress' | 'Review' | 'Completed';
-  progress: number; // 0 - 100
-  budget: string;
-  startDate: string;
-  deadline: string;
-  leadStrategist: string;
-  deliverables: ProjectDeliverable[];
-  milestones: ProjectMilestone[];
-  notes?: string;
-}
-
-interface AuthContextType {
-  user: User | null;
-  projects: ManagedProject[];
-  login: (email: string, password: string, role: UserRole) => boolean;
-  demoLogin: (role: UserRole) => void;
-  logout: () => void;
-  createProject: (project: Omit<ManagedProject, 'id'>) => void;
-  updateProject: (id: string, updates: Partial<ManagedProject>) => void;
-  deleteProject: (id: string) => void;
-  updateProjectStatus: (id: string, status: ManagedProject['status']) => void;
-  toggleDeliverable: (projectId: string, deliverableId: string) => void;
-}
-
-const INITIAL_PROJECTS: ManagedProject[] = [
+const DEMO_PROJECTS: ManagedProject[] = [
   {
-    id: 'proj-1',
-    title: 'Hyperion FinTech Next.js 15 Platform',
-    clientName: 'Rahul Verma',
-    clientEmail: 'client@hyperion.com',
+    id: 'demo-proj-1',
+    title: '[DEMO SPECIMEN] Hyperion FinTech Platform Architecture',
+    clientName: 'Demo Client Partner',
+    clientEmail: 'demo-client@specimen.evohawks.tech',
     category: 'Websites',
     status: 'In Progress',
     progress: 75,
-    budget: '₹85,000',
+    budget: '₹85,000 (Sample Scope)',
     startDate: '2026-08-15',
     deadline: '2026-09-15',
-    leadStrategist: 'Aryan (Head of Tech)',
+    leadStrategist: 'Engineering Lead (Evo Hawks)',
     deliverables: [
-      { id: 'd-1', title: 'Interactive Tailwind 4 & Framer Motion UI Kit', completed: true, link: 'https://github.com/evohawks/hyperion-ui' },
-      { id: 'd-2', title: 'Biometric Web Auth & Security Guardrails', completed: true, link: 'https://staging.hyperion.evohawks.tech/auth' },
-      { id: 'd-3', title: 'Live Interactive Portfolio Chart System', completed: true, link: 'https://staging.hyperion.evohawks.tech/analytics' },
-      { id: 'd-4', title: 'Production Docker Container & Edge CDN Setup', completed: false }
+      { id: 'd-1', title: 'Interactive Tailwind 4 & Framer Motion UI Kit', completed: true },
+      { id: 'd-2', title: 'Biometric Web Auth & Security Guardrails Prototype', completed: true },
+      { id: 'd-3', title: 'Live Interactive Portfolio Chart Component', completed: true },
+      { id: 'd-4', title: 'Production Edge CDN & Cache Deployment', completed: false }
     ],
     milestones: [
       { step: '01', title: 'Discovery & Financial Compliance Blueprint', date: 'Aug 18', status: 'completed' },
       { step: '02', title: 'High-Speed Component Architecture', date: 'Aug 26', status: 'completed' },
-      { step: '03', title: 'API Integration & Real-time WebSockets', date: 'Sep 05', status: 'current' },
-      { step: '04', title: 'QA Penetration Testing & Global Launch', date: 'Sep 15', status: 'upcoming' }
+      { step: '03', title: 'API Integration & Dynamic Charts', date: 'Sep 05', status: 'current' },
+      { step: '04', title: 'Pre-Launch QA Audit & Deployment', date: 'Sep 15', status: 'upcoming' }
     ],
-    notes: 'Client requested rush delivery. Sub-second latency target on all neo-banking chart routes verified.'
+    notes: 'DEMO SPECIMEN DATA: This mock record demonstrates the sprint milestone tracker and deliverable sign-off UI.',
+    isDemoSpecimen: true
   },
   {
-    id: 'proj-2',
-    title: 'Verve Streetwear Viral Reels & Brand Drop',
-    clientName: 'Aanya Sen',
-    clientEmail: 'aanya@vervestudios.com',
+    id: 'demo-proj-2',
+    title: '[DEMO SPECIMEN] Verve Streetwear Vertical Video & Lookbook Sprint',
+    clientName: 'Demo Brand Lead',
+    clientEmail: 'demo-brand@specimen.evohawks.tech',
     category: 'Video',
     status: 'Review',
     progress: 90,
-    budget: '₹55,000',
+    budget: '₹55,000 (Sample Scope)',
     startDate: '2026-08-22',
     deadline: '2026-09-08',
-    leadStrategist: 'Kunal (Creative Director)',
+    leadStrategist: 'Creative Director (Evo Hawks)',
     deliverables: [
-      { id: 'd-5', title: '15 Viral 9:16 Vertical Cuts in 4K Cinema', completed: true, link: 'https://drive.google.com/verve-cuts' },
-      { id: 'd-6', title: 'Custom Sound Design & Trending Audio Sync', completed: true },
-      { id: 'd-7', title: 'Instagram Feed Aesthetics & Grid Layout Strategy', completed: true },
+      { id: 'd-5', title: '15 High-Tempo 9:16 Vertical Cuts in 4K', completed: true },
+      { id: 'd-6', title: 'Custom Sound Design & Audio Sync', completed: true },
+      { id: 'd-7', title: 'Social Feed Aesthetic & Grid Strategy', completed: true },
       { id: 'd-8', title: 'Final Client Sign-off on Drop Teasers', completed: false }
     ],
     milestones: [
       { step: '01', title: 'Moodboard & Visual Narrative Arc', date: 'Aug 24', status: 'completed' },
       { step: '02', title: 'Batch Filming & Audio Engineering', date: 'Aug 30', status: 'completed' },
-      { step: '03', title: 'Motion Graphics Color Grading', date: 'Sep 03', status: 'completed' },
-      { step: '04', title: 'Multi-Channel Campaign Ignition', date: 'Sep 08', status: 'current' }
+      { step: '03', title: 'Motion Graphics & Color Grading', date: 'Sep 03', status: 'completed' },
+      { step: '04', title: 'Campaign Deployment & Asset Handover', date: 'Sep 08', status: 'current' }
     ],
-    notes: 'Reels retention target set at 80%+. First batch preview received rave reviews from client marketing team.'
+    notes: 'DEMO SPECIMEN DATA: Demonstrates media production deliverable tracking and video review workflows.',
+    isDemoSpecimen: true
   },
   {
-    id: 'proj-3',
-    title: 'Lumina Skin Science Performance Marketing & SEO',
-    clientName: 'Vikram Mehta',
-    clientEmail: 'vikram@luminascience.com',
+    id: 'demo-proj-3',
+    title: '[DEMO SPECIMEN] Lumina Skin Science SEO & Search Architecture',
+    clientName: 'Demo Growth Partner',
+    clientEmail: 'demo-growth@specimen.evohawks.tech',
     category: 'Marketing',
     status: 'In Progress',
     progress: 60,
-    budget: '₹40,000',
+    budget: '₹40,000 (Sample Scope)',
     startDate: '2026-08-28',
     deadline: '2026-09-28',
-    leadStrategist: 'Neha (Lead Growth Strategist)',
+    leadStrategist: 'Growth Strategist (Evo Hawks)',
     deliverables: [
       { id: 'd-9', title: 'Comprehensive SEO Technical Audit & Core Web Vitals Fix', completed: true },
-      { id: 'd-10', title: 'High-Converting Meta Ads Creative Pack (20 variants)', completed: true, link: 'https://figma.com/lumina-ads' },
+      { id: 'd-10', title: 'Meta Ads Creative Asset Pack (20 variants)', completed: true },
       { id: 'd-11', title: 'Google Search High-Intent Retargeting Funnel', completed: false },
-      { id: 'd-12', title: 'Weekly ROAS & Conversion Performance Dashboard', completed: false }
+      { id: 'd-12', title: 'Conversion Tracking & Analytics Verification', completed: false }
     ],
     milestones: [
       { step: '01', title: 'Customer Persona & Competitor Funnel Audit', date: 'Sep 01', status: 'completed' },
       { step: '02', title: 'Keyword Mapping & Landing Page Optimization', date: 'Sep 10', status: 'current' },
-      { step: '03', title: 'Meta & Google A/B Test Launch', date: 'Sep 18', status: 'upcoming' },
-      { step: '04', title: 'Scale to 4.5x Target ROAS', date: 'Sep 28', status: 'upcoming' }
+      { step: '03', title: 'Ad Creative Deployment & Pixel Check', date: 'Sep 18', status: 'upcoming' },
+      { step: '04', title: 'Performance Review & Optimization', date: 'Sep 28', status: 'upcoming' }
     ],
-    notes: 'Initial test campaign showed 3.8x ROAS within first 72 hours of ad spend.'
+    notes: 'DEMO SPECIMEN DATA: Demonstrates multi-channel campaign deliverable tracking and keyword mapping milestones.',
+    isDemoSpecimen: true
   }
 ];
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(() => {
-    const saved = localStorage.getItem('evohawks_user');
-    return saved ? JSON.parse(saved) : null;
+    try {
+      const saved = localStorage.getItem('evohawks_demo_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
   });
 
   const [projects, setProjects] = useState<ManagedProject[]>(() => {
-    const saved = localStorage.getItem('evohawks_projects');
-    return saved ? JSON.parse(saved) : INITIAL_PROJECTS;
+    try {
+      const saved = localStorage.getItem('evohawks_demo_projects');
+      return saved ? JSON.parse(saved) : DEMO_PROJECTS;
+    } catch {
+      return DEMO_PROJECTS;
+    }
   });
 
   useEffect(() => {
-    if (user) {
-      localStorage.setItem('evohawks_user', JSON.stringify(user));
-    } else {
-      localStorage.removeItem('evohawks_user');
+    try {
+      if (user) {
+        localStorage.setItem('evohawks_demo_user', JSON.stringify(user));
+      } else {
+        localStorage.removeItem('evohawks_demo_user');
+      }
+    } catch {
+      // Storage unavailable
     }
   }, [user]);
 
   useEffect(() => {
-    localStorage.setItem('evohawks_projects', JSON.stringify(projects));
+    try {
+      localStorage.setItem('evohawks_demo_projects', JSON.stringify(projects));
+    } catch {
+      // Storage unavailable
+    }
   }, [projects]);
 
   const login = (email: string, _password: string, role: UserRole): boolean => {
+    // Note: Browser-only demo simulation. Clearly flagged as a demo session.
     if (role === 'admin') {
       setUser({
-        id: 'usr-admin-1',
-        name: 'Siddharth Nair',
+        id: 'demo-admin-1',
+        name: 'Agency Lead (Demo)',
         email: email || 'teamevohawks@gmail.com',
         role: 'admin',
-        company: 'Evo Hawks Executive'
+        company: 'Evo Hawks Agency (Demo)',
+        isDemoAccount: true
       });
       return true;
     } else {
       setUser({
-        id: 'usr-client-1',
-        name: 'Rahul Verma',
-        email: email || 'client@hyperion.com',
+        id: 'demo-client-1',
+        name: 'Client Partner (Demo)',
+        email: email || 'demo-client@specimen.evohawks.tech',
         role: 'client',
-        company: 'Hyperion FinTech'
+        company: 'Hyperion FinTech (Demo)',
+        isDemoAccount: true
       });
       return true;
     }
@@ -186,19 +171,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const demoLogin = (role: UserRole) => {
     if (role === 'admin') {
       setUser({
-        id: 'usr-admin-1',
-        name: 'Siddharth Nair',
+        id: 'demo-admin-1',
+        name: 'Agency Lead (Demo)',
         email: 'teamevohawks@gmail.com',
         role: 'admin',
-        company: 'Evo Hawks Executive'
+        company: 'Evo Hawks Agency (Demo)',
+        isDemoAccount: true
       });
     } else {
       setUser({
-        id: 'usr-client-1',
-        name: 'Rahul Verma',
-        email: 'client@hyperion.com',
+        id: 'demo-client-1',
+        name: 'Client Partner (Demo)',
+        email: 'demo-client@specimen.evohawks.tech',
         role: 'client',
-        company: 'Hyperion FinTech'
+        company: 'Hyperion FinTech (Demo)',
+        isDemoAccount: true
       });
     }
   };
@@ -210,7 +197,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const createProject = (projectData: Omit<ManagedProject, 'id'>) => {
     const newProject: ManagedProject = {
       ...projectData,
-      id: `proj-${Date.now()}`
+      id: `demo-proj-${Date.now()}`,
+      isDemoSpecimen: true
     };
     setProjects(prev => [newProject, ...prev]);
   };
@@ -260,6 +248,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       value={{
         user,
         projects,
+        isProductionBackendConnected: false,
         login,
         demoLogin,
         logout,
@@ -273,12 +262,4 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       {children}
     </AuthContext.Provider>
   );
-};
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
 };

@@ -62,6 +62,14 @@ export interface TestimonialItem {
   avatarText: string;
 }
 
+export interface QualityCommitment {
+  id: string;
+  title: string;
+  tagline: string;
+  description: string;
+  icon: string;
+}
+
 export const AGENCY_CONFIG = {
   name: "Evo Hawks",
   tagline: "We Build. We Create. We Grow.",
@@ -82,13 +90,14 @@ export const AGENCY_CONFIG = {
   // Centralized Contact & Socials (Change easily here)
   contact: {
     email: "teamevohawks@gmail.com",
-    phone: "+91 98765 43210",
+    phone: "+91 98765 43210", // Note: Pending verified business telephone line
     whatsapp: "+91 98765 43210",
     whatsappCleanNumber: "919876543210", // for direct WhatsApp API link
+    isPhoneConfigured: false, // Flag indicating phone number is placeholder
     location: "Mumbai & Bangalore, India",
-    globalReach: "Serving Businesses Globally (Remote & On-Site)",
+    globalReach: "Serving Businesses Globally (Remote-First Agency)",
     workingHours: "Mon – Sat: 9:30 AM – 7:30 PM IST",
-    responseTime: "Usually responds within 2 hours"
+    responseTime: "Usually responds within 24 business hours"
   },
 
   socials: {
@@ -97,6 +106,13 @@ export const AGENCY_CONFIG = {
     linkedin: "https://linkedin.com/company/evohawks",
     youtube: "https://youtube.com/@evohawks",
     twitter: "https://x.com/evohawks"
+  },
+
+  pricingTerms: {
+    revisions: "Standard packages include 2 structured revision rounds during review.",
+    adSpendNotice: "Paid advertising budgets (Meta Ads, Google Ads) are funded directly by the client to the advertising platforms and are strictly separated from creative agency service fees.",
+    infrastructureNotice: "Domain names, third-party subscriptions, and hosting expenses are client responsibilities.",
+    milestones: "Standard sprints operate on a 50% mobilization deposit / 50% final sign-off prior to asset handover."
   },
 
   budgetRanges: [
@@ -245,12 +261,12 @@ export const PORTFOLIO_DATA: PortfolioItem[] = [
     title: "Apex Architecture Studio",
     category: "Websites",
     isConcept: true,
-    badge: "CONCEPT PROJECT",
+    badge: "CONCEPT BENCHMARK",
     industry: "Luxury Architecture & Interiors",
     services: ["UI/UX Design", "Next.js Web Development", "Interactive 3D Walkthrough"],
     description: "A dark, editorial, ultra-fast website concept designed for an elite architectural studio featuring smooth scroll transitions and project galleries.",
-    deliverables: ["Responsive Web Platform", "Project Showcase System", "Fast Page Loads (<0.6s)", "Inquiry Lead Capture"],
-    metricsPreview: "Sub-second load times & 45% estimated inquiry lift",
+    deliverables: ["Responsive Web Platform", "Project Showcase System", "Fast Page Loading Architecture", "Inquiry Lead Capture"],
+    metricsPreview: "Editorial layout with responsive project showcase",
     image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
     accent: "#00F0FF"
   },
@@ -259,12 +275,12 @@ export const PORTFOLIO_DATA: PortfolioItem[] = [
     title: "Pulse Energy Beverage",
     category: "Design",
     isConcept: true,
-    badge: "CONCEPT PROJECT",
+    badge: "CONCEPT BENCHMARK",
     industry: "Consumer Goods & Fitness",
     services: ["Brand Visual Identity", "Product Packaging Concept", "Social Media Creatives"],
     description: "High-contrast visual design and dynamic social creatives developed for a clean-energy performance beverage targeted at high-output creators.",
     deliverables: ["3D Product Renders", "Instagram Post & Story Templates", "Launch Banner Graphics", "Ad Creative Suite"],
-    metricsPreview: "Cohesive visual identity across 20+ ad formats",
+    metricsPreview: "Cohesive visual identity across 20+ creative assets",
     image: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=1200&q=80",
     accent: "#8B5CF6"
   },
@@ -273,12 +289,12 @@ export const PORTFOLIO_DATA: PortfolioItem[] = [
     title: "Vortex SaaS - Product Launch",
     category: "Video",
     isConcept: true,
-    badge: "CONCEPT PROJECT",
+    badge: "CONCEPT BENCHMARK",
     industry: "B2B SaaS & Tech",
     services: ["Short-form Video Editing", "Motion Graphics", "Reels & Shorts Strategy"],
     description: "Fast-paced, kinetic product demo reels with custom sound design, highlight callouts, and punchy motion typography built for social virality.",
     deliverables: ["6x High-Retention Reels", "YouTube Shorts Series", "Audio Mastered Sound FX", "Animated UI Overlays"],
-    metricsPreview: "Designed for >80% 3-second hook retention",
+    metricsPreview: "Kinetic short-form reels with custom sound engineering",
     image: "https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&w=1200&q=80",
     accent: "#38BDF8"
   },
@@ -287,12 +303,12 @@ export const PORTFOLIO_DATA: PortfolioItem[] = [
     title: "Komorebi Artisan Café",
     category: "Social",
     isConcept: true,
-    badge: "CONCEPT PROJECT",
+    badge: "CONCEPT BENCHMARK",
     industry: "Hospitality & Specialty Coffee",
     services: ["Social Media Management", "Content Calendar", "Community Engagement"],
     description: "A 30-day comprehensive organic social blueprint that pairs aesthetic visual storytelling with local community growth strategies.",
     deliverables: ["30-Day Content Calendar", "Bio & Highlight Overhaul", "Grid Aesthetic Template", "Local Hashtag & Location Playbook"],
-    metricsPreview: "Multi-platform consistency & authentic engagement",
+    metricsPreview: "Multi-platform aesthetic consistency & content calendars",
     image: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1200&q=80",
     accent: "#A78BFA"
   },
@@ -301,12 +317,12 @@ export const PORTFOLIO_DATA: PortfolioItem[] = [
     title: "Solara Health Clinics",
     category: "Marketing",
     isConcept: true,
-    badge: "CONCEPT PROJECT",
+    badge: "CONCEPT BENCHMARK",
     industry: "Healthcare & Wellness",
     services: ["Meta Paid Ads", "Google Search Ads", "Conversion Landing Page"],
     description: "A multi-channel performance marketing funnel targeted at local health and wellness patient acquisition with strict cost-per-lead optimization.",
-    deliverables: ["Ad Copy Variants & Creative", "Retargeting Pixel Setup", "Appointment Booking Landing Page", "Weekly Performance Dashboard"],
-    metricsPreview: "Targeting high-intent consultation bookings",
+    deliverables: ["Ad Copy Variants & Creative", "Retargeting Pixel Setup", "Appointment Booking Landing Page", "Performance Tracking Setup"],
+    metricsPreview: "Targeted patient consultation booking architecture",
     image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80",
     accent: "#00F0FF"
   },
@@ -315,12 +331,12 @@ export const PORTFOLIO_DATA: PortfolioItem[] = [
     title: "Urban Aura Fashion",
     category: "Websites",
     isConcept: true,
-    badge: "CONCEPT PROJECT",
+    badge: "CONCEPT BENCHMARK",
     industry: "E-commerce & Streetwear",
     services: ["E-commerce Development", "Shopify Setup", "Speed Optimization"],
     description: "An ultra-minimalist, sleek e-commerce storefront tailored for streetwear drops with express checkout, size guides, and instant stock alerts.",
     deliverables: ["Custom E-commerce Store", "Mobile-First Cart Flow", "Inventory Management", "Integrated Analytics"],
-    metricsPreview: "Frictionless mobile checkout flow",
+    metricsPreview: "Frictionless mobile storefront & checkout UX",
     image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80",
     accent: "#60A5FA"
   }
@@ -455,38 +471,40 @@ export const SYSTEM_NODES = [
   }
 ];
 
-export const TESTIMONIALS_DATA: TestimonialItem[] = [
+export const QUALITY_STANDARDS: QualityCommitment[] = [
   {
-    id: "testimonial-1",
-    isPlaceholder: true,
-    clientName: "Client Review Pending",
-    role: "Founder / Marketing Director",
-    company: "Future Partner Brand",
-    quote: "Client testimonial will appear here. We prioritize authentic, verified reviews from businesses we partner with.",
-    serviceReceived: "Website Development & SEO",
-    avatarText: "EH"
+    id: "qs-1",
+    title: "Direct Strategic Lead",
+    tagline: "Senior partner collaboration",
+    description: "You work directly with dedicated design and technical leads throughout your sprint, ensuring rapid alignment and decisive execution.",
+    icon: "Users"
   },
   {
-    id: "testimonial-2",
-    isPlaceholder: true,
-    clientName: "Client Review Pending",
-    role: "Managing Director",
-    company: "Growing Enterprise",
-    quote: "Client testimonial will appear here. Our commitment is delivering transparent, high-performing digital results for every project.",
-    serviceReceived: "Video & Social Media Strategy",
-    avatarText: "EH"
+    id: "qs-2",
+    title: "100% Asset & Code Ownership",
+    tagline: "Zero vendor lock-in",
+    description: "Upon project sign-off and milestone completion, full source code repositories, design files, and production media are completely yours.",
+    icon: "ShieldCheck"
   },
   {
-    id: "testimonial-3",
-    isPlaceholder: true,
-    clientName: "Client Review Pending",
-    role: "E-Commerce Head",
-    company: "Direct-to-Consumer Brand",
-    quote: "Client testimonial will appear here. We build long-term partnerships focused on measurable growth and creative excellence.",
-    serviceReceived: "Digital Marketing & Paid Ads",
-    avatarText: "EH"
+    id: "qs-3",
+    title: "Transparent Scopes & SOWs",
+    tagline: "Fixed milestone deliverables",
+    description: "Every engagement begins with clear deliverables, deadlines, and milestone schedules. We never introduce hidden charges or surprise billing.",
+    icon: "FileText"
+  },
+  {
+    id: "qs-4",
+    title: "Pre-Launch QA & Ongoing Support",
+    tagline: "Cross-device reliability",
+    description: "Every website, video cut, and ad campaign undergoes structured quality checks before launch, supported by post-delivery optimization.",
+    icon: "CheckCircle2"
   }
 ];
+
+// Verified Client Testimonials are published strictly upon formal client approval
+// We do not publish placeholder or fabricated reviews.
+export const TESTIMONIALS_DATA: TestimonialItem[] = [];
 
 export const FAQ_DATA: FAQItem[] = [
   {

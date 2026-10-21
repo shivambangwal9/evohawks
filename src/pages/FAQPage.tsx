@@ -38,7 +38,7 @@ export const FAQPage: React.FC<FAQPageProps> = () => {
     e.preventDefault();
     if (!customQuestion.trim()) return;
     const url = `https://wa.me/${AGENCY_CONFIG.contact.whatsappCleanNumber}?text=${encodeURIComponent(`Hi Evo Hawks team! I have a question: ${customQuestion}`)}`;
-    window.open(url, '_blank');
+    window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -193,7 +193,7 @@ export const FAQPage: React.FC<FAQPageProps> = () => {
               Have an Unlisted Question?
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 max-w-md mx-auto mb-6">
-              Type your question below to ask our creative director directly on WhatsApp with an average response time of under 2 hours.
+              Type your question below to ask our team directly with a response within 24 business hours.
             </p>
 
             <form onSubmit={handleAskCustomQuestion} className="flex flex-col sm:flex-row items-center gap-3">

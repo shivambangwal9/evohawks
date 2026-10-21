@@ -135,7 +135,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenProjectModal, onNaviga
               Ready to Accelerate Your Growth?
             </h2>
             <p className="text-sm sm:text-base text-slate-600 max-w-xl mx-auto mb-8 font-sans-clean leading-relaxed">
-              Partner with Evo Hawks for pixel-perfect code, cinematic visual storytelling, and high-ROAS marketing.
+              Partner with Evo Hawks for clean code, cinematic visual storytelling, and conversion-focused marketing.
             </p>
             
             <div className="flex flex-wrap items-center justify-center gap-4">

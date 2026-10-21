@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
-import type { ManagedProject } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
+import type { ManagedProject } from '../context/authTypes';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BorderBeam } from '../components/ui/BorderBeam';
 import { TiltCard } from '../components/ui/TiltCard';
@@ -146,12 +146,21 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
     <div className="min-h-screen pt-28 pb-24 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
+        {/* Prototype Environment Notice */}
+        <div className="mb-6 p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-sans-clean flex items-start gap-3 shadow-xs">
+          <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+          <div>
+            <strong className="font-semibold block mb-0.5">Demo Environment Preview</strong>
+            This administrative control center is operating on browser local state for interface demonstration. In production, project creation, status transitions, and client deliverable management are secured via server-side APIs and database authorization rules (e.g. Supabase / PostgreSQL RLS).
+          </div>
+        </div>
+
         {/* Top Control Center Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8 border-b border-slate-200">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-50 border border-violet-200 text-xs font-tech text-violet-700 font-semibold mb-2">
               <span className="w-2 h-2 rounded-full bg-violet-600 animate-pulse" />
-              <span>EXECUTIVE ADMIN COMMAND CENTER</span>
+              <span>DEMO AGENCY CONTROL CENTER</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-display font-black text-slate-900">
               Project Management Hub

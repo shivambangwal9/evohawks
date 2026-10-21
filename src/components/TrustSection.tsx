@@ -21,33 +21,36 @@ export const TrustSection: React.FC = () => {
       title: "Design & Tech",
       desc: "Pixel-perfect websites & bespoke brand identities that capture customer trust and convert visitors.",
       icon: Sparkles,
-      color: "text-sky-600",
-      border: "hover:border-sky-400",
-      accent: "#0284C7"
+      color: "text-[#0099FF]",
+      border: "hover:border-[#0099FF]/50",
+      accent: "#0099FF",
+      curve: "rounded-[2.5rem] rounded-tl-md"
     },
     {
       title: "Content & Video",
       desc: "High-retention Reels, social feeds, and motion graphics that build authority and organic reach.",
       icon: Eye,
-      color: "text-violet-600",
-      border: "hover:border-violet-400",
-      accent: "#7C3AED"
+      color: "text-[#FF1361]",
+      border: "hover:border-[#FF1361]/50",
+      accent: "#FF1361",
+      curve: "rounded-[2.5rem] rounded-tr-md"
     },
     {
       title: "SEO & Growth",
       desc: "Top search rankings and targeted ad funnels engineered to scale high-intent lead volume.",
       icon: Rocket,
-      color: "text-blue-600",
-      border: "hover:border-blue-400",
-      accent: "#2563EB"
+      color: "text-[#38BDF8]",
+      border: "hover:border-[#0099FF]/50",
+      accent: "#38BDF8",
+      curve: "rounded-[2.5rem] rounded-bl-md"
     }
   ];
 
   const stats = [
-    { label: "Core Disciplines", value: 6, decimals: 0, suffix: "", icon: Layers, color: "#0284C7" },
-    { label: "Unified Creative Partner", value: 1, decimals: 0, suffix: "", icon: Sparkles, color: "#7C3AED" },
-    { label: "Code & Asset Ownership", value: 100, decimals: 0, suffix: "%", icon: ShieldCheck, color: "#059669" },
-    { label: "Milestone Transparency", value: 100, decimals: 0, suffix: "%", icon: Award, color: "#2563EB" },
+    { label: "Core Disciplines", value: 12, decimals: 0, suffix: "", icon: Layers, color: "#0099FF" },
+    { label: "Unified Creative Partner", value: 1, decimals: 0, suffix: "", icon: Sparkles, color: "#FF1361" },
+    { label: "Code & Asset Ownership", value: 100, decimals: 0, suffix: "%", icon: ShieldCheck, color: "#38BDF8" },
+    { label: "Milestone Transparency", value: 100, decimals: 0, suffix: "%", icon: Award, color: "#FF2A85" },
   ];
 
   const containerVariants: Variants = {
@@ -70,16 +73,16 @@ export const TrustSection: React.FC = () => {
   };
 
   return (
-    <section className="relative py-20 bg-transparent border-y border-slate-200/80 overflow-hidden">
+    <section className="relative py-20 bg-transparent border-y border-white/10 overflow-hidden">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Animated Metrics Bar */}
+        {/* Animated Metrics Bar - Creative Stadium Pods */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 pb-12 border-b border-slate-200/80"
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 pb-12 border-b border-white/10"
         >
           {stats.map((stat, idx) => {
             const Icon = stat.icon;
@@ -87,12 +90,12 @@ export const TrustSection: React.FC = () => {
               <motion.div
                 key={idx}
                 variants={itemVariants}
-                className="p-5 rounded-2xl bg-white/80 border border-slate-200/90 shadow-xs backdrop-blur-md flex flex-col items-center text-center group hover:border-sky-300 hover:shadow-md transition-all"
+                className="p-5 rounded-[2rem] bg-[#0A0D18]/90 border border-white/10 shadow-[0_15px_35px_rgba(0,0,0,0.8)] backdrop-blur-xl flex flex-col items-center text-center group hover:border-[#0099FF]/50 hover:shadow-[0_0_25px_rgba(0,153,255,0.2)] transition-all"
               >
-                <div className="w-9 h-9 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#0099FF]/20 to-[#FF1361]/20 border border-white/15 flex items-center justify-center mb-2.5 group-hover:scale-110 transition-transform">
                   <Icon className="w-4 h-4" style={{ color: stat.color }} />
                 </div>
-                <div className="text-2xl sm:text-3xl font-display font-black text-slate-900 tracking-tight">
+                <div className="text-2xl sm:text-3xl font-display font-black text-white tracking-tight">
                   <AnimatedCounter
                     value={stat.value}
                     decimals={stat.decimals}
@@ -100,7 +103,7 @@ export const TrustSection: React.FC = () => {
                     duration={2.2}
                   />
                 </div>
-                <div className="text-xs font-tech text-slate-500 mt-1 uppercase tracking-wider font-semibold">
+                <div className="text-xs font-tech text-slate-400 mt-1 uppercase tracking-wider font-semibold">
                   {stat.label}
                 </div>
               </motion.div>
@@ -119,32 +122,32 @@ export const TrustSection: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="lg:col-span-6 flex flex-col items-start"
           >
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-sky-200 text-xs font-tech text-sky-700 font-semibold mb-4 shadow-xs">
-              <ShieldCheck className="w-3.5 h-3.5 text-sky-600" />
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0B0D16]/90 border border-white/10 text-xs font-tech text-[#38BDF8] font-semibold mb-4 shadow-[0_0_20px_rgba(0,153,255,0.2)]">
+              <ShieldCheck className="w-3.5 h-3.5 text-[#FF1361]" />
               <span>Full-Stack Digital Synergy</span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold text-slate-900 tracking-tight leading-tight mb-5">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold text-white tracking-tight leading-tight mb-5">
               {AGENCY_CONFIG.trustHeadline}
             </h2>
 
-            <p className="text-base sm:text-lg text-slate-600 font-sans-clean leading-relaxed mb-6">
+            <p className="text-base sm:text-lg text-slate-300 font-sans-clean leading-relaxed mb-6">
               {AGENCY_CONFIG.trustText}
             </p>
 
-            <div className="flex flex-wrap items-center gap-4 text-xs font-tech text-slate-600 font-medium">
+            <div className="flex flex-wrap items-center gap-4 text-xs font-tech text-slate-300 font-medium">
               <div className="flex items-center gap-1.5">
-                <CheckCircle className="w-4 h-4 text-sky-600" />
+                <CheckCircle className="w-4 h-4 text-[#0099FF]" />
                 <span>Zero fragmented vendors</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <Zap className="w-4 h-4 text-violet-600" />
+                <Zap className="w-4 h-4 text-[#FF1361]" />
                 <span>Synchronized execution</span>
               </div>
             </div>
           </motion.div>
 
-          {/* Right Capability Cards with 3D Tilt & BorderBeam */}
+          {/* Right Capability Cards with Asymmetrical Curves & BorderBeam */}
           <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
             {highlights.map((item, idx) => {
               const Icon = item.icon;
@@ -158,21 +161,21 @@ export const TrustSection: React.FC = () => {
                 >
                   <TiltCard tiltDegree={14} glareColor={item.accent}>
                     <div 
-                      className={`glass-panel p-5 rounded-2xl border border-slate-200 ${item.border} transition-all duration-300 group flex flex-col justify-between h-full relative overflow-hidden shadow-xs hover:shadow-lg`}
+                      className={`glass-panel p-5 ${item.curve} border border-white/10 ${item.border} transition-all duration-300 group flex flex-col justify-between h-full relative overflow-hidden shadow-[0_15px_35px_rgba(0,0,0,0.8)] hover:shadow-[0_20px_40px_rgba(0,153,255,0.2)]`}
                     >
-                      <BorderBeam size={80} duration={9 + idx * 2} colorFrom={item.accent} colorTo="#0EA5E9" />
+                      <BorderBeam size={80} duration={9 + idx * 2} colorFrom={item.accent} colorTo={idx === 1 ? '#0099FF' : '#FF1361'} />
                       <div>
-                        <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#0099FF]/20 to-[#FF1361]/20 border border-white/15 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-xs">
                           <Icon className={`w-5 h-5 ${item.color}`} />
                         </div>
-                        <h3 className="text-sm font-display font-bold text-slate-900 mb-2">
+                        <h3 className="text-sm font-display font-bold text-white mb-2">
                           {item.title}
                         </h3>
-                        <p className="text-xs text-slate-600 font-sans-clean leading-relaxed">
+                        <p className="text-xs text-slate-300 font-sans-clean leading-relaxed">
                           {item.desc}
                         </p>
                       </div>
-                      <div className="mt-4 pt-3 border-t border-slate-100 flex items-center gap-1 text-[10px] font-tech text-sky-600 font-semibold">
+                      <div className="mt-4 pt-3 border-t border-white/10 flex items-center gap-1 text-[10px] font-tech text-[#38BDF8] font-semibold">
                         <Layers className="w-3 h-3" />
                         <span>Synchronized</span>
                       </div>

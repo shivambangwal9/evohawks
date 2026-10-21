@@ -261,11 +261,11 @@ function AppContent() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#F8FAFC] text-[#0F172A] selection:bg-[#0284C7] selection:text-white font-sans-clean overflow-x-hidden flex flex-col">
+    <div className="relative min-h-screen bg-[#050508] text-[#F8FAFC] selection:bg-[#FF1361] selection:text-white font-sans-clean overflow-x-hidden flex flex-col">
       {/* Skip to Content for Screen Readers & Keyboard Nav */}
       <a 
         href="#main-content" 
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-sky-600 focus:text-white focus:rounded-xl focus:shadow-lg focus:outline-none"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-gradient-to-r focus:from-[#0099FF] focus:to-[#FF1361] focus:text-white focus:rounded-xl focus:shadow-lg focus:outline-none font-bold"
       >
         Skip to main content
       </a>

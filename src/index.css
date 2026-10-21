@@ -6,19 +6,22 @@
     --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-mono: 'Space Grotesk', monospace;
 
-    /* Light Theme Base Colors */
-    --bg-light: #F8FAFC;
-    --bg-card-light: #FFFFFF;
-    --bg-card-hover-light: #F1F5F9;
-    --text-primary: #0F172A;
-    --text-secondary: #334155;
-    --text-muted: #64748B;
+    /* Jet Black Theme Base Colors */
+    --bg-jet: #050508;
+    --bg-jet-surface: #0B0D14;
+    --bg-jet-elevated: #111420;
+    --text-primary: #F8FAFC;
+    --text-secondary: #CBD5E1;
+    --text-muted: #94A3B8;
 
-    /* High Energy Vibrant Accents */
-    --accent-cyan: #00B4D8;
-    --accent-blue: #2563EB;
-    --accent-violet: #7C3AED;
-    --accent-emerald: #059669;
+    /* Cyber-Creative Brand Accents: Cerulean Blue & Neon Rose */
+    --accent-cerulean: #0099FF;
+    --accent-cerulean-deep: #007BA7;
+    --accent-cerulean-light: #38BDF8;
+    --accent-neon-rose: #FF1361;
+    --accent-neon-rose-hot: #FF2A85;
+    --accent-neon-rose-soft: #FB7185;
+    --accent-violet: #8B5CF6;
   }
 
   html {
@@ -26,19 +29,21 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-color: #050508;
+    color: #F8FAFC;
   }
 
   body {
     font-family: var(--font-body);
-    background-color: var(--bg-light);
-    color: var(--text-primary);
+    background-color: #050508;
+    color: #F8FAFC;
     overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
     letter-spacing: -0.025em;
-    color: var(--text-primary);
+    color: #F8FAFC;
   }
 }
 
@@ -68,99 +73,152 @@
   }
 }
 
-.text-gradient-cyan {
-  background: linear-gradient(135deg, #0284C7 0%, #06B6D4 40%, #2563EB 80%, #7C3AED 100%);
+.text-gradient-cyan,
+.text-gradient-cerulean {
+  background: linear-gradient(135deg, #0099FF 0%, #38BDF8 50%, #93C5FD 100%);
   background-size: 250% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: textShimmer 5s ease-in-out infinite;
 }
 
-.text-gradient-violet {
-  background: linear-gradient(135deg, #2563EB 0%, #7C3AED 50%, #C026D3 100%);
+.text-gradient-rose,
+.text-gradient-neon-rose {
+  background: linear-gradient(135deg, #FF1361 0%, #FF2A85 50%, #FDA4AF 100%);
   background-size: 250% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: textShimmer 6s ease-in-out infinite;
+  animation: textShimmer 5s ease-in-out infinite;
 }
 
-.text-gradient-hawk {
-  background: linear-gradient(135deg, #0F172A 0%, #0284C7 40%, #7C3AED 80%, #0EA5E9 100%);
+.text-gradient-violet,
+.text-gradient-hawk,
+.text-gradient-cerulean-rose {
+  background: linear-gradient(135deg, #0099FF 0%, #8B5CF6 45%, #FF1361 90%, #FF2A85 100%);
   background-size: 250% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: textShimmer 5.5s ease-in-out infinite;
 }
 
-/* Glow & Halo Effects for Light Theme */
-.glow-cyan {
-  box-shadow: 0 10px 30px -5px rgba(2, 132, 199, 0.25), 0 0 15px rgba(6, 182, 212, 0.2);
+/* Glow & Halo Effects for Jet Black Palette */
+.glow-cyan,
+.glow-cerulean {
+  box-shadow: 0 10px 30px -5px rgba(0, 153, 255, 0.4), 0 0 20px rgba(0, 153, 255, 0.25);
 }
 
-.glow-cyan-sm {
-  box-shadow: 0 4px 15px -2px rgba(2, 132, 199, 0.2);
+.glow-cyan-sm,
+.glow-cerulean-sm {
+  box-shadow: 0 4px 18px -2px rgba(0, 153, 255, 0.35);
+}
+
+.glow-rose,
+.glow-neon-rose {
+  box-shadow: 0 10px 30px -5px rgba(255, 19, 97, 0.4), 0 0 20px rgba(255, 42, 133, 0.25);
+}
+
+.glow-rose-sm,
+.glow-neon-rose-sm {
+  box-shadow: 0 4px 18px -2px rgba(255, 19, 97, 0.35);
+}
+
+.glow-dual {
+  box-shadow: -10px 0 30px -5px rgba(0, 153, 255, 0.3), 10px 0 30px -5px rgba(255, 19, 97, 0.3);
 }
 
 .glow-violet {
-  box-shadow: 0 10px 30px -5px rgba(124, 58, 237, 0.25);
+  box-shadow: 0 10px 30px -5px rgba(139, 92, 246, 0.35);
 }
 
-/* Luminous Frosted Glassmorphism for Light Theme - Optimized for 60-120 FPS */
+/* Creative Bespoke Organic Geometric Silhouettes (Breaking rigid square AI look) */
+.card-creative-a {
+  border-radius: 2.5rem 0.75rem 2.5rem 0.75rem;
+}
+
+.card-creative-b {
+  border-radius: 0.75rem 2.5rem 0.75rem 2.5rem;
+}
+
+.card-creative-stadium {
+  border-radius: 2.75rem;
+}
+
+.card-creative-capsule {
+  border-radius: 3rem 1.25rem 3rem 1.25rem;
+}
+
+.card-creative-notched {
+  clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
+}
+
+/* Luminous Frosted Glassmorphism for Jet Black Theme */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  box-shadow: 0 10px 30px -8px rgba(15, 23, 42, 0.05), 0 1px 3px rgba(15, 23, 42, 0.03);
+  background: rgba(11, 13, 20, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 45px -15px rgba(0, 0, 0, 0.75), 0 0 1px 1px rgba(255, 255, 255, 0.04);
   transform: translateZ(0);
 }
 
 .glass-panel-hover {
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(226, 232, 240, 0.85);
-  box-shadow: 0 8px 20px -5px rgba(15, 23, 42, 0.04);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  background: rgba(11, 13, 20, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.7);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   transform: translateZ(0);
 }
 
 .glass-panel-hover:hover {
-  background: rgba(255, 255, 255, 0.95);
-  border-color: rgba(14, 165, 233, 0.4);
-  box-shadow: 0 16px 35px -10px rgba(14, 165, 233, 0.15), 0 0 1px 1px rgba(14, 165, 233, 0.2);
-  transform: translateY(-3px) translateZ(0);
+  background: rgba(16, 20, 32, 0.88);
+  border-color: rgba(0, 153, 255, 0.45);
+  box-shadow: 0 22px 50px -10px rgba(0, 153, 255, 0.25), 0 0 25px rgba(255, 19, 97, 0.15);
+  transform: translateY(-4px) translateZ(0);
 }
 
-/* Background Grids for Light Theme */
+/* Creative Gradient Rim Container */
+.creative-gradient-rim {
+  position: relative;
+  background: linear-gradient(135deg, rgba(0, 153, 255, 0.35) 0%, rgba(255, 255, 255, 0.04) 50%, rgba(255, 19, 97, 0.35) 100%);
+  padding: 1px;
+}
+
+/* Background Grids for Jet Black Cyber Theme */
 .bg-grid-cyber {
   background-size: 40px 40px;
   background-image: 
-    linear-gradient(to right, rgba(15, 23, 42, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
+    linear-gradient(to right, rgba(0, 153, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 153, 255, 0.05) 1px, transparent 1px);
 }
 
 .bg-dots-cyber {
-  background-image: radial-gradient(rgba(2, 132, 199, 0.18) 1.2px, transparent 1.2px);
+  background-image: radial-gradient(rgba(0, 153, 255, 0.25) 1.2px, transparent 1.2px);
   background-size: 28px 28px;
 }
 
-/* Custom Scrollbar for Light Theme */
+.bg-dots-rose {
+  background-image: radial-gradient(rgba(255, 19, 97, 0.22) 1.2px, transparent 1.2px);
+  background-size: 28px 28px;
+}
+
+/* Custom Scrollbar for Jet Black Theme */
 ::-webkit-scrollbar {
   width: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #F1F5F9;
+  background: #050508;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
-  border-radius: 4px;
+  background: linear-gradient(to bottom, #0099FF, #FF1361);
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #0284C7;
+  background: #FF1361;
 }
 
 /* Laser Flight Accent Animations */

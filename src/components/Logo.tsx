@@ -12,7 +12,7 @@ export const Logo: React.FC<LogoProps> = ({
   className = '', 
   size = 'md',
   showTagline = false,
-  lightText = false,
+  lightText = true,
   variant = 'full'
 }) => {
   const iconSizes = {
@@ -39,48 +39,48 @@ export const Logo: React.FC<LogoProps> = ({
   // Modern Aerodynamic Faceted Hawk Icon SVG
   const HawkMark = (
     <div className={`relative flex items-center justify-center ${iconSizes[size]} transition-transform duration-300 group-hover:scale-105`}>
-      {/* Ambient Radial Aura behind Hawk */}
-      <div className="absolute inset-0 bg-gradient-to-tr from-sky-400/25 via-blue-500/20 to-violet-500/20 rounded-full blur-md opacity-60 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+      {/* Ambient Radial Aura behind Hawk: Cerulean & Neon Rose */}
+      <div className="absolute inset-0 bg-gradient-to-tr from-[#0099FF]/30 via-[#8B5CF6]/20 to-[#FF1361]/30 rounded-full blur-md opacity-70 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
       <svg 
         viewBox="0 0 120 120" 
-        className="w-full h-full relative z-10 drop-shadow-[0_2px_10px_rgba(2,132,199,0.35)]"
+        className="w-full h-full relative z-10 drop-shadow-[0_2px_12px_rgba(0,153,255,0.4)]"
         fill="none" 
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs>
-          {/* Primary Hawk Wing Gradient: Electric Cyan -> Cobalt Blue -> Rich Purple */}
+          {/* Primary Hawk Wing Gradient: Electric Cerulean -> Vibrant Purple -> Neon Rose */}
           <linearGradient id="hawkPrimaryWingGrad" x1="10%" y1="10%" x2="90%" y2="90%">
-            <stop offset="0%" stopColor="#00B4D8" />
-            <stop offset="48%" stopColor="#2563EB" />
-            <stop offset="100%" stopColor="#7C3AED" />
+            <stop offset="0%" stopColor="#0099FF" />
+            <stop offset="50%" stopColor="#8B5CF6" />
+            <stop offset="100%" stopColor="#FF1361" />
           </linearGradient>
 
           {/* Secondary Forward Wing Gradient */}
           <linearGradient id="hawkSecondaryWingGrad" x1="0%" y1="100%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#38BDF8" />
-            <stop offset="70%" stopColor="#6366F1" />
-            <stop offset="100%" stopColor="#8B5CF6" />
+            <stop offset="60%" stopColor="#0099FF" />
+            <stop offset="100%" stopColor="#FF2A85" />
           </linearGradient>
 
           {/* Specular Facet Gloss Gradient */}
           <linearGradient id="hawkGlossFacet" x1="0%" y1="0%" x2="0%" y2="100%">
             <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
-            <stop offset="100%" stopColor="#E0F2FE" stopOpacity="0.6" />
+            <stop offset="100%" stopColor="#E0F2FE" stopOpacity="0.4" />
           </linearGradient>
 
           {/* Beak & Crest Accent Gradient */}
           <linearGradient id="hawkBeakGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#38BDF8" />
-            <stop offset="100%" stopColor="#00B4D8" />
+            <stop offset="0%" stopColor="#FF1361" />
+            <stop offset="100%" stopColor="#FF2A85" />
           </linearGradient>
         </defs>
 
         {/* Back Underwing Shadow Blade */}
         <polygon 
           points="28,78 52,42 66,54 44,88" 
-          fill="#1E293B" 
-          fillOpacity="0.2" 
+          fill="#050508" 
+          fillOpacity="0.6" 
         />
 
         {/* Primary Swept Wing - Lower Falcon Blade */}
@@ -118,7 +118,7 @@ export const Logo: React.FC<LogoProps> = ({
           cx="70" 
           cy="34" 
           r="2" 
-          fill="#00B4D8" 
+          fill="#0099FF" 
         />
 
         {/* Eye Dynamic Ping Halo */}
@@ -126,10 +126,10 @@ export const Logo: React.FC<LogoProps> = ({
           cx="70" 
           cy="34" 
           r="7" 
-          stroke="#00B4D8" 
+          stroke="#FF1361" 
           strokeWidth="1" 
           strokeDasharray="2 2" 
-          opacity="0.8" 
+          opacity="0.9" 
         />
       </svg>
     </div>
@@ -137,7 +137,7 @@ export const Logo: React.FC<LogoProps> = ({
 
   // Icon with Frosted Squircle Shield
   const BadgeMark = (
-    <div className={`relative rounded-2xl bg-gradient-to-b from-white/90 to-sky-50/80 border border-sky-200/90 shadow-xs group-hover:shadow-md transition-all duration-300 ${badgePadding[size]}`}>
+    <div className={`relative rounded-2xl bg-gradient-to-b from-[#0E111C]/90 to-[#07080C]/90 border border-white/10 shadow-[0_0_20px_rgba(0,153,255,0.15)] group-hover:border-[#0099FF]/50 transition-all duration-300 ${badgePadding[size]}`}>
       {HawkMark}
     </div>
   );
@@ -164,7 +164,7 @@ export const Logo: React.FC<LogoProps> = ({
         {BadgeMark}
         <div className="flex flex-col items-center mt-3">
           <span className={`font-display font-black leading-none ${lightText ? 'text-white' : 'text-slate-900'} ${textSizes[size]}`}>
-            EVO <span className="text-gradient-cyan">HAWKS</span>
+            EVO <span className="text-gradient-cerulean-rose">HAWKS</span>
           </span>
           {showTagline && (
             <span className={`text-[10px] tracking-[0.25em] uppercase font-tech font-semibold ${lightText ? 'text-slate-400' : 'text-slate-500'} mt-1`}>
@@ -182,9 +182,9 @@ export const Logo: React.FC<LogoProps> = ({
       className={`group inline-flex items-center gap-3 transition-transform duration-200 hover:scale-[1.02] focus:outline-none select-none cursor-pointer ${className}`}
       aria-label="Evo Hawks - Digital Creative & Marketing Agency"
     >
-      {/* Icon with Subtle Badge Outline */}
+      {/* Icon with Subtle Jet Black Badge Outline */}
       <div className="relative">
-        <div className="p-1 rounded-2xl bg-white/80 border border-slate-200/80 shadow-2xs group-hover:border-sky-300 transition-colors">
+        <div className="p-1.5 rounded-2xl bg-[#0B0D16]/90 border border-white/10 shadow-[0_0_15px_rgba(0,153,255,0.2)] group-hover:border-[#0099FF]/50 transition-colors">
           {HawkMark}
         </div>
       </div>
@@ -192,7 +192,7 @@ export const Logo: React.FC<LogoProps> = ({
       {/* Brand Wordmark */}
       <div className="flex flex-col">
         <span className={`font-display font-black tracking-tight leading-none ${lightText ? 'text-white' : 'text-slate-900'} ${textSizes[size]}`}>
-          EVO <span className="text-gradient-cyan">HAWKS</span>
+          EVO <span className="text-gradient-cerulean-rose">HAWKS</span>
         </span>
         {showTagline && (
           <span className={`text-[10px] tracking-[0.22em] uppercase font-tech font-semibold ${lightText ? 'text-slate-400' : 'text-slate-500'} mt-1`}>

@@ -175,7 +175,7 @@ export const StartProjectPage: React.FC<StartProjectPageProps> = ({
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-2">
         <button
           onClick={() => onNavigate('home')}
-          className="inline-flex items-center gap-1.5 text-xs font-tech text-sky-600 hover:text-sky-700 font-bold cursor-pointer"
+          className="inline-flex items-center gap-1.5 text-xs font-tech text-[#38BDF8] hover:text-white font-bold cursor-pointer transition-colors"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Return to Homepage</span>
@@ -185,16 +185,16 @@ export const StartProjectPage: React.FC<StartProjectPageProps> = ({
       {/* Hero Header */}
       <section className="relative py-10 sm:py-14 bg-transparent bg-grid-cyber">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-sky-200 text-xs font-tech text-sky-700 font-semibold mb-4 shadow-2xs">
-            <Sparkles className="w-3.5 h-3.5 text-sky-600" />
-            <span>QUALIFIED PROJECT INTAKE</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0A0D1A]/90 border border-[#0099FF]/30 text-xs font-tech text-[#38BDF8] font-semibold mb-4 shadow-[0_0_20px_rgba(0,153,255,0.2)]">
+            <Sparkles className="w-3.5 h-3.5 text-[#FF1361]" />
+            <span className="tracking-wider">QUALIFIED PROJECT INTAKE</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl md:text-6xl font-display font-black text-slate-900 tracking-tight mb-4">
-            Start Your <span className="text-gradient-hawk">Project Sprint</span>
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-display font-black text-white tracking-tight mb-4">
+            Start Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0099FF] via-[#38BDF8] to-[#FF1361]">Project Sprint</span>
           </h1>
 
-          <p className="text-sm sm:text-lg text-slate-600 font-sans-clean max-w-2xl mx-auto leading-relaxed">
+          <p className="text-sm sm:text-lg text-slate-300 font-sans-clean max-w-2xl mx-auto leading-relaxed">
             Answer a few quick questions so our senior technical and creative leads can review your requirements and provide an actionable scope within 24 hours.
           </p>
         </div>
@@ -204,8 +204,8 @@ export const StartProjectPage: React.FC<StartProjectPageProps> = ({
       <section className="relative pb-24">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          {/* Progress Indicator */}
-          <div className="mb-10 p-4 rounded-2xl bg-white border border-slate-200 shadow-xs flex items-center justify-between">
+          {/* Progress Indicator - Asymmetric Stadium Capsule */}
+          <div className="mb-10 p-4 sm:p-5 rounded-[2.5rem] bg-[#0A0D18]/90 border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.6)] flex items-center justify-between">
             {[
               { num: 1, label: 'Contact', icon: User },
               { num: 2, label: 'Requirements', icon: Briefcase },
@@ -216,55 +216,55 @@ export const StartProjectPage: React.FC<StartProjectPageProps> = ({
               const isDone = currentStep > step.num;
               return (
                 <div key={step.num} className="flex items-center gap-2 sm:gap-3">
-                  <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-xs font-tech font-bold transition-all ${
+                  <div className={`w-10 h-10 rounded-2xl flex items-center justify-center text-xs font-tech font-bold transition-all ${
                     isDone 
-                      ? 'bg-emerald-500 text-white shadow-xs' 
+                      ? 'bg-[#0099FF] text-white shadow-[0_0_15px_rgba(0,153,255,0.4)]' 
                       : isActive 
-                      ? 'bg-sky-600 text-white shadow-md' 
-                      : 'bg-slate-100 text-slate-400 border border-slate-200'
+                      ? 'bg-gradient-to-r from-[#0099FF] to-[#FF1361] text-white shadow-[0_0_20px_rgba(255,19,97,0.4)]' 
+                      : 'bg-[#060810] text-slate-500 border border-white/10'
                   }`}>
-                    {isDone ? <CheckCircle2 className="w-4 h-4" /> : <Icon className="w-4 h-4" />}
+                    {isDone ? <CheckCircle2 className="w-5 h-5" /> : <Icon className="w-5 h-5" />}
                   </div>
                   <div className="hidden sm:block text-left">
                     <div className="text-[10px] font-tech text-slate-400 font-bold uppercase tracking-wider">
                       Step 0{step.num}
                     </div>
-                    <div className={`text-xs font-display font-bold ${isActive ? 'text-slate-900' : 'text-slate-500'}`}>
+                    <div className={`text-xs font-display font-bold ${isActive ? 'text-white' : 'text-slate-400'}`}>
                       {step.label}
                     </div>
                   </div>
                   {step.num < 3 && (
-                    <div className="w-8 sm:w-16 h-0.5 bg-slate-200 mx-1 sm:mx-2" />
+                    <div className="w-8 sm:w-16 h-0.5 bg-white/10 mx-1 sm:mx-2" />
                   )}
                 </div>
               );
             })}
           </div>
 
-          {/* Form Card */}
-          <div className="relative rounded-3xl bg-white border border-slate-200 p-6 sm:p-10 shadow-xl overflow-hidden">
-            <BorderBeam size={160} duration={12} colorFrom="#0284C7" colorTo="#7C3AED" />
+          {/* Form Card - Asymmetric Console Pod */}
+          <div className="relative rounded-[3rem] rounded-tl-lg rounded-br-lg bg-[#0A0D18]/95 border border-white/10 p-6 sm:p-10 shadow-[0_25px_60px_rgba(0,0,0,0.9)] overflow-hidden">
+            <BorderBeam size={160} duration={12} colorFrom="#0099FF" colorTo="#FF1361" />
 
             {/* Submission Result Notice */}
             {result && (
               <div className={`p-6 rounded-2xl border mb-8 ${
                 result.status === 'sent' 
-                  ? 'bg-emerald-50 border-emerald-200 text-emerald-950' 
+                  ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-200' 
                   : result.status === 'unconfigured'
-                  ? 'bg-amber-50 border-amber-200 text-amber-950'
-                  : 'bg-red-50 border-red-200 text-red-950'
+                  ? 'bg-amber-500/10 border-amber-500/30 text-amber-200'
+                  : 'bg-[#FF1361]/10 border-[#FF1361]/30 text-rose-200'
               }`}>
                 <div className="flex items-start gap-4">
                   {result.status === 'sent' ? (
-                    <CheckCircle2 className="w-6 h-6 text-emerald-600 flex-shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-6 h-6 text-emerald-400 flex-shrink-0 mt-0.5" />
                   ) : (
-                    <AlertCircle className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
+                    <AlertCircle className="w-6 h-6 text-amber-400 flex-shrink-0 mt-0.5" />
                   )}
                   <div>
-                    <h3 className="text-base font-display font-bold mb-1">
-                      {result.status === 'sent' ? 'Project Brief Delivered Successfully!' : 'One-Click Direct Dispatch Available'}
+                    <h3 className="text-base font-display font-bold mb-1 text-white">
+                      {result.status === 'sent' ? 'Project Brief Delivered Successfully!' : 'Direct Delivery Dispatch Available'}
                     </h3>
-                    <p className="text-xs sm:text-sm leading-relaxed mb-4">
+                    <p className="text-xs sm:text-sm leading-relaxed mb-4 text-slate-300">
                       {result.message}
                     </p>
 
@@ -274,16 +274,16 @@ export const StartProjectPage: React.FC<StartProjectPageProps> = ({
                           href={buildWhatsAppLeadUrl(formData)}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-all"
+                          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs shadow-md transition-all cursor-pointer"
                         >
                           <MessageSquare className="w-4 h-4" />
                           <span>Dispatch via WhatsApp</span>
                         </a>
                         <a
                           href={buildMailtoLeadUrl(formData)}
-                          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-md transition-all"
+                          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#060810] hover:bg-[#0E1220] border border-white/20 text-white font-bold text-xs shadow-md transition-all cursor-pointer"
                         >
-                          <Send className="w-4 h-4" />
+                          <Send className="w-4 h-4 text-[#38BDF8]" />
                           <span>Dispatch via Email</span>
                         </a>
                       </div>
@@ -304,10 +304,10 @@ export const StartProjectPage: React.FC<StartProjectPageProps> = ({
                 className="space-y-5"
               >
                 <div>
-                  <h2 className="text-xl font-display font-black text-slate-900">
+                  <h2 className="text-xl sm:text-2xl font-display font-black text-white">
                     Step 1: Your Contact Information
                   </h2>
-                  <p className="text-xs text-slate-500 font-sans-clean mt-1">
+                  <p className="text-xs text-slate-400 font-sans-clean mt-1">
                     Who should our team contact regarding your proposal and discovery call?
                   </p>
                 </div>
@@ -325,7 +325,7 @@ export const StartProjectPage: React.FC<StartProjectPageProps> = ({
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-tech font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                    <label className="block text-xs font-tech font-bold text-slate-300 uppercase tracking-wider mb-1.5">
                       Full Name *
                     </label>
                     <input
@@ -334,13 +334,13 @@ export const StartProjectPage: React.FC<StartProjectPageProps> = ({
                       value={formData.fullName}
                       onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                       placeholder="e.g. Alex Morgan"
-                      className="w-full px-3.5 py-3 rounded-xl border border-slate-200 bg-white text-sm text-slate-900 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 shadow-2xs"
+                      className="w-full px-4 py-3 rounded-2xl border border-white/10 bg-[#060810] text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#0099FF] focus:shadow-[0_0_15px_rgba(0,153,255,0.25)] transition-all"
                     />
-                    {stepErrors.fullName && <p className="text-[11px] text-red-600 mt-1">{stepErrors.fullName}</p>}
+                    {stepErrors.fullName && <p className="text-[11px] text-[#FF2A85] mt-1 font-semibold">{stepErrors.fullName}</p>}
                   </div>
 
                   <div>
-                    <label className="block text-xs font-tech font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                    <label className="block text-xs font-tech font-bold text-slate-300 uppercase tracking-wider mb-1.5">
                       Business or Brand Name *
                     </label>
                     <input
@@ -349,15 +349,15 @@ export const StartProjectPage: React.FC<StartProjectPageProps> = ({
                       value={formData.businessName}
                       onChange={(e) => setFormData({ ...formData, businessName: e.target.value })}
                       placeholder="e.g. Acme Tech Studio"
-                      className="w-full px-3.5 py-3 rounded-xl border border-slate-200 bg-white text-sm text-slate-900 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 shadow-2xs"
+                      className="w-full px-4 py-3 rounded-2xl border border-white/10 bg-[#060810] text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#0099FF] focus:shadow-[0_0_15px_rgba(0,153,255,0.25)] transition-all"
                     />
-                    {stepErrors.businessName && <p className="text-[11px] text-red-600 mt-1">{stepErrors.businessName}</p>}
+                    {stepErrors.businessName && <p className="text-[11px] text-[#FF2A85] mt-1 font-semibold">{stepErrors.businessName}</p>}
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-tech font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                    <label className="block text-xs font-tech font-bold text-slate-300 uppercase tracking-wider mb-1.5">
                       Work / Business Email *
                     </label>
                     <input
@@ -366,13 +366,13 @@ export const StartProjectPage: React.FC<StartProjectPageProps> = ({
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="alex@acmestudio.com"
-                      className="w-full px-3.5 py-3 rounded-xl border border-slate-200 bg-white text-sm text-slate-900 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 shadow-2xs"
+                      className="w-full px-4 py-3 rounded-2xl border border-white/10 bg-[#060810] text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#0099FF] focus:shadow-[0_0_15px_rgba(0,153,255,0.25)] transition-all"
                     />
-                    {stepErrors.email && <p className="text-[11px] text-red-600 mt-1">{stepErrors.email}</p>}
+                    {stepErrors.email && <p className="text-[11px] text-[#FF2A85] mt-1 font-semibold">{stepErrors.email}</p>}
                   </div>
 
                   <div>
-                    <label className="block text-xs font-tech font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                    <label className="block text-xs font-tech font-bold text-slate-300 uppercase tracking-wider mb-1.5">
                       Phone / WhatsApp Number *
                     </label>
                     <input
@@ -381,14 +381,14 @@ export const StartProjectPage: React.FC<StartProjectPageProps> = ({
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       placeholder="+91 98765 43210"
-                      className="w-full px-3.5 py-3 rounded-xl border border-slate-200 bg-white text-sm text-slate-900 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 shadow-2xs"
+                      className="w-full px-4 py-3 rounded-2xl border border-white/10 bg-[#060810] text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#0099FF] focus:shadow-[0_0_15px_rgba(0,153,255,0.25)] transition-all"
                     />
-                    {stepErrors.phone && <p className="text-[11px] text-red-600 mt-1">{stepErrors.phone}</p>}
+                    {stepErrors.phone && <p className="text-[11px] text-[#FF2A85] mt-1 font-semibold">{stepErrors.phone}</p>}
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-tech font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-tech font-bold text-slate-300 uppercase tracking-wider mb-1.5">
                     Current Website or Social Profile (Optional)
                   </label>
                   <input
@@ -396,14 +396,14 @@ export const StartProjectPage: React.FC<StartProjectPageProps> = ({
                     value={formData.websiteOrSocial}
                     onChange={(e) => setFormData({ ...formData, websiteOrSocial: e.target.value })}
                     placeholder="https://acmestudio.com or @acmestudio"
-                    className="w-full px-3.5 py-3 rounded-xl border border-slate-200 bg-white text-sm text-slate-900 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 shadow-2xs"
+                    className="w-full px-4 py-3 rounded-2xl border border-white/10 bg-[#060810] text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#0099FF] focus:shadow-[0_0_15px_rgba(0,153,255,0.25)] transition-all"
                   />
                 </div>
 
                 <div className="pt-4 flex justify-end">
                   <button
                     type="submit"
-                    className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-bold text-white bg-gradient-to-r from-sky-500 to-indigo-600 hover:shadow-lg transition-all cursor-pointer"
+                    className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-bold text-white bg-gradient-to-r from-[#0099FF] via-[#0077EE] to-[#FF1361] hover:shadow-[0_0_25px_rgba(255,19,97,0.4)] transition-all cursor-pointer"
                   >
                     <span>Next: Project Requirements</span>
                     <ArrowRight className="w-4 h-4" />
@@ -423,41 +423,42 @@ export const StartProjectPage: React.FC<StartProjectPageProps> = ({
                 className="space-y-6"
               >
                 <div>
-                  <h2 className="text-xl font-display font-black text-slate-900">
+                  <h2 className="text-xl font-display font-black text-white">
                     Step 2: Project Requirements &amp; Scope
                   </h2>
-                  <p className="text-xs text-slate-500 font-sans-clean mt-1">
-                    Select your primary service and specify project milestones.
+                  <p className="text-xs text-slate-400 font-sans-clean mt-1">
+                    Select your primary service discipline and configure project parameters.
                   </p>
                 </div>
 
                 {/* Primary Service Selection Grid */}
                 <div>
-                  <label className="block text-xs font-tech font-bold text-slate-700 uppercase tracking-wider mb-2">
-                    Primary Service Needed *
+                  <label className="block text-xs font-tech font-bold text-slate-300 uppercase tracking-wider mb-2">
+                    Primary Discipline Needed *
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                    {SERVICES_DATA.map((srv) => {
+                    {SERVICES_DATA.map((srv, idx) => {
                       const isSelected = formData.service === srv.title;
+                      const isEven = idx % 2 === 0;
                       return (
                         <button
                           key={srv.id}
                           type="button"
                           onClick={() => setFormData({ ...formData, service: srv.title })}
-                          className={`p-3 rounded-xl border text-left flex items-start gap-3 transition-all cursor-pointer ${
+                          className={`p-3.5 ${isEven ? 'rounded-[1.75rem] rounded-tl-sm' : 'rounded-[1.75rem] rounded-tr-sm'} border text-left flex items-start gap-3 transition-all cursor-pointer ${
                             isSelected
-                              ? 'bg-sky-50 border-sky-400 text-sky-950 shadow-xs'
-                              : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300'
+                              ? 'bg-gradient-to-r from-[#0099FF]/15 to-[#FF1361]/15 border-[#0099FF] text-white shadow-[0_0_20px_rgba(0,153,255,0.25)]'
+                              : 'bg-[#060810]/80 border-white/10 text-slate-300 hover:border-white/20 hover:text-white'
                           }`}
                         >
-                          <div className={`w-4 h-4 rounded-full border mt-0.5 flex items-center justify-center flex-shrink-0 ${
-                            isSelected ? 'border-sky-600 bg-sky-600' : 'border-slate-300'
+                          <div className={`w-4 h-4 rounded-full border mt-0.5 flex items-center justify-center flex-shrink-0 transition-colors ${
+                            isSelected ? 'border-[#0099FF] bg-[#0099FF]' : 'border-white/20'
                           }`}>
-                            {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
+                            {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_#ffffff]" />}
                           </div>
                           <div>
                             <div className="text-xs font-bold leading-tight">{srv.title}</div>
-                            <div className="text-[10px] text-slate-500 line-clamp-1">{srv.tagline}</div>
+                            <div className="text-[10px] text-slate-400 line-clamp-1 mt-0.5">{srv.tagline}</div>
                           </div>
                         </button>
                       );
@@ -467,16 +468,16 @@ export const StartProjectPage: React.FC<StartProjectPageProps> = ({
 
                 {/* Dynamic Conditional Questions */}
                 {isVideo && (
-                  <div className="p-4 rounded-2xl bg-sky-50/70 border border-sky-200 space-y-3">
-                    <div className="text-xs font-tech font-bold text-sky-900 flex items-center gap-2">
-                      <Video className="w-4 h-4 text-sky-600" />
-                      <span>Video Production Details</span>
+                  <div className="p-5 rounded-[2rem] rounded-tl-md bg-gradient-to-br from-[#0A0D18] to-[#060810] border border-[#0099FF]/30 space-y-3.5 shadow-[0_0_25px_rgba(0,153,255,0.08)]">
+                    <div className="text-xs font-tech font-bold text-[#38BDF8] flex items-center gap-2">
+                      <Video className="w-4 h-4 text-[#0099FF]" />
+                      <span>Video Production Specifications</span>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                       <div>
-                        <label className="block text-slate-700 font-semibold mb-1">Shoot Location / Type</label>
+                        <label className="block text-slate-300 font-semibold mb-1.5">Shoot Location / Type</label>
                         <select 
-                          className="w-full p-2.5 rounded-xl border border-sky-200 bg-white"
+                          className="w-full p-2.5 rounded-xl border border-white/10 bg-[#050508] text-slate-200 focus:outline-none focus:border-[#0099FF]"
                           onChange={(e) => handleConditionalDetailChange('Shoot Format', e.target.value)}
                         >
                           <option value="On-location physical shoot required">On-location physical shoot required</option>
@@ -485,11 +486,11 @@ export const StartProjectPage: React.FC<StartProjectPageProps> = ({
                         </select>
                       </div>
                       <div>
-                        <label className="block text-slate-700 font-semibold mb-1">Estimated Video Length / Count</label>
+                        <label className="block text-slate-300 font-semibold mb-1.5">Estimated Video Length / Count</label>
                         <input
                           type="text"
                           placeholder="e.g. 8 vertical reels, 1 commercial"
-                          className="w-full p-2.5 rounded-xl border border-sky-200 bg-white"
+                          className="w-full p-2.5 rounded-xl border border-white/10 bg-[#050508] text-slate-200 placeholder-slate-500 focus:outline-none focus:border-[#0099FF]"
                           onChange={(e) => handleConditionalDetailChange('Deliverables Volume', e.target.value)}
                         />
                       </div>
@@ -498,16 +499,16 @@ export const StartProjectPage: React.FC<StartProjectPageProps> = ({
                 )}
 
                 {isWeb && (
-                  <div className="p-4 rounded-2xl bg-cyan-50/70 border border-cyan-200 space-y-3">
-                    <div className="text-xs font-tech font-bold text-cyan-900 flex items-center gap-2">
-                      <Globe className="w-4 h-4 text-cyan-600" />
+                  <div className="p-5 rounded-[2rem] rounded-tr-md bg-gradient-to-br from-[#0A0D18] to-[#060810] border border-[#38BDF8]/30 space-y-3.5 shadow-[0_0_25px_rgba(56,189,248,0.08)]">
+                    <div className="text-xs font-tech font-bold text-[#38BDF8] flex items-center gap-2">
+                      <Globe className="w-4 h-4 text-[#38BDF8]" />
                       <span>Website Architecture Specifics</span>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                       <div>
-                        <label className="block text-slate-700 font-semibold mb-1">Type of Website</label>
+                        <label className="block text-slate-300 font-semibold mb-1.5">Type of Website</label>
                         <select 
-                          className="w-full p-2.5 rounded-xl border border-cyan-200 bg-white"
+                          className="w-full p-2.5 rounded-xl border border-white/10 bg-[#050508] text-slate-200 focus:outline-none focus:border-[#0099FF]"
                           onChange={(e) => handleConditionalDetailChange('Website Type', e.target.value)}
                         >
                           <option value="Custom Business Website (React / Vite)">Custom Business Website (React / Vite)</option>
@@ -517,9 +518,9 @@ export const StartProjectPage: React.FC<StartProjectPageProps> = ({
                         </select>
                       </div>
                       <div>
-                        <label className="block text-slate-700 font-semibold mb-1">Domain &amp; Content Status</label>
+                        <label className="block text-slate-300 font-semibold mb-1.5">Domain &amp; Content Status</label>
                         <select 
-                          className="w-full p-2.5 rounded-xl border border-cyan-200 bg-white"
+                          className="w-full p-2.5 rounded-xl border border-white/10 bg-[#050508] text-slate-200 focus:outline-none focus:border-[#0099FF]"
                           onChange={(e) => handleConditionalDetailChange('Domain Status', e.target.value)}
                         >
                           <option value="Domain and content ready">Domain and content ready</option>
@@ -531,16 +532,16 @@ export const StartProjectPage: React.FC<StartProjectPageProps> = ({
                 )}
 
                 {isAds && (
-                  <div className="p-4 rounded-2xl bg-indigo-50/70 border border-indigo-200 space-y-3">
-                    <div className="text-xs font-tech font-bold text-indigo-900 flex items-center gap-2">
-                      <TrendingUp className="w-4 h-4 text-indigo-600" />
+                  <div className="p-5 rounded-[2rem] rounded-bl-md bg-gradient-to-br from-[#0A0D18] to-[#060810] border border-[#FF1361]/30 space-y-3.5 shadow-[0_0_25px_rgba(255,19,97,0.08)]">
+                    <div className="text-xs font-tech font-bold text-[#FF2A85] flex items-center gap-2">
+                      <TrendingUp className="w-4 h-4 text-[#FF1361]" />
                       <span>Advertising Funnel Objectives</span>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                       <div>
-                        <label className="block text-slate-700 font-semibold mb-1">Primary Campaign Objective</label>
+                        <label className="block text-slate-300 font-semibold mb-1.5">Primary Campaign Objective</label>
                         <select 
-                          className="w-full p-2.5 rounded-xl border border-indigo-200 bg-white"
+                          className="w-full p-2.5 rounded-xl border border-white/10 bg-[#050508] text-slate-200 focus:outline-none focus:border-[#FF1361]"
                           onChange={(e) => handleConditionalDetailChange('Ad Objective', e.target.value)}
                         >
                           <option value="Lead Generation (Calls / WhatsApp)">Lead Generation (Calls / WhatsApp)</option>
@@ -549,9 +550,9 @@ export const StartProjectPage: React.FC<StartProjectPageProps> = ({
                         </select>
                       </div>
                       <div>
-                        <label className="block text-slate-700 font-semibold mb-1">Existing Meta Ad Account?</label>
+                        <label className="block text-slate-300 font-semibold mb-1.5">Existing Meta Ad Account?</label>
                         <select 
-                          className="w-full p-2.5 rounded-xl border border-indigo-200 bg-white"
+                          className="w-full p-2.5 rounded-xl border border-white/10 bg-[#050508] text-slate-200 focus:outline-none focus:border-[#FF1361]"
                           onChange={(e) => handleConditionalDetailChange('Ad Account Status', e.target.value)}
                         >
                           <option value="Yes, active account exists">Yes, active account exists</option>
@@ -563,19 +564,19 @@ export const StartProjectPage: React.FC<StartProjectPageProps> = ({
                 )}
 
                 {isSocial && (
-                  <div className="p-4 rounded-2xl bg-violet-50/70 border border-violet-200 space-y-3">
-                    <div className="text-xs font-tech font-bold text-violet-900 flex items-center gap-2">
-                      <Share2 className="w-4 h-4 text-violet-600" />
+                  <div className="p-5 rounded-[2rem] rounded-br-md bg-gradient-to-br from-[#0A0D18] to-[#060810] border border-[#0099FF]/30 space-y-3.5 shadow-[0_0_25px_rgba(0,153,255,0.08)]">
+                    <div className="text-xs font-tech font-bold text-[#38BDF8] flex items-center gap-2">
+                      <Share2 className="w-4 h-4 text-[#0099FF]" />
                       <span>Social Media Platform Focus</span>
                     </div>
-                    <div className="text-xs text-slate-700 font-semibold mb-1">Primary Channels to Manage</div>
+                    <div className="text-xs text-slate-300 font-semibold mb-1.5">Primary Channels to Manage</div>
                     <div className="flex flex-wrap gap-2 text-xs">
                       {['Instagram', 'Facebook', 'LinkedIn', 'YouTube', 'X (Twitter)'].map((plat) => (
                         <button
                           key={plat}
                           type="button"
                           onClick={() => handleConditionalDetailChange(`Platform: ${plat}`, 'Included')}
-                          className="px-3 py-1.5 rounded-lg border border-violet-200 bg-white hover:bg-violet-100 text-slate-700"
+                          className="px-3.5 py-1.5 rounded-full border border-white/10 bg-[#050508] hover:border-[#FF1361] hover:text-white text-slate-300 transition-colors"
                         >
                           + {plat}
                         </button>
@@ -586,7 +587,7 @@ export const StartProjectPage: React.FC<StartProjectPageProps> = ({
 
                 {/* Additional Services Multi-Select */}
                 <div>
-                  <label className="block text-xs font-tech font-bold text-slate-700 uppercase tracking-wider mb-2">
+                  <label className="block text-xs font-tech font-bold text-slate-300 uppercase tracking-wider mb-2">
                     Additional Complementary Services (Optional)
                   </label>
                   <div className="flex flex-wrap gap-2">
@@ -597,10 +598,10 @@ export const StartProjectPage: React.FC<StartProjectPageProps> = ({
                           key={srv.id}
                           type="button"
                           onClick={() => handleAdditionalServiceToggle(srv.title)}
-                          className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
+                          className={`px-3.5 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer ${
                             isChecked
-                              ? 'bg-sky-600 text-white border-sky-600 shadow-xs'
-                              : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-slate-300'
+                              ? 'bg-gradient-to-r from-[#0099FF] to-[#FF1361] text-white border-transparent shadow-[0_0_15px_rgba(255,19,97,0.3)]'
+                              : 'bg-[#060810] text-slate-300 border-white/10 hover:border-white/25 hover:text-white'
                           }`}
                         >
                           {isChecked ? '✓ ' : '+ '} {srv.title}
@@ -612,7 +613,7 @@ export const StartProjectPage: React.FC<StartProjectPageProps> = ({
 
                 {/* Project Description */}
                 <div>
-                  <label className="block text-xs font-tech font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-tech font-bold text-slate-300 uppercase tracking-wider mb-1.5">
                     Brief Project Description &amp; Objectives *
                   </label>
                   <textarea
@@ -621,23 +622,23 @@ export const StartProjectPage: React.FC<StartProjectPageProps> = ({
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                     placeholder="Describe your current business challenge, required deliverables, target timeline, or what a successful engagement looks like."
-                    className="w-full px-3.5 py-3 rounded-xl border border-slate-200 bg-white text-sm text-slate-900 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 shadow-2xs resize-none"
+                    className="w-full px-4 py-3.5 rounded-[1.5rem] border border-white/10 bg-[#060810] text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#0099FF] focus:ring-1 focus:ring-[#0099FF] shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)] resize-none"
                   />
-                  {stepErrors.description && <p className="text-[11px] text-red-600 mt-1">{stepErrors.description}</p>}
+                  {stepErrors.description && <p className="text-[11px] text-[#FF2A85] mt-1">{stepErrors.description}</p>}
                 </div>
 
                 <div className="pt-4 flex items-center justify-between">
                   <button
                     type="button"
                     onClick={() => setCurrentStep(1)}
-                    className="inline-flex items-center gap-1.5 px-5 py-3 rounded-full text-xs font-semibold text-slate-600 hover:text-slate-900 bg-slate-100 transition-colors"
+                    className="inline-flex items-center gap-1.5 px-6 py-3 rounded-full text-xs font-semibold text-slate-300 hover:text-white bg-[#0A0D18] border border-white/10 transition-colors"
                   >
                     <ArrowLeft className="w-3.5 h-3.5" />
                     <span>Back</span>
                   </button>
                   <button
                     type="submit"
-                    className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-bold text-white bg-gradient-to-r from-sky-500 to-indigo-600 hover:shadow-lg transition-all cursor-pointer"
+                    className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-bold text-white bg-gradient-to-r from-[#0099FF] via-[#0077EE] to-[#FF1361] hover:shadow-[0_0_25px_rgba(255,19,97,0.4)] transition-all cursor-pointer"
                   >
                     <span>Next: Budget &amp; Engagement</span>
                     <ArrowRight className="w-4 h-4" />
@@ -657,48 +658,52 @@ export const StartProjectPage: React.FC<StartProjectPageProps> = ({
                 className="space-y-6"
               >
                 <div>
-                  <h2 className="text-xl font-display font-black text-slate-900">
-                    Step 3: Budget Range &amp; Timeline
+                  <h2 className="text-xl font-display font-black text-white">
+                    Step 3: Budget Allocation &amp; Timeline
                   </h2>
-                  <p className="text-xs text-slate-500 font-sans-clean mt-1">
-                    Transparent expectations ensure our initial proposal aligns with your resources.
+                  <p className="text-xs text-slate-400 font-sans-clean mt-1">
+                    Transparent expectations ensure our initial proposal aligns precisely with your scope.
                   </p>
                 </div>
 
                 {/* Budget Selection */}
                 <div>
-                  <label className="block text-xs font-tech font-bold text-slate-700 uppercase tracking-wider mb-2">
+                  <label className="block text-xs font-tech font-bold text-slate-300 uppercase tracking-wider mb-2">
                     Estimated Budget Allocation *
                   </label>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-                    {AGENCY_CONFIG.budgetRanges.map((range) => (
-                      <button
-                        key={range.value}
-                        type="button"
-                        onClick={() => setFormData({ ...formData, budget: range.label })}
-                        className={`p-3 rounded-xl border text-center transition-all cursor-pointer text-xs font-semibold ${
-                          formData.budget === range.label
-                            ? 'bg-sky-50 border-sky-400 text-sky-800 shadow-xs'
-                            : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300'
-                        }`}
-                      >
-                        {range.label}
-                      </button>
-                    ))}
+                    {AGENCY_CONFIG.budgetRanges.map((range, idx) => {
+                      const isSelected = formData.budget === range.label;
+                      const isEven = idx % 2 === 0;
+                      return (
+                        <button
+                          key={range.value}
+                          type="button"
+                          onClick={() => setFormData({ ...formData, budget: range.label })}
+                          className={`p-3.5 ${isEven ? 'rounded-[1.5rem] rounded-tl-sm' : 'rounded-[1.5rem] rounded-tr-sm'} border text-center transition-all cursor-pointer text-xs font-semibold ${
+                            isSelected
+                              ? 'bg-gradient-to-r from-[#0099FF]/20 to-[#FF1361]/20 border-[#0099FF] text-white shadow-[0_0_20px_rgba(0,153,255,0.25)] font-bold'
+                              : 'bg-[#060810] border-white/10 text-slate-300 hover:border-white/20 hover:text-white'
+                          }`}
+                        >
+                          {range.label}
+                        </button>
+                      );
+                    })}
                   </div>
-                  {stepErrors.budget && <p className="text-[11px] text-red-600 mt-1">{stepErrors.budget}</p>}
+                  {stepErrors.budget && <p className="text-[11px] text-[#FF2A85] mt-1">{stepErrors.budget}</p>}
                 </div>
 
                 {/* Engagement Model */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-tech font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                    <label className="block text-xs font-tech font-bold text-slate-300 uppercase tracking-wider mb-1.5">
                       Engagement Model
                     </label>
                     <select
                       value={formData.engagementType}
                       onChange={(e) => setFormData({ ...formData, engagementType: e.target.value })}
-                      className="w-full px-3.5 py-3 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-800 shadow-2xs"
+                      className="w-full px-4 py-3 rounded-2xl border border-white/10 bg-[#060810] text-xs font-semibold text-slate-200 focus:outline-none focus:border-[#0099FF] shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]"
                     >
                       <option value="One-time project">One-time project sprint</option>
                       <option value="Ongoing monthly support">Ongoing monthly retainer</option>
@@ -707,13 +712,13 @@ export const StartProjectPage: React.FC<StartProjectPageProps> = ({
                   </div>
 
                   <div>
-                    <label className="block text-xs font-tech font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                    <label className="block text-xs font-tech font-bold text-slate-300 uppercase tracking-wider mb-1.5">
                       Target Start Date / Deadline
                     </label>
                     <select
                       value={formData.deadline}
                       onChange={(e) => setFormData({ ...formData, deadline: e.target.value })}
-                      className="w-full px-3.5 py-3 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-800 shadow-2xs"
+                      className="w-full px-4 py-3 rounded-2xl border border-white/10 bg-[#060810] text-xs font-semibold text-slate-200 focus:outline-none focus:border-[#0099FF] shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]"
                     >
                       <option value="Immediately (Within 7 days)">Immediately (Within 7 days)</option>
                       <option value="Within 2–4 weeks">Within 2–4 weeks</option>
@@ -724,49 +729,52 @@ export const StartProjectPage: React.FC<StartProjectPageProps> = ({
 
                 {/* Preferred Contact Method */}
                 <div>
-                  <label className="block text-xs font-tech font-bold text-slate-700 uppercase tracking-wider mb-2">
-                    Preferred Communication Method
+                  <label className="block text-xs font-tech font-bold text-slate-300 uppercase tracking-wider mb-2">
+                    Preferred Communication Channel
                   </label>
-                  <div className="grid grid-cols-3 gap-2 text-xs font-semibold">
-                    {['WhatsApp', 'Email', 'Phone Call'].map((method) => (
-                      <button
-                        key={method}
-                        type="button"
-                        onClick={() => setFormData({ ...formData, preferredContactMethod: method })}
-                        className={`p-2.5 rounded-xl border text-center transition-all cursor-pointer ${
-                          formData.preferredContactMethod === method
-                            ? 'bg-sky-50 border-sky-400 text-sky-800 shadow-xs'
-                            : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300'
-                        }`}
-                      >
-                        {method}
-                      </button>
-                    ))}
+                  <div className="grid grid-cols-3 gap-2.5 text-xs font-semibold">
+                    {['WhatsApp', 'Email', 'Phone Call'].map((method) => {
+                      const isSelected = formData.preferredContactMethod === method;
+                      return (
+                        <button
+                          key={method}
+                          type="button"
+                          onClick={() => setFormData({ ...formData, preferredContactMethod: method })}
+                          className={`p-3 rounded-full border text-center transition-all cursor-pointer ${
+                            isSelected
+                              ? 'bg-gradient-to-r from-[#0099FF] to-[#FF1361] text-white border-transparent shadow-[0_0_15px_rgba(255,19,97,0.3)]'
+                              : 'bg-[#060810] border-white/10 text-slate-300 hover:border-white/25 hover:text-white'
+                          }`}
+                        >
+                          {method}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
 
                 {/* Privacy & Anti-Spam Checkbox */}
-                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+                <div className="p-5 rounded-[2rem] rounded-tl-md bg-gradient-to-br from-[#0A0D18] to-[#060810] border border-white/10">
                   <div className="flex items-start gap-3">
                     <input
                       type="checkbox"
                       id="accept-privacy"
                       checked={formData.acceptedPrivacy}
                       onChange={(e) => setFormData({ ...formData, acceptedPrivacy: e.target.checked })}
-                      className="mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 cursor-pointer"
+                      className="mt-1 w-4 h-4 rounded border-white/20 accent-[#FF1361] cursor-pointer"
                     />
-                    <label htmlFor="accept-privacy" className="text-xs text-slate-600 leading-relaxed cursor-pointer">
-                      I agree to allow Evo Hawks to review my project brief and contact me regarding this proposal. We respect your confidentiality and never share client information with third parties.
+                    <label htmlFor="accept-privacy" className="text-xs text-slate-300 leading-relaxed cursor-pointer">
+                      I agree to allow Evo Hawks to review my project brief and contact me regarding this proposal. We respect strict non-disclosure, intellectual property, and zero-spam governance.
                     </label>
                   </div>
-                  {stepErrors.acceptedPrivacy && <p className="text-[11px] text-red-600 mt-1.5">{stepErrors.acceptedPrivacy}</p>}
+                  {stepErrors.acceptedPrivacy && <p className="text-[11px] text-[#FF2A85] mt-1.5">{stepErrors.acceptedPrivacy}</p>}
                 </div>
 
                 <div className="pt-4 flex items-center justify-between">
                   <button
                     type="button"
                     onClick={() => setCurrentStep(2)}
-                    className="inline-flex items-center gap-1.5 px-5 py-3 rounded-full text-xs font-semibold text-slate-600 hover:text-slate-900 bg-slate-100 transition-colors"
+                    className="inline-flex items-center gap-1.5 px-6 py-3 rounded-full text-xs font-semibold text-slate-300 hover:text-white bg-[#0A0D18] border border-white/10 transition-colors"
                   >
                     <ArrowLeft className="w-3.5 h-3.5" />
                     <span>Back</span>
@@ -775,7 +783,7 @@ export const StartProjectPage: React.FC<StartProjectPageProps> = ({
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-sm font-bold text-white bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:shadow-xl transition-all cursor-pointer disabled:opacity-50"
+                    className="inline-flex items-center gap-2 px-9 py-4 rounded-full text-sm font-bold text-white bg-gradient-to-r from-[#0099FF] via-[#0077EE] to-[#FF1361] hover:shadow-[0_0_35px_rgba(255,19,97,0.4)] transition-all cursor-pointer disabled:opacity-50"
                   >
                     {isSubmitting ? (
                       <span>Transmitting Project Brief...</span>
@@ -789,8 +797,8 @@ export const StartProjectPage: React.FC<StartProjectPageProps> = ({
                 </div>
 
                 <div className="flex items-center justify-center gap-2 text-[11px] font-tech text-slate-400 text-center pt-2">
-                  <ShieldCheck className="w-3.5 h-3.5" />
-                  <span>24-Hour Review Turnaround • Fixed Milestone SOW • Zero Spam</span>
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#0099FF]" />
+                  <span>24-Hour Review Turnaround • Fixed Milestone SOW • Non-Disclosure Protected</span>
                 </div>
               </motion.form>
             )}

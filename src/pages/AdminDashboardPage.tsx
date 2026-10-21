@@ -143,37 +143,37 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
   };
 
   return (
-    <div className="min-h-screen pt-28 pb-24 relative">
+    <div className="min-h-screen pt-28 pb-24 relative bg-[#050508] text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Prototype Environment Notice */}
-        <div className="mb-6 p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-sans-clean flex items-start gap-3 shadow-xs">
-          <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+        <div className="mb-6 p-4 rounded-[1.75rem] rounded-tl-sm bg-[#FF1361]/10 border border-[#FF1361]/30 text-rose-200 text-xs font-sans-clean flex items-start gap-3 shadow-[0_0_25px_rgba(255,19,97,0.1)]">
+          <AlertCircle className="w-5 h-5 text-[#FF1361] shrink-0 mt-0.5" />
           <div>
-            <strong className="font-semibold block mb-0.5">Demo Environment Preview</strong>
+            <strong className="font-semibold block mb-0.5 text-white">Demo Environment Preview</strong>
             This administrative control center is operating on browser local state for interface demonstration. In production, project creation, status transitions, and client deliverable management are secured via server-side APIs and database authorization rules (e.g. Supabase / PostgreSQL RLS).
           </div>
         </div>
 
         {/* Top Control Center Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8 border-b border-slate-200">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8 border-b border-white/10">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-50 border border-violet-200 text-xs font-tech text-violet-700 font-semibold mb-2">
-              <span className="w-2 h-2 rounded-full bg-violet-600 animate-pulse" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0099FF]/10 border border-[#0099FF]/30 text-xs font-tech text-[#38BDF8] font-semibold mb-2">
+              <span className="w-2 h-2 rounded-full bg-[#0099FF] animate-pulse" />
               <span>DEMO AGENCY CONTROL CENTER</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-display font-black text-slate-900">
-              Project Management Hub
+            <h1 className="text-3xl sm:text-4xl font-display font-black text-white">
+              Project <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0099FF] to-[#FF1361]">Management Hub</span>
             </h1>
-            <p className="text-sm text-slate-600 mt-1">
-              Logged in as <strong className="text-slate-900">{user?.name || 'Administrator'}</strong> ({user?.email})
+            <p className="text-sm text-slate-400 mt-1">
+              Logged in as <strong className="text-white">{user?.name || 'Administrator'}</strong> ({user?.email})
             </p>
           </div>
 
           <div className="flex items-center gap-3">
             <button
               onClick={() => setCreateModalOpen(true)}
-              className="py-3 px-5 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-tech font-bold text-xs sm:text-sm hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer"
+              className="py-3 px-5 rounded-full bg-gradient-to-r from-[#0099FF] via-[#0077EE] to-[#FF1361] text-white font-tech font-bold text-xs sm:text-sm hover:shadow-[0_0_25px_rgba(255,19,97,0.4)] transition-all flex items-center gap-2 cursor-pointer"
             >
               <Plus className="w-4 h-4" />
               <span>Launch New Project</span>
@@ -184,7 +184,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                 logout();
                 onNavigate('login');
               }}
-              className="py-3 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-tech font-semibold text-xs transition-colors cursor-pointer"
+              className="py-3 px-4 rounded-full bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white font-tech font-semibold text-xs transition-colors cursor-pointer border border-white/5"
             >
               Logout
             </button>
@@ -194,46 +194,46 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
         {/* Aggregate Stats Metric Row */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 my-8">
           
-          <div className="p-5 rounded-2xl bg-white/95 border border-slate-200 shadow-xs">
-            <div className="flex items-center justify-between text-slate-500 mb-2">
+          <div className="p-5 rounded-[2rem] rounded-tl-sm bg-[#0A0D18] border border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+            <div className="flex items-center justify-between text-slate-400 mb-2">
               <span className="text-xs font-tech font-bold uppercase">Total Projects</span>
-              <Briefcase className="w-4 h-4 text-violet-600" />
+              <Briefcase className="w-4 h-4 text-[#0099FF]" />
             </div>
-            <div className="text-3xl font-display font-black text-slate-900">{totalProjects}</div>
-            <div className="text-[11px] font-tech text-slate-400 mt-1">Across all digital disciplines</div>
+            <div className="text-3xl font-display font-black text-white">{totalProjects}</div>
+            <div className="text-[11px] font-tech text-slate-500 mt-1">Across all digital disciplines</div>
           </div>
 
-          <div className="p-5 rounded-2xl bg-white/95 border border-slate-200 shadow-xs">
-            <div className="flex items-center justify-between text-slate-500 mb-2">
+          <div className="p-5 rounded-[2rem] rounded-tr-sm bg-[#0A0D18] border border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+            <div className="flex items-center justify-between text-slate-400 mb-2">
               <span className="text-xs font-tech font-bold uppercase">In Active Sprints</span>
-              <Clock className="w-4 h-4 text-sky-600" />
+              <Clock className="w-4 h-4 text-[#38BDF8]" />
             </div>
-            <div className="text-3xl font-display font-black text-sky-600">{inProgressCount}</div>
-            <div className="text-[11px] font-tech text-emerald-600 font-semibold mt-1">High-velocity execution</div>
+            <div className="text-3xl font-display font-black text-[#38BDF8]">{inProgressCount}</div>
+            <div className="text-[11px] font-tech text-[#0099FF] font-semibold mt-1">High-velocity execution</div>
           </div>
 
-          <div className="p-5 rounded-2xl bg-white/95 border border-slate-200 shadow-xs">
-            <div className="flex items-center justify-between text-slate-500 mb-2">
+          <div className="p-5 rounded-[2rem] rounded-bl-sm bg-[#0A0D18] border border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+            <div className="flex items-center justify-between text-slate-400 mb-2">
               <span className="text-xs font-tech font-bold uppercase">In Client Review</span>
-              <AlertCircle className="w-4 h-4 text-amber-500" />
+              <AlertCircle className="w-4 h-4 text-[#FF2A85]" />
             </div>
-            <div className="text-3xl font-display font-black text-amber-600">{inReviewCount}</div>
-            <div className="text-[11px] font-tech text-slate-400 mt-1">Awaiting client sign-off</div>
+            <div className="text-3xl font-display font-black text-[#FF2A85]">{inReviewCount}</div>
+            <div className="text-[11px] font-tech text-slate-500 mt-1">Awaiting client sign-off</div>
           </div>
 
-          <div className="p-5 rounded-2xl bg-white/95 border border-slate-200 shadow-xs">
-            <div className="flex items-center justify-between text-slate-500 mb-2">
+          <div className="p-5 rounded-[2rem] rounded-br-sm bg-[#0A0D18] border border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+            <div className="flex items-center justify-between text-slate-400 mb-2">
               <span className="text-xs font-tech font-bold uppercase">Completed &amp; Live</span>
-              <CheckCircle className="w-4 h-4 text-emerald-600" />
+              <CheckCircle className="w-4 h-4 text-emerald-400" />
             </div>
-            <div className="text-3xl font-display font-black text-emerald-600">{completedCount}</div>
-            <div className="text-[11px] font-tech text-emerald-600 font-semibold mt-1">100% SLA delivered</div>
+            <div className="text-3xl font-display font-black text-emerald-400">{completedCount}</div>
+            <div className="text-[11px] font-tech text-emerald-400/80 font-semibold mt-1">100% SLA delivered</div>
           </div>
 
         </div>
 
         {/* Filter & Search Bar */}
-        <div className="p-4 rounded-2xl bg-white/90 border border-slate-200 shadow-xs mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="p-3 sm:p-4 rounded-full bg-[#0A0D18] border border-white/10 shadow-lg mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
           
           {/* Search */}
           <div className="relative w-full md:w-80">
@@ -243,7 +243,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
               placeholder="Search projects or clients..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-base sm:text-sm text-slate-900 focus:outline-none focus:border-violet-500 focus:bg-white"
+              className="w-full pl-10 pr-4 py-2 rounded-full bg-[#060810] border border-white/10 text-base sm:text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#0099FF]"
             />
           </div>
 
@@ -253,10 +253,10 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
               <button
                 key={status}
                 onClick={() => setSelectedStatus(status)}
-                className={`py-1.5 px-3.5 rounded-xl text-xs font-tech font-semibold transition-colors cursor-pointer ${
+                className={`py-1.5 px-4 rounded-full text-xs font-tech font-semibold transition-all cursor-pointer ${
                   selectedStatus === status
-                    ? 'bg-violet-600 text-white shadow-xs'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                    ? 'bg-gradient-to-r from-[#0099FF] to-[#FF1361] text-white shadow-[0_0_15px_rgba(255,19,97,0.3)]'
+                    : 'bg-white/5 text-slate-400 hover:text-white hover:bg-white/10'
                 }`}
               >
                 {status}
@@ -268,154 +268,160 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
 
         {/* Projects Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {filteredProjects.map((project) => (
-            <TiltCard key={project.id} tiltDegree={5} glareColor="#7C3AED" className="w-full">
-              <div className="p-6 rounded-3xl bg-white/95 border border-slate-200 shadow-lg hover:shadow-xl transition-all relative overflow-hidden flex flex-col justify-between h-full">
-                <BorderBeam 
-                  size={120} 
-                  duration={12} 
-                  colorFrom={project.status === 'Completed' ? '#10B981' : project.status === 'Review' ? '#F59E0B' : '#7C3AED'} 
-                  colorTo="#38BDF8" 
-                />
+          {filteredProjects.map((project, idx) => {
+            const cardShape = idx % 2 === 0
+              ? 'rounded-[2.75rem] rounded-tl-sm'
+              : 'rounded-[2.75rem] rounded-tr-sm';
 
-                <div>
-                  {/* Top Card Meta Row */}
-                  <div className="flex items-start justify-between gap-3 mb-3">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="text-[10px] font-tech font-bold uppercase px-2.5 py-1 rounded-md bg-slate-100 text-slate-700">
-                        {project.category}
-                      </span>
+            return (
+              <TiltCard key={project.id} tiltDegree={4} glareColor="#0099FF" className="w-full">
+                <div className={`p-6 sm:p-7 ${cardShape} bg-[#0A0D18]/95 border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.6)] hover:border-[#0099FF]/40 transition-all relative overflow-hidden flex flex-col justify-between h-full`}>
+                  <BorderBeam 
+                    size={140} 
+                    duration={12} 
+                    colorFrom={project.status === 'Completed' ? '#10B981' : project.status === 'Review' ? '#FF1361' : '#0099FF'} 
+                    colorTo="#38BDF8" 
+                  />
 
-                      {/* 1-Click Status Advance Selector */}
-                      <select
-                        value={project.status}
-                        onChange={(e) => updateProjectStatus(project.id, e.target.value as ManagedProject['status'])}
-                        className={`text-[10px] font-tech font-bold uppercase px-2.5 py-1 rounded-md border cursor-pointer focus:outline-none ${
-                          project.status === 'Completed'
-                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                            : project.status === 'Review'
-                            ? 'bg-amber-50 text-amber-700 border-amber-200'
-                            : 'bg-sky-50 text-sky-700 border-sky-200'
-                        }`}
-                      >
-                        <option value="Planning">Planning</option>
-                        <option value="In Progress">In Progress</option>
-                        <option value="Review">Review</option>
-                        <option value="Completed">Completed</option>
-                      </select>
-                    </div>
+                  <div>
+                    {/* Top Card Meta Row */}
+                    <div className="flex items-start justify-between gap-3 mb-3">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="text-[10px] font-tech font-bold uppercase px-3 py-1 rounded-full bg-white/5 text-slate-300 border border-white/10">
+                          {project.category}
+                        </span>
 
-                    {/* Actions: Edit & Delete */}
-                    <div className="flex items-center gap-1">
-                      <button
-                        onClick={() => setEditingProject(project)}
-                        className="p-1.5 rounded-lg text-slate-400 hover:text-violet-600 hover:bg-violet-50 transition-colors cursor-pointer"
-                        title="Edit Project"
-                      >
-                        <Edit3 className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(project.id, project.title)}
-                        className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
-                        title="Delete Project"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Title & Client */}
-                  <h3 className="text-lg sm:text-xl font-display font-bold text-slate-900 mb-1">
-                    {project.title}
-                  </h3>
-                  <div className="flex items-center gap-3 text-xs text-slate-500 mb-4">
-                    <span className="flex items-center gap-1">
-                      <User className="w-3.5 h-3.5 text-slate-400" />
-                      <span>{project.clientName}</span>
-                    </span>
-                    <span>•</span>
-                    <span>{project.clientEmail}</span>
-                  </div>
-
-                  {/* Progress Bar */}
-                  <div className="mb-5">
-                    <div className="flex items-center justify-between text-xs font-tech font-bold mb-1.5">
-                      <span className="text-slate-600">Sprint Progress</span>
-                      <span className="text-violet-600">{project.progress}%</span>
-                    </div>
-                    <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
-                      <motion.div
-                        className="h-full bg-gradient-to-r from-sky-500 via-blue-600 to-violet-600 rounded-full"
-                        initial={{ width: 0 }}
-                        animate={{ width: `${project.progress}%` }}
-                        transition={{ duration: 0.8, ease: "easeOut" }}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Deliverables Checklist (Interactive) */}
-                  <div className="mb-5 bg-slate-50/80 rounded-2xl p-4 border border-slate-100">
-                    <div className="text-xs font-tech font-bold uppercase text-slate-600 mb-2.5 flex items-center justify-between">
-                      <span>Deliverables Checklist</span>
-                      <span className="text-[10px] text-slate-400 font-normal">Click item to toggle</span>
-                    </div>
-                    <div className="space-y-2">
-                      {project.deliverables.map((item) => (
-                        <div
-                          key={item.id}
-                          onClick={() => toggleDeliverable(project.id, item.id)}
-                          className="flex items-center justify-between p-2 rounded-xl bg-white border border-slate-200/70 hover:border-violet-300 transition-colors cursor-pointer text-xs"
+                        {/* 1-Click Status Advance Selector */}
+                        <select
+                          value={project.status}
+                          onChange={(e) => updateProjectStatus(project.id, e.target.value as ManagedProject['status'])}
+                          className={`text-[10px] font-tech font-bold uppercase px-3 py-1 rounded-full border cursor-pointer focus:outline-none ${
+                            project.status === 'Completed'
+                              ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30'
+                              : project.status === 'Review'
+                              ? 'bg-[#FF1361]/15 text-[#FF2A85] border-[#FF1361]/30'
+                              : 'bg-[#0099FF]/15 text-[#38BDF8] border-[#0099FF]/30'
+                          }`}
                         >
-                          <div className="flex items-center gap-2">
-                            {item.completed ? (
-                              <CheckSquare className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-                            ) : (
-                              <Square className="w-4 h-4 text-slate-400 flex-shrink-0" />
+                          <option value="Planning" className="bg-[#0A0D18] text-white">Planning</option>
+                          <option value="In Progress" className="bg-[#0A0D18] text-white">In Progress</option>
+                          <option value="Review" className="bg-[#0A0D18] text-white">Review</option>
+                          <option value="Completed" className="bg-[#0A0D18] text-white">Completed</option>
+                        </select>
+                      </div>
+
+                      {/* Actions: Edit & Delete */}
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          onClick={() => setEditingProject(project)}
+                          className="p-2 rounded-full bg-white/5 text-slate-400 hover:text-[#0099FF] hover:bg-[#0099FF]/15 transition-colors cursor-pointer"
+                          title="Edit Project"
+                        >
+                          <Edit3 className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(project.id, project.title)}
+                          className="p-2 rounded-full bg-white/5 text-slate-400 hover:text-[#FF1361] hover:bg-[#FF1361]/15 transition-colors cursor-pointer"
+                          title="Delete Project"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Title & Client */}
+                    <h3 className="text-xl font-display font-bold text-white mb-1.5">
+                      {project.title}
+                    </h3>
+                    <div className="flex items-center gap-3 text-xs text-slate-400 mb-4">
+                      <span className="flex items-center gap-1.5 text-slate-300 font-medium">
+                        <User className="w-3.5 h-3.5 text-[#0099FF]" />
+                        <span>{project.clientName}</span>
+                      </span>
+                      <span>•</span>
+                      <span>{project.clientEmail}</span>
+                    </div>
+
+                    {/* Progress Bar */}
+                    <div className="mb-5">
+                      <div className="flex items-center justify-between text-xs font-tech font-bold mb-1.5">
+                        <span className="text-slate-400">Sprint Progress</span>
+                        <span className="text-[#38BDF8]">{project.progress}%</span>
+                      </div>
+                      <div className="w-full h-2.5 bg-[#060810] rounded-full overflow-hidden border border-white/5">
+                        <motion.div
+                          className="h-full bg-gradient-to-r from-[#0099FF] via-[#0077EE] to-[#FF1361] rounded-full shadow-[0_0_15px_rgba(255,19,97,0.4)]"
+                          initial={{ width: 0 }}
+                          animate={{ width: `${project.progress}%` }}
+                          transition={{ duration: 0.8, ease: "easeOut" }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Deliverables Checklist (Interactive) */}
+                    <div className="mb-5 bg-[#060810] rounded-[1.75rem] p-4 border border-white/5">
+                      <div className="text-xs font-tech font-bold uppercase text-slate-400 mb-2.5 flex items-center justify-between">
+                        <span>Deliverables Checklist</span>
+                        <span className="text-[10px] text-slate-500 font-normal">Click item to toggle</span>
+                      </div>
+                      <div className="space-y-2">
+                        {project.deliverables.map((item) => (
+                          <div
+                            key={item.id}
+                            onClick={() => toggleDeliverable(project.id, item.id)}
+                            className="flex items-center justify-between p-2.5 rounded-xl bg-[#0A0D18] border border-white/5 hover:border-[#0099FF]/40 transition-colors cursor-pointer text-xs"
+                          >
+                            <div className="flex items-center gap-2.5">
+                              {item.completed ? (
+                                <CheckSquare className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                              ) : (
+                                <Square className="w-4 h-4 text-slate-500 flex-shrink-0" />
+                              )}
+                              <span className={item.completed ? 'line-through text-slate-500 font-medium' : 'text-slate-200 font-medium'}>
+                                {item.title}
+                              </span>
+                            </div>
+                            {item.link && (
+                              <a
+                                href={item.link}
+                                target="_blank"
+                                rel="noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                                className="text-[#0099FF] hover:text-[#38BDF8] ml-2"
+                                title="External Resource"
+                              >
+                                <ArrowUpRight className="w-3.5 h-3.5" />
+                              </a>
                             )}
-                            <span className={item.completed ? 'line-through text-slate-400 font-medium' : 'text-slate-700 font-medium'}>
-                              {item.title}
-                            </span>
                           </div>
-                          {item.link && (
-                            <a
-                              href={item.link}
-                              target="_blank"
-                              rel="noreferrer"
-                              onClick={(e) => e.stopPropagation()}
-                              className="text-violet-600 hover:text-violet-800 ml-2"
-                              title="External Resource"
-                            >
-                              <ArrowUpRight className="w-3.5 h-3.5" />
-                            </a>
-                          )}
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Bottom Card Footer */}
-                <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-tech text-slate-500">
-                  <div className="flex items-center gap-1.5">
-                    <DollarSign className="w-3.5 h-3.5 text-emerald-600" />
-                    <span className="font-bold text-slate-900">{project.budget}</span>
+                  {/* Bottom Card Footer */}
+                  <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs font-tech text-slate-400">
+                    <div className="flex items-center gap-1.5">
+                      <DollarSign className="w-3.5 h-3.5 text-emerald-400" />
+                      <span className="font-bold text-white">{project.budget}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                      <span>Due {project.deadline}</span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-1.5">
-                    <Calendar className="w-3.5 h-3.5 text-slate-400" />
-                    <span>Due {project.deadline}</span>
-                  </div>
-                </div>
 
-              </div>
-            </TiltCard>
-          ))}
+                </div>
+              </TiltCard>
+            );
+          })}
 
           {filteredProjects.length === 0 && (
-            <div className="col-span-2 py-16 text-center bg-white/60 border border-slate-200 rounded-3xl">
-              <p className="text-slate-500 font-tech text-sm">No projects match the selected filters.</p>
+            <div className="col-span-2 py-16 text-center bg-[#0A0D18] border border-white/10 rounded-[2.5rem]">
+              <p className="text-slate-400 font-tech text-sm">No projects match the selected filters.</p>
               <button
                 onClick={() => { setSelectedStatus('All'); setSelectedCategory('All'); setSearchQuery(''); }}
-                className="mt-3 text-xs font-tech text-violet-600 font-bold hover:underline cursor-pointer"
+                className="mt-3 text-xs font-tech text-[#0099FF] font-bold hover:underline cursor-pointer"
               >
                 Reset all filters
               </button>
@@ -428,23 +434,23 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
       {/* CREATE PROJECT MODAL */}
       <AnimatePresence>
         {createModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/40 backdrop-blur-md">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white rounded-2xl sm:rounded-3xl max-w-xl w-full p-5 sm:p-8 shadow-2xl border border-slate-200 relative overflow-hidden max-h-[88vh] overflow-y-auto"
+              className="bg-[#0A0D18] rounded-[2.5rem] max-w-xl w-full p-6 sm:p-8 shadow-2xl border border-white/10 relative overflow-hidden max-h-[88vh] overflow-y-auto text-white"
             >
-              <BorderBeam size={120} duration={8} colorFrom="#7C3AED" colorTo="#0284C7" />
+              <BorderBeam size={140} duration={8} colorFrom="#0099FF" colorTo="#FF1361" />
               
-              <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
+              <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-5">
                 <div>
-                  <h3 className="text-lg sm:text-xl font-display font-black text-slate-900">Launch New Project</h3>
-                  <p className="text-xs text-slate-500">Define scope, client credentials, and milestone checkpoints.</p>
+                  <h3 className="text-xl sm:text-2xl font-display font-black text-white">Launch New Project</h3>
+                  <p className="text-xs text-slate-400">Define scope, client credentials, and milestone checkpoints.</p>
                 </div>
                 <button
                   onClick={() => setCreateModalOpen(false)}
-                  className="p-2 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
+                  className="p-2 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -452,107 +458,107 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
 
               <form onSubmit={handleCreateSubmit} className="space-y-4 text-xs font-tech">
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">Project Name / Title</label>
+                  <label className="block text-slate-300 font-bold mb-1">Project Name / Title</label>
                   <input
                     type="text"
                     required
                     placeholder="e.g. Apex Luxury E-Commerce Portal"
                     value={newTitle}
                     onChange={(e) => setNewTitle(e.target.value)}
-                    className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-xs font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
+                    className="w-full p-3 rounded-xl bg-[#060810] border border-white/10 text-white placeholder-slate-500 text-base sm:text-xs font-sans focus:outline-none focus:border-[#0099FF]"
                   />
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-slate-700 font-bold mb-1">Client Name</label>
+                    <label className="block text-slate-300 font-bold mb-1">Client Name</label>
                     <input
                       type="text"
                       required
                       placeholder="e.g. Karan Singhania"
                       value={newClientName}
                       onChange={(e) => setNewClientName(e.target.value)}
-                      className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-xs font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
+                      className="w-full p-3 rounded-xl bg-[#060810] border border-white/10 text-white placeholder-slate-500 text-base sm:text-xs font-sans focus:outline-none focus:border-[#0099FF]"
                     />
                   </div>
                   <div>
-                    <label className="block text-slate-700 font-bold mb-1">Client Email</label>
+                    <label className="block text-slate-300 font-bold mb-1">Client Email</label>
                     <input
                       type="email"
                       required
                       placeholder="e.g. karan@apex.com"
                       value={newClientEmail}
                       onChange={(e) => setNewClientEmail(e.target.value)}
-                      className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-xs font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
+                      className="w-full p-3 rounded-xl bg-[#060810] border border-white/10 text-white placeholder-slate-500 text-base sm:text-xs font-sans focus:outline-none focus:border-[#0099FF]"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div>
-                    <label className="block text-slate-700 font-bold mb-1">Discipline</label>
+                    <label className="block text-slate-300 font-bold mb-1">Discipline</label>
                     <select
                       value={newCategory}
                       onChange={(e) => setNewCategory(e.target.value as ManagedProject['category'])}
-                      className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-xs focus:outline-none focus:border-violet-500 focus:bg-white"
+                      className="w-full p-3 rounded-xl bg-[#060810] border border-white/10 text-white text-base sm:text-xs focus:outline-none focus:border-[#0099FF]"
                     >
-                      <option value="Websites">Websites</option>
-                      <option value="Video">Video &amp; Reels</option>
-                      <option value="Design">Graphic Design</option>
-                      <option value="Marketing">Paid Marketing</option>
-                      <option value="Social">Social Media</option>
+                      <option value="Websites" className="bg-[#0A0D18] text-white">Websites</option>
+                      <option value="Video" className="bg-[#0A0D18] text-white">Video &amp; Reels</option>
+                      <option value="Design" className="bg-[#0A0D18] text-white">Graphic Design</option>
+                      <option value="Marketing" className="bg-[#0A0D18] text-white">Paid Marketing</option>
+                      <option value="Social" className="bg-[#0A0D18] text-white">Social Media</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-slate-700 font-bold mb-1">Budget</label>
+                    <label className="block text-slate-300 font-bold mb-1">Budget</label>
                     <input
                       type="text"
                       placeholder="₹65,000"
                       value={newBudget}
                       onChange={(e) => setNewBudget(e.target.value)}
-                      className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-xs font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
+                      className="w-full p-3 rounded-xl bg-[#060810] border border-white/10 text-white placeholder-slate-500 text-base sm:text-xs font-sans focus:outline-none focus:border-[#0099FF]"
                     />
                   </div>
                   <div>
-                    <label className="block text-slate-700 font-bold mb-1">Deadline Date</label>
+                    <label className="block text-slate-300 font-bold mb-1">Deadline Date</label>
                     <input
                       type="date"
                       value={newDeadline}
                       onChange={(e) => setNewDeadline(e.target.value)}
-                      className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-xs font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
+                      className="w-full p-3 rounded-xl bg-[#060810] border border-white/10 text-white text-base sm:text-xs font-sans focus:outline-none focus:border-[#0099FF]"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">Lead Strategist</label>
+                  <label className="block text-slate-300 font-bold mb-1">Lead Strategist</label>
                   <input
                     type="text"
                     placeholder="e.g. Aryan (Head of Tech)"
                     value={newStrategist}
                     onChange={(e) => setNewStrategist(e.target.value)}
-                    className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-xs font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
+                    className="w-full p-3 rounded-xl bg-[#060810] border border-white/10 text-white placeholder-slate-500 text-base sm:text-xs font-sans focus:outline-none focus:border-[#0099FF]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">Deliverables List (1 per line)</label>
+                  <label className="block text-slate-300 font-bold mb-1">Deliverables List (1 per line)</label>
                   <textarea
                     rows={3}
                     value={newDeliverablesInput}
                     onChange={(e) => setNewDeliverablesInput(e.target.value)}
-                    className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-xs font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
+                    className="w-full p-3 rounded-xl bg-[#060810] border border-white/10 text-white placeholder-slate-500 text-base sm:text-xs font-sans focus:outline-none focus:border-[#0099FF]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">Executive Notes / Specs</label>
+                  <label className="block text-slate-300 font-bold mb-1">Executive Notes / Specs</label>
                   <input
                     type="text"
                     placeholder="Key specifications, rush flags, tech stack..."
                     value={newNotes}
                     onChange={(e) => setNewNotes(e.target.value)}
-                    className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-xs font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
+                    className="w-full p-3 rounded-xl bg-[#060810] border border-white/10 text-white placeholder-slate-500 text-base sm:text-xs font-sans focus:outline-none focus:border-[#0099FF]"
                   />
                 </div>
 
@@ -560,13 +566,13 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                   <button
                     type="button"
                     onClick={() => setCreateModalOpen(false)}
-                    className="py-2.5 px-4 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 font-semibold cursor-pointer text-center"
+                    className="py-2.5 px-5 rounded-full bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 font-semibold cursor-pointer text-center"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="py-2.5 px-6 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-bold hover:shadow-md cursor-pointer flex items-center justify-center gap-2"
+                    className="py-2.5 px-6 rounded-full bg-gradient-to-r from-[#0099FF] via-[#0077EE] to-[#FF1361] text-white font-bold hover:shadow-[0_0_20px_rgba(255,19,97,0.4)] cursor-pointer flex items-center justify-center gap-2"
                   >
                     <Save className="w-4 h-4" />
                     <span>Launch Project</span>
@@ -581,21 +587,21 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
       {/* EDIT PROJECT MODAL */}
       <AnimatePresence>
         {editingProject && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/40 backdrop-blur-md">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white rounded-2xl sm:rounded-3xl max-w-xl w-full p-5 sm:p-8 shadow-2xl border border-slate-200 relative overflow-hidden max-h-[88vh] overflow-y-auto"
+              className="bg-[#0A0D18] rounded-[2.5rem] max-w-xl w-full p-6 sm:p-8 shadow-2xl border border-white/10 relative overflow-hidden max-h-[88vh] overflow-y-auto text-white"
             >
-              <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
+              <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-5">
                 <div>
-                  <h3 className="text-lg sm:text-xl font-display font-black text-slate-900">Edit Project Specs</h3>
-                  <p className="text-xs text-slate-500">Update progress, status, budget, and timeline.</p>
+                  <h3 className="text-xl sm:text-2xl font-display font-black text-white">Edit Project Specs</h3>
+                  <p className="text-xs text-slate-400">Update progress, status, budget, and timeline.</p>
                 </div>
                 <button
                   onClick={() => setEditingProject(null)}
-                  className="p-2 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
+                  className="p-2 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -603,70 +609,70 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
 
               <form onSubmit={handleEditSubmit} className="space-y-4 text-xs font-tech">
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">Project Title</label>
+                  <label className="block text-slate-300 font-bold mb-1">Project Title</label>
                   <input
                     type="text"
                     value={editingProject.title}
                     onChange={(e) => setEditingProject({ ...editingProject, title: e.target.value })}
-                    className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-xs font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
+                    className="w-full p-3 rounded-xl bg-[#060810] border border-white/10 text-white text-base sm:text-xs font-sans focus:outline-none focus:border-[#0099FF]"
                   />
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-slate-700 font-bold mb-1">Status</label>
+                    <label className="block text-slate-300 font-bold mb-1">Status</label>
                     <select
                       value={editingProject.status}
                       onChange={(e) => setEditingProject({ ...editingProject, status: e.target.value as ManagedProject['status'] })}
-                      className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-xs focus:outline-none focus:border-violet-500 focus:bg-white"
+                      className="w-full p-3 rounded-xl bg-[#060810] border border-white/10 text-white text-base sm:text-xs focus:outline-none focus:border-[#0099FF]"
                     >
-                      <option value="Planning">Planning</option>
-                      <option value="In Progress">In Progress</option>
-                      <option value="Review">Review</option>
-                      <option value="Completed">Completed</option>
+                      <option value="Planning" className="bg-[#0A0D18] text-white">Planning</option>
+                      <option value="In Progress" className="bg-[#0A0D18] text-white">In Progress</option>
+                      <option value="Review" className="bg-[#0A0D18] text-white">Review</option>
+                      <option value="Completed" className="bg-[#0A0D18] text-white">Completed</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-slate-700 font-bold mb-1">Progress Percentage ({editingProject.progress}%)</label>
+                    <label className="block text-slate-300 font-bold mb-1">Progress Percentage ({editingProject.progress}%)</label>
                     <input
                       type="range"
                       min="0"
                       max="100"
                       value={editingProject.progress}
                       onChange={(e) => setEditingProject({ ...editingProject, progress: parseInt(e.target.value) })}
-                      className="w-full accent-violet-600 mt-2"
+                      className="w-full accent-[#0099FF] mt-2"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-slate-700 font-bold mb-1">Budget</label>
+                    <label className="block text-slate-300 font-bold mb-1">Budget</label>
                     <input
                       type="text"
                       value={editingProject.budget}
                       onChange={(e) => setEditingProject({ ...editingProject, budget: e.target.value })}
-                      className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-xs font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
+                      className="w-full p-3 rounded-xl bg-[#060810] border border-white/10 text-white text-base sm:text-xs font-sans focus:outline-none focus:border-[#0099FF]"
                     />
                   </div>
                   <div>
-                    <label className="block text-slate-700 font-bold mb-1">Deadline Date</label>
+                    <label className="block text-slate-300 font-bold mb-1">Deadline Date</label>
                     <input
                       type="date"
                       value={editingProject.deadline}
                       onChange={(e) => setEditingProject({ ...editingProject, deadline: e.target.value })}
-                      className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-xs font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
+                      className="w-full p-3 rounded-xl bg-[#060810] border border-white/10 text-white text-base sm:text-xs font-sans focus:outline-none focus:border-[#0099FF]"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">Internal Notes</label>
+                  <label className="block text-slate-300 font-bold mb-1">Internal Notes</label>
                   <textarea
                     rows={2}
                     value={editingProject.notes || ''}
                     onChange={(e) => setEditingProject({ ...editingProject, notes: e.target.value })}
-                    className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-xs font-sans focus:outline-none focus:border-violet-500 focus:bg-white"
+                    className="w-full p-3 rounded-xl bg-[#060810] border border-white/10 text-white text-base sm:text-xs font-sans focus:outline-none focus:border-[#0099FF]"
                   />
                 </div>
 
@@ -674,13 +680,13 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                   <button
                     type="button"
                     onClick={() => setEditingProject(null)}
-                    className="py-2.5 px-4 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 font-semibold cursor-pointer text-center"
+                    className="py-2.5 px-5 rounded-full bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 font-semibold cursor-pointer text-center"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="py-2.5 px-6 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-bold hover:shadow-md cursor-pointer flex items-center justify-center gap-2"
+                    className="py-2.5 px-6 rounded-full bg-gradient-to-r from-[#0099FF] via-[#0077EE] to-[#FF1361] text-white font-bold hover:shadow-[0_0_20px_rgba(255,19,97,0.4)] cursor-pointer flex items-center justify-center gap-2"
                   >
                     <Save className="w-4 h-4" />
                     <span>Save Changes</span>

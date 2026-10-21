@@ -1,36 +1,39 @@
 import React from 'react';
 import { ShieldCheck, ArrowLeft } from 'lucide-react';
+import { BorderBeam } from '../components/ui/BorderBeam';
 import type { PageId } from '../hooks/usePageRouter';
 
 export const TermsPage: React.FC<{ onNavigate: (page: PageId) => void }> = ({ onNavigate }) => {
   return (
-    <div className="pt-28 pb-20 min-h-screen">
+    <div className="pt-28 pb-20 min-h-screen bg-[#050508] text-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <button
           onClick={() => onNavigate('home')}
-          className="inline-flex items-center gap-1.5 text-xs font-tech text-sky-600 hover:text-sky-700 font-bold mb-6 cursor-pointer"
+          className="inline-flex items-center gap-2 text-xs font-tech text-[#38BDF8] hover:text-white font-bold mb-6 cursor-pointer transition-colors"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to Home</span>
         </button>
 
-        <div className="p-8 sm:p-12 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-8">
+        <div className="p-8 sm:p-12 rounded-[3rem] rounded-tr-sm bg-[#0A0D18]/90 border border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.8)] relative overflow-hidden space-y-8">
+          <BorderBeam size={160} duration={12} colorFrom="#0099FF" colorTo="#FF1361" />
+
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 border border-sky-200 text-xs font-tech text-sky-700 font-semibold mb-3">
-              <ShieldCheck className="w-3.5 h-3.5 text-sky-600" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0099FF]/10 border border-[#0099FF]/30 text-xs font-tech text-[#38BDF8] font-semibold mb-3">
+              <ShieldCheck className="w-3.5 h-3.5 text-[#0099FF]" />
               <span>COMMERCIAL TERMS</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-display font-black text-slate-900 tracking-tight">
-              Terms of Service
+            <h1 className="text-3xl sm:text-4xl font-display font-black text-white tracking-tight">
+              Terms of <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0099FF] to-[#FF1361]">Service</span>
             </h1>
-            <p className="text-xs text-slate-500 font-sans-clean mt-1">
+            <p className="text-xs text-slate-400 font-sans-clean mt-1">
               Effective Date: October 2026
             </p>
           </div>
 
-          <div className="space-y-6 text-sm text-slate-700 font-sans-clean leading-relaxed">
+          <div className="space-y-6 text-sm text-slate-300 font-sans-clean leading-relaxed">
             <section>
-              <h2 className="text-base font-display font-bold text-slate-900 mb-2">
+              <h2 className="text-base font-display font-bold text-white mb-2">
                 1. Scope of Work &amp; Engagement
               </h2>
               <p>
@@ -39,7 +42,7 @@ export const TermsPage: React.FC<{ onNavigate: (page: PageId) => void }> = ({ on
             </section>
 
             <section>
-              <h2 className="text-base font-display font-bold text-slate-900 mb-2">
+              <h2 className="text-base font-display font-bold text-white mb-2">
                 2. Intellectual Property &amp; Code Ownership
               </h2>
               <p>
@@ -48,7 +51,7 @@ export const TermsPage: React.FC<{ onNavigate: (page: PageId) => void }> = ({ on
             </section>
 
             <section>
-              <h2 className="text-base font-display font-bold text-slate-900 mb-2">
+              <h2 className="text-base font-display font-bold text-white mb-2">
                 3. Revisions &amp; Approval Process
               </h2>
               <p>
@@ -57,7 +60,7 @@ export const TermsPage: React.FC<{ onNavigate: (page: PageId) => void }> = ({ on
             </section>
 
             <section>
-              <h2 className="text-base font-display font-bold text-slate-900 mb-2">
+              <h2 className="text-base font-display font-bold text-white mb-2">
                 4. Advertising Spend &amp; Third-Party Services
               </h2>
               <p>
@@ -66,7 +69,7 @@ export const TermsPage: React.FC<{ onNavigate: (page: PageId) => void }> = ({ on
             </section>
 
             <section>
-              <h2 className="text-base font-display font-bold text-slate-900 mb-2">
+              <h2 className="text-base font-display font-bold text-white mb-2">
                 5. Performance Warranties &amp; Disclaimers
               </h2>
               <p>
@@ -75,7 +78,7 @@ export const TermsPage: React.FC<{ onNavigate: (page: PageId) => void }> = ({ on
             </section>
 
             <section>
-              <h2 className="text-base font-display font-bold text-slate-900 mb-2">
+              <h2 className="text-base font-display font-bold text-white mb-2">
                 6. Governing Law
               </h2>
               <p>

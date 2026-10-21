@@ -148,7 +148,7 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ onSelectServ
                         </h3>
 
                         <p className="text-xs sm:text-sm text-slate-600 font-sans-clean leading-relaxed line-clamp-2 mb-4">
-                          {project.description}
+                          {project.description || project.overview}
                         </p>
                       </div>
 

@@ -26,7 +26,10 @@ export type AnalyticsEventName =
   | 'contact_success'
   | 'contact_error'
   | 'whatsapp_click'
-  | 'email_click';
+  | 'email_click'
+  | 'start_project_step'
+  | 'start_project_submitted'
+  | 'package_enquiry';
 
 export interface EventProperties {
   page?: string;

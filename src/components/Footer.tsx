@@ -5,7 +5,7 @@ import { ArrowUp, Mail, MapPin } from 'lucide-react';
 import type { PageId } from '../hooks/usePageRouter';
 
 interface FooterProps {
-  onNavigate?: (page: PageId) => void;
+  onNavigate?: (page: PageId, slug?: string) => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
@@ -15,21 +15,22 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
 
   const navLinks: { name: string; id: PageId }[] = [
     { name: 'Home', id: 'home' },
-    { name: 'Services', id: 'services' },
-    { name: 'Work', id: 'work' },
-    { name: 'Why Us', id: 'why-us' },
-    { name: 'About', id: 'about' },
-    { name: 'Process', id: 'process' },
-    { name: 'FAQ', id: 'faq' },
+    { name: 'Services (12 Disciplines)', id: 'services' },
+    { name: 'Portfolio & Case Studies', id: 'work' },
+    { name: 'Packages & Pricing', id: 'packages' },
+    { name: 'Start a Project Intake', id: 'start-project' },
+    { name: 'Working Process', id: 'process' },
+    { name: 'About Agency', id: 'about' },
+    { name: 'Agency FAQs', id: 'faq' },
     { name: 'Contact', id: 'contact' },
   ];
 
-  const handleLinkClick = (e: React.MouseEvent, pageId: PageId) => {
+  const handleLinkClick = (e: React.MouseEvent, pageId: PageId, slug?: string) => {
     e.preventDefault();
     if (onNavigate) {
-      onNavigate(pageId);
+      onNavigate(pageId, slug);
     } else {
-      window.location.hash = pageId;
+      window.location.hash = slug ? `${pageId}/${slug}` : pageId;
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
@@ -45,13 +46,13 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pb-16 border-b border-slate-200/80">
           
           {/* Brand & Mission Column */}
-          <div className="lg:col-span-5 flex flex-col items-start space-y-4">
+          <div className="lg:col-span-4 flex flex-col items-start space-y-4">
             <div onClick={(e) => handleLinkClick(e, 'home')} className="cursor-pointer">
               <Logo size="lg" showTagline={true} lightText={false} />
             </div>
             
             <p className="text-sm text-slate-600 font-sans-clean max-w-sm leading-relaxed mt-2">
-              Digital experiences, creative content and marketing solutions for businesses ready to grow online.
+              Full-service creative production, digital marketing, brand engineering, and web development agency. Built for conversion, engineered for scale.
             </p>
 
             <div className="flex items-center gap-3 pt-2">
@@ -114,7 +115,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <h4 className="text-xs font-tech uppercase tracking-wider text-slate-900 font-bold mb-4">
               Explore Pages
             </h4>
-            <ul className="space-y-2.5">
+            <ul className="space-y-2">
               {navLinks.map((link) => (
                 <li key={link.id}>
                   <button
@@ -129,17 +130,21 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           </div>
 
           {/* Core Services Links */}
-          <div className="lg:col-span-4 space-y-4">
+          <div className="lg:col-span-5 space-y-4">
             <h4 className="text-xs font-tech uppercase tracking-wider text-slate-900 font-bold mb-4">
-              Capabilities
+              Dedicated Service Pages
             </h4>
             <div className="grid grid-cols-2 gap-2 text-xs text-slate-600">
-              <button onClick={(e) => handleLinkClick(e, 'services')} className="hover:text-sky-600 transition-colors cursor-pointer text-left">Website Development</button>
-              <button onClick={(e) => handleLinkClick(e, 'services')} className="hover:text-sky-600 transition-colors cursor-pointer text-left">Graphic Design</button>
-              <button onClick={(e) => handleLinkClick(e, 'services')} className="hover:text-sky-600 transition-colors cursor-pointer text-left">Video &amp; Reels Cut</button>
-              <button onClick={(e) => handleLinkClick(e, 'services')} className="hover:text-sky-600 transition-colors cursor-pointer text-left">Social Media</button>
-              <button onClick={(e) => handleLinkClick(e, 'services')} className="hover:text-sky-600 transition-colors cursor-pointer text-left">SEO Search</button>
-              <button onClick={(e) => handleLinkClick(e, 'services')} className="hover:text-sky-600 transition-colors cursor-pointer text-left">Paid Meta Ads</button>
+              <button onClick={(e) => handleLinkClick(e, 'service-detail', 'web-development')} className="hover:text-sky-600 transition-colors cursor-pointer text-left">Website Development</button>
+              <button onClick={(e) => handleLinkClick(e, 'service-detail', 'shopify-ecommerce')} className="hover:text-sky-600 transition-colors cursor-pointer text-left">Shopify &amp; E-commerce</button>
+              <button onClick={(e) => handleLinkClick(e, 'service-detail', 'video-production')} className="hover:text-sky-600 transition-colors cursor-pointer text-left">Video Production &amp; Reels</button>
+              <button onClick={(e) => handleLinkClick(e, 'service-detail', 'meta-ads')} className="hover:text-sky-600 transition-colors cursor-pointer text-left">Paid Meta &amp; Google Ads</button>
+              <button onClick={(e) => handleLinkClick(e, 'service-detail', 'social-media-management')} className="hover:text-sky-600 transition-colors cursor-pointer text-left">Social Media Management</button>
+              <button onClick={(e) => handleLinkClick(e, 'service-detail', 'seo-content')} className="hover:text-sky-600 transition-colors cursor-pointer text-left">SEO &amp; Content Marketing</button>
+              <button onClick={(e) => handleLinkClick(e, 'service-detail', 'branding-design')} className="hover:text-sky-600 transition-colors cursor-pointer text-left">Branding &amp; Identity</button>
+              <button onClick={(e) => handleLinkClick(e, 'service-detail', 'youtube-management')} className="hover:text-sky-600 transition-colors cursor-pointer text-left">YouTube Management</button>
+              <button onClick={(e) => handleLinkClick(e, 'service-detail', 'influencer-marketing')} className="hover:text-sky-600 transition-colors cursor-pointer text-left">Influencer Marketing</button>
+              <button onClick={(e) => handleLinkClick(e, 'service-detail', 'website-maintenance')} className="hover:text-sky-600 transition-colors cursor-pointer text-left">Website Care &amp; SLA</button>
             </div>
 
             <div className="pt-4 border-t border-slate-100 text-xs font-tech text-slate-500">
@@ -163,10 +168,31 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           </span>
         </div>
 
-        {/* Bottom Copyright & Back to Top */}
+        {/* Bottom Policies, Copyright & Back to Top */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-tech text-slate-500">
-          <div>
-            © 2026 Evo Hawks. All rights reserved.
+          <div className="flex flex-wrap items-center gap-4">
+            <span>© 2026 Evo Hawks. All rights reserved.</span>
+            <span className="text-slate-300">&bull;</span>
+            <button
+              onClick={(e) => handleLinkClick(e, 'privacy-policy')}
+              className="hover:text-sky-600 transition-colors cursor-pointer"
+            >
+              Privacy Policy
+            </button>
+            <span className="text-slate-300">&bull;</span>
+            <button
+              onClick={(e) => handleLinkClick(e, 'terms')}
+              className="hover:text-sky-600 transition-colors cursor-pointer"
+            >
+              Terms of Service
+            </button>
+            <span className="text-slate-300">&bull;</span>
+            <button
+              onClick={(e) => handleLinkClick(e, 'refund-policy')}
+              className="hover:text-sky-600 transition-colors cursor-pointer"
+            >
+              Cancellation &amp; Refund Policy
+            </button>
           </div>
 
           <button

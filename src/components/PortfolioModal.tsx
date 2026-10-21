@@ -17,11 +17,18 @@ import {
 
 interface PortfolioModalProps {
   project: PortfolioItem | null;
+  isOpen?: boolean;
   onClose: () => void;
-  onInquire: (serviceName: string) => void;
+  onInquire?: (serviceName: string) => void;
+  onSelectService?: (serviceName: string) => void;
 }
 
-export const PortfolioModal: React.FC<PortfolioModalProps> = ({ project, onClose, onInquire }) => {
+export const PortfolioModal: React.FC<PortfolioModalProps> = ({ 
+  project, 
+  onClose, 
+  onInquire, 
+  onSelectService 
+}) => {
   // Track analytics event when case study modal opens
   useEffect(() => {
     if (project) {
@@ -115,7 +122,7 @@ export const PortfolioModal: React.FC<PortfolioModalProps> = ({ project, onClose
                 </div>
 
                 <p className="text-sm sm:text-base text-slate-600 font-sans-clean leading-relaxed">
-                  {project.description}
+                  {project.description || project.overview}
                 </p>
 
                 {/* Challenge & Solution Grid */}
@@ -136,7 +143,7 @@ export const PortfolioModal: React.FC<PortfolioModalProps> = ({ project, onClose
                       <span>Evo Hawks Solution</span>
                     </div>
                     <p className="text-xs text-sky-950 font-sans-clean leading-relaxed">
-                      {project.solution || "Engineered modular component architecture and high-retention creative formats tailored specifically for target audiences."}
+                      {project.solution || project.strategy || "Engineered modular component architecture and high-retention creative formats tailored specifically for target audiences."}
                     </p>
                   </div>
                 </div>
@@ -192,7 +199,7 @@ export const PortfolioModal: React.FC<PortfolioModalProps> = ({ project, onClose
                   <MagneticButton
                     onClick={() => {
                       onClose();
-                      onInquire(project.title);
+                      (onInquire || onSelectService || (() => {}))(project.title);
                     }}
                     className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-sky-500 to-indigo-600 hover:shadow-[0_6px_20px_rgba(2,132,199,0.35)] transition-all cursor-pointer"
                   >

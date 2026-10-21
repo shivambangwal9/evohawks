@@ -18,11 +18,17 @@ import {
   Cpu, 
   Zap, 
   CheckCircle2, 
-  ShieldCheck,
-  HelpCircle,
-  FileCheck,
-  Users
+  ShieldCheck, 
+  HelpCircle, 
+  FileCheck, 
+  Users, 
+  ShoppingBag, 
+  Film, 
+  Mail, 
+  LineChart, 
+  Wrench 
 } from 'lucide-react';
+import type { PageId } from '../hooks/usePageRouter';
 
 const ServiceIcon: React.FC<{ iconName: string; className?: string }> = ({ iconName, className }) => {
   switch (iconName) {
@@ -32,6 +38,12 @@ const ServiceIcon: React.FC<{ iconName: string; className?: string }> = ({ iconN
     case 'Share2': return <Share2 className={className} />;
     case 'Search': return <Search className={className} />;
     case 'TrendingUp': return <TrendingUp className={className} />;
+    case 'ShoppingBag': return <ShoppingBag className={className} />;
+    case 'Youtube': return <Film className={className} />;
+    case 'Mail': return <Mail className={className} />;
+    case 'LineChart': return <LineChart className={className} />;
+    case 'Wrench': return <Wrench className={className} />;
+    case 'Users': return <Users className={className} />;
     default: return <Sparkles className={className} />;
   }
 };
@@ -39,13 +51,16 @@ const ServiceIcon: React.FC<{ iconName: string; className?: string }> = ({ iconN
 interface ServicesPageProps {
   onOpenProjectModal: (service?: string) => void;
   onOpenBookingModal?: (topic?: string) => void;
+  onNavigate?: (page: PageId, slug?: string) => void;
 }
 
 export const ServicesPage: React.FC<ServicesPageProps> = ({ 
   onOpenProjectModal,
-  onOpenBookingModal 
+  onOpenBookingModal,
+  onNavigate
 }) => {
   const [activeTab, setActiveTab] = useState<string>('web-development');
+  const [categoryFilter, setCategoryFilter] = useState<string>('all');
 
   // Interactive Scope & Cost Estimator State
   const [selectedWebsite, setSelectedWebsite] = useState<'none' | 'landing' | 'custom' | 'enterprise'>('custom');
@@ -86,6 +101,10 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
   const estimate = calculateEstimate();
   const activeService = SERVICES_DATA.find(s => s.id === activeTab) || SERVICES_DATA[0];
 
+  const filteredServices = categoryFilter === 'all' 
+    ? SERVICES_DATA 
+    : SERVICES_DATA.filter(s => s.category.toLowerCase().includes(categoryFilter.toLowerCase()));
+
   // Track service discovery analytics
   useEffect(() => {
     trackEvent('service_viewed', {
@@ -107,7 +126,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative text-center">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-sky-200 text-xs font-tech text-sky-700 font-semibold mb-6 shadow-xs">
             <Cpu className="w-3.5 h-3.5 text-sky-600" />
-            <span>FULL-STACK DIGITAL CAPABILITIES</span>
+            <span>FULL-STACK DIGITAL CAPABILITIES &bull; 12 SPECIALIZED DISCIPLINES</span>
           </div>
 
           <h1 className="text-4xl sm:text-6xl md:text-7xl font-display font-black text-slate-900 tracking-tight mb-6">
@@ -115,49 +134,78 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
           </h1>
 
           <p className="text-base sm:text-xl text-slate-600 font-sans-clean max-w-3xl mx-auto leading-relaxed mb-10">
-            From modern responsive websites to high-retention cinematic video and scalable paid marketing systems. Explore our 6 specialized disciplines.
+            From modern responsive websites and headless e-commerce to cinematic video production, performance ads, and YouTube growth. Explore all 12 specialized agency disciplines.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-3">
             <MagneticButton
-              onClick={() => onOpenProjectModal()}
+              onClick={() => {
+                if (onNavigate) {
+                  onNavigate('start-project');
+                } else {
+                  onOpenProjectModal();
+                }
+              }}
               className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-sm font-bold text-white bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:shadow-[0_8px_25px_rgba(2,132,199,0.4)] transition-all cursor-pointer"
             >
-              <span>Build Custom Package</span>
+              <span>Start a Project Intake</span>
               <ArrowRight className="w-4 h-4" />
             </MagneticButton>
             <a
-              href="#estimator"
+              href="#catalogue"
               className="px-6 py-4 rounded-full text-sm font-semibold text-slate-700 bg-white border border-slate-300 hover:border-sky-400 hover:text-sky-600 shadow-xs transition-colors"
             >
-              Launch Scope Estimator &darr;
+              View Service Catalogue &darr;
             </a>
           </div>
         </div>
       </section>
 
-      {/* Interactive 6 Services Detailed Deep-Dive Hub */}
+      {/* Interactive 12 Services Detailed Deep-Dive Hub */}
       <section className="relative py-20 bg-transparent border-y border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center max-w-3xl mx-auto mb-12">
+          <div className="text-center max-w-3xl mx-auto mb-10">
             <h2 className="text-3xl sm:text-4xl font-display font-black text-slate-900 mb-3">
-              Explore Our 6 Disciplines
+              Explore Our 12 Disciplines
             </h2>
             <p className="text-sm sm:text-base text-slate-600">
-              Select any capability below to view deliverables, specs, and execution standards.
+              Select any capability below to preview deliverables, specifications, and execution standards.
             </p>
+
+            {/* Category Filter Pills */}
+            <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
+              {[
+                { id: 'all', label: 'All 12 Disciplines' },
+                { id: 'creative', label: 'Creative & Video' },
+                { id: 'marketing', label: 'Paid & Social Marketing' },
+                { id: 'development', label: 'Web & E-Commerce' },
+                { id: 'strategy', label: 'Strategy & Care' },
+              ].map(cat => (
+                <button
+                  key={cat.id}
+                  onClick={() => setCategoryFilter(cat.id)}
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                    categoryFilter === cat.id
+                      ? 'bg-sky-600 text-white shadow-xs'
+                      : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300'
+                  }`}
+                >
+                  {cat.label}
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Service Selector Tabs with layoutId - Swipeable on mobile, grid on sm+ */}
-          <div className="flex sm:grid sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3 mb-8 sm:mb-12 overflow-x-auto pb-2 sm:pb-0 scrollbar-none touch-pan-x -mx-4 px-4 sm:mx-0 sm:px-0">
-            {SERVICES_DATA.map((srv) => {
+          {/* Service Selector Tabs with layoutId - Scrollable on mobile, compact grid on desktop */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5 sm:gap-3 mb-8 sm:mb-12">
+            {filteredServices.map((srv) => {
               const isActive = activeTab === srv.id;
               return (
                 <button
                   key={srv.id}
                   onClick={() => setActiveTab(srv.id)}
-                  className={`flex-shrink-0 w-36 sm:w-auto relative p-3.5 sm:p-4 rounded-2xl border text-left transition-all duration-300 cursor-pointer flex flex-col justify-between overflow-hidden shadow-xs ${
+                  className={`relative p-3 rounded-2xl border text-left transition-all duration-300 cursor-pointer flex flex-col justify-between overflow-hidden shadow-xs min-h-[90px] ${
                     isActive
                       ? 'bg-white border-sky-400 shadow-[0_6px_20px_rgba(2,132,199,0.2)]'
                       : 'bg-white/70 border-slate-200 hover:border-slate-300 hover:bg-white'
@@ -170,13 +218,13 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
                       transition={{ type: "spring", stiffness: 450, damping: 30 }}
                     />
                   )}
-                  <div className="flex items-center justify-between mb-2 sm:mb-3">
+                  <div className="flex items-center justify-between mb-2">
                     <span className={`text-[10px] font-tech font-bold ${isActive ? 'text-sky-600' : 'text-slate-400'}`}>
                       0{srv.number}
                     </span>
-                    <ServiceIcon iconName={srv.icon} className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isActive ? 'text-sky-600' : 'text-slate-400'}`} />
+                    <ServiceIcon iconName={srv.icon} className={`w-3.5 h-3.5 ${isActive ? 'text-sky-600' : 'text-slate-400'}`} />
                   </div>
-                  <div className="text-xs sm:text-sm font-display font-bold text-slate-900 leading-tight">
+                  <div className="text-xs font-display font-bold text-slate-900 leading-tight">
                     {srv.title}
                   </div>
                 </button>
@@ -206,7 +254,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
                       </div>
                       <div>
                         <span className="text-[11px] sm:text-xs font-tech text-sky-600 font-bold tracking-widest uppercase">
-                          SERVICE 0{activeService.number} DISCIPLINE
+                          SERVICE 0{activeService.number} &bull; {activeService.category}
                         </span>
                         <h3 className="text-xl sm:text-2xl md:text-3xl font-display font-black text-slate-900">
                           {activeService.title}
@@ -268,26 +316,33 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
 
                   {/* CTAs */}
                   <div className="w-full pt-2 flex flex-wrap items-center gap-3">
-                    <MagneticButton
-                      onClick={() => onOpenProjectModal(activeService.title)}
-                      className="w-full sm:w-auto justify-center inline-flex items-center gap-2 px-6 sm:px-8 py-3.5 rounded-full text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:shadow-[0_6px_20px_rgba(2,132,199,0.35)] transition-all cursor-pointer"
-                    >
-                      <span>Inquire About {activeService.title}</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </MagneticButton>
-
                     <a
-                      href="#estimator"
-                      className="w-full sm:w-auto text-center px-5 py-3.5 rounded-full text-xs sm:text-sm font-semibold text-slate-700 bg-white border border-slate-200 hover:border-sky-300 hover:text-sky-600 transition-colors"
+                      href={`#services/${activeService.slug}`}
+                      onClick={(e) => {
+                        if (onNavigate) {
+                          e.preventDefault();
+                          onNavigate('service-detail', activeService.slug);
+                        }
+                      }}
+                      className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:shadow-[0_6px_20px_rgba(2,132,199,0.35)] transition-all cursor-pointer"
                     >
-                      Estimate Package Budget &darr;
+                      <span>Read Dedicated Service Page</span>
+                      <ArrowRight className="w-4 h-4" />
                     </a>
+
+                    <button
+                      type="button"
+                      onClick={() => onOpenProjectModal(activeService.title)}
+                      className="px-5 py-3.5 rounded-full text-xs sm:text-sm font-semibold text-slate-700 bg-white border border-slate-200 hover:border-sky-300 hover:text-sky-600 transition-colors cursor-pointer"
+                    >
+                      Quick Enquiry
+                    </button>
 
                     {onOpenBookingModal && (
                       <button
                         type="button"
                         onClick={() => onOpenBookingModal(`Service Consultation: ${activeService.title}`)}
-                        className="w-full sm:w-auto text-center px-5 py-3.5 rounded-full text-xs sm:text-sm font-semibold text-sky-700 bg-sky-50 border border-sky-200 hover:bg-sky-100 hover:border-sky-300 transition-colors cursor-pointer"
+                        className="px-5 py-3.5 rounded-full text-xs sm:text-sm font-semibold text-sky-700 bg-sky-50 border border-sky-200 hover:bg-sky-100 hover:border-sky-300 transition-colors cursor-pointer"
                       >
                         Book Strategy Call &rarr;
                       </button>
@@ -348,6 +403,90 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
             </AnimatePresence>
           </div>
 
+        </div>
+      </section>
+
+      {/* Complete Agency Services Directory Matrix (All 12 Disciplines) */}
+      <section id="catalogue" className="relative py-20 bg-slate-50/70 border-b border-slate-200/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-14">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-sky-200 text-xs font-tech text-sky-700 font-semibold mb-3 shadow-xs">
+              <Sparkles className="w-3.5 h-3.5 text-sky-600" />
+              <span>CENTRALIZED SERVICE DIRECTORY</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-display font-black text-slate-900 mb-4">
+              All 12 Core Agency Disciplines
+            </h2>
+            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+              Every main discipline features dedicated deliverables, transparent scopes, verified workflow steps, and SEO-friendly deep dive specifications.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {SERVICES_DATA.map((srv) => (
+              <div
+                key={srv.id}
+                className="group relative rounded-2xl bg-white border border-slate-200 p-6 flex flex-col justify-between hover:shadow-lg hover:border-sky-300 transition-all duration-300"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-sky-50 border border-sky-100 flex items-center justify-center text-sky-600 group-hover:scale-105 transition-transform">
+                      <ServiceIcon iconName={srv.icon} className="w-5 h-5" />
+                    </div>
+                    <span className="text-[10px] font-tech font-bold uppercase tracking-wider text-slate-600 bg-slate-100 px-2.5 py-1 rounded-full">
+                      {srv.category}
+                    </span>
+                  </div>
+
+                  <h3 className="text-lg font-display font-bold text-slate-900 mb-1.5 group-hover:text-sky-600 transition-colors">
+                    {srv.title}
+                  </h3>
+                  <p className="text-xs text-sky-700 font-medium mb-3 line-clamp-1">
+                    {srv.tagline}
+                  </p>
+                  <p className="text-xs text-slate-600 leading-relaxed mb-4 line-clamp-2">
+                    {srv.description}
+                  </p>
+
+                  <div className="border-t border-slate-100 pt-3 mb-4 space-y-1.5">
+                    <span className="text-[10px] font-tech uppercase text-slate-600 font-bold tracking-wider block">
+                      Core Scope:
+                    </span>
+                    {srv.deliverables.slice(0, 3).map((item, idx) => (
+                      <div key={idx} className="flex items-center gap-2 text-[11px] text-slate-600">
+                        <Check className="w-3 h-3 text-emerald-500 shrink-0" />
+                        <span className="line-clamp-1">{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                  <a
+                    href={`#services/${srv.slug}`}
+                    onClick={(e) => {
+                      if (onNavigate) {
+                        e.preventDefault();
+                        onNavigate('service-detail', srv.slug);
+                      }
+                    }}
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-sky-600 hover:text-sky-700 transition-colors"
+                  >
+                    <span>Dedicated Page</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </a>
+
+                  <button
+                    type="button"
+                    onClick={() => onOpenProjectModal(srv.title)}
+                    className="text-xs text-slate-600 hover:text-slate-900 font-medium px-2.5 py-1 rounded-lg border border-slate-200 hover:border-slate-300 transition-colors cursor-pointer"
+                  >
+                    Quick Quote
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

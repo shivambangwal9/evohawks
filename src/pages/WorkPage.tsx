@@ -1,53 +1,50 @@
 import React, { useState } from 'react';
-import { PORTFOLIO_DATA } from '../data/agencyData';
-import type { PortfolioItem } from '../data/agencyData';
+import { PORTFOLIO_DATA, type PortfolioItem } from '../data/agencyData';
 import { PortfolioModal } from '../components/PortfolioModal';
-import { motion, AnimatePresence } from 'framer-motion';
-import { TiltCard } from '../components/ui/TiltCard';
-import { BorderBeam } from '../components/ui/BorderBeam';
+import { motion } from 'framer-motion';
 import { MagneticButton } from '../components/ui/MagneticButton';
 import { 
-  ArrowUpRight, 
-  Eye, 
-  TrendingUp, 
+  Search, 
   Layers, 
-  ArrowRight 
+  ArrowRight, 
+  AlertTriangle 
 } from 'lucide-react';
+import type { PageId } from '../hooks/usePageRouter';
 
 interface WorkPageProps {
-  onOpenProjectModal: (service?: string) => void;
+  onNavigate: (page: PageId, slug?: string) => void;
+  onOpenProjectModal?: (service?: string) => void;
 }
 
-export const WorkPage: React.FC<WorkPageProps> = ({ onOpenProjectModal }) => {
+export const WorkPage: React.FC<WorkPageProps> = ({ 
+  onNavigate,
+  onOpenProjectModal 
+}) => {
   const [activeFilter, setActiveFilter] = useState<string>('All');
+  const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedProject, setSelectedProject] = useState<PortfolioItem | null>(null);
 
-  const filters = ['All', 'Websites', 'Design', 'Video', 'Social', 'Marketing'];
-
-  const filteredProjects = activeFilter === 'All' 
-    ? PORTFOLIO_DATA 
-    : PORTFOLIO_DATA.filter(p => p.category === activeFilter);
-
-  const spotlightCaseStudies = [
-    {
-      title: "Hyperion FinTech Platform",
-      category: "Web & High-Speed Architecture",
-      client: "Concept Architecture Benchmark",
-      focus1: "Next.js 15 App Router",
-      focus2: "Biometric Web Auth UI",
-      desc: "Architected a modern Next.js interface with responsive design, biometric authentication mockups, and interactive financial performance charts.",
-      tags: ["Next.js 15", "Tailwind CSS", "Framer Motion", "FinTech Concept"]
-    },
-    {
-      title: "Verve Kinetic Brand Launch",
-      category: "Reels Content & Brand Identity",
-      client: "Concept Creative Benchmark",
-      focus1: "9:16 Vertical Video",
-      focus2: "Sound & Motion Design",
-      desc: "Produced high-tempo 9:16 vertical video cut series combined with a modern lookbook storefront designed for brand storytelling across social media.",
-      tags: ["Video Editing", "Sound Design", "Motion Typography", "Storefront Concept"]
-    }
+  const filters = [
+    'All', 
+    'Websites', 
+    'Branding', 
+    'Video Production', 
+    'Social Media', 
+    'Paid Advertising', 
+    'E-commerce', 
+    'SEO and Content', 
+    'Photography'
   ];
+
+  const filteredProjects = PORTFOLIO_DATA.filter(project => {
+    const matchesFilter = activeFilter === 'All' || project.category === activeFilter;
+    const matchesSearch = searchQuery.trim() === '' || 
+      project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      project.industry.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      project.services.some(s => s.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      project.technologies.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
+    return matchesFilter && matchesSearch;
+  });
 
   return (
     <motion.div
@@ -60,248 +57,199 @@ export const WorkPage: React.FC<WorkPageProps> = ({ onOpenProjectModal }) => {
       {/* Work Page Hero */}
       <section className="relative py-16 sm:py-24 bg-transparent bg-grid-cyber">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-sky-200 text-xs font-tech text-sky-700 font-semibold mb-6 shadow-xs">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-sky-200 text-xs font-tech text-sky-700 font-semibold mb-6 shadow-2xs">
             <Layers className="w-3.5 h-3.5 text-sky-600" />
-            <span>PORTFOLIO &amp; CREATIVE BENCHMARKS</span>
+            <span>PORTFOLIO &amp; CASE STUDY REPOSITORY</span>
           </div>
 
           <h1 className="text-4xl sm:text-6xl md:text-7xl font-display font-black text-slate-900 tracking-tight mb-6">
             Engineered for <span className="text-gradient-cyan">Maximum Impact</span>
           </h1>
 
-          <p className="text-base sm:text-xl text-slate-600 font-sans-clean max-w-3xl mx-auto leading-relaxed mb-10">
-            A curated showcase of websites, creative campaigns, content ecosystems, and scalable digital solutions.
+          <p className="text-base sm:text-xl text-slate-600 font-sans-clean max-w-3xl mx-auto leading-relaxed mb-8">
+            Explore our production projects and concept benchmarks across web engineering, branding, video storytelling, and performance marketing.
           </p>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto">
-            <div className="p-4 rounded-2xl bg-white/80 border border-slate-200 shadow-xs">
-              <div className="text-2xl font-display font-black text-slate-900">6</div>
-              <div className="text-[11px] font-tech text-slate-500 uppercase font-semibold">Core Disciplines</div>
-            </div>
-            <div className="p-4 rounded-2xl bg-white/80 border border-slate-200 shadow-xs">
-              <div className="text-2xl font-display font-black text-sky-600">1</div>
-              <div className="text-[11px] font-tech text-slate-500 uppercase font-semibold">Unified Creative Team</div>
-            </div>
-            <div className="p-4 rounded-2xl bg-white/80 border border-slate-200 shadow-xs">
-              <div className="text-2xl font-display font-black text-violet-600">100%</div>
-              <div className="text-[11px] font-tech text-slate-500 uppercase font-semibold">Code &amp; Asset Ownership</div>
-            </div>
-            <div className="p-4 rounded-2xl bg-white/80 border border-slate-200 shadow-xs">
-              <div className="text-2xl font-display font-black text-emerald-600">Strict</div>
-              <div className="text-[11px] font-tech text-slate-500 uppercase font-semibold">NDA &amp; Client Privacy</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Filterable Portfolio Bento Grid */}
-      <section className="relative py-20 bg-transparent border-y border-slate-200/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          {/* Category Filter Pills */}
-          <div className="flex items-center justify-center mb-12 overflow-x-auto pb-2 scrollbar-none">
-            <div className="inline-flex items-center gap-1.5 p-1.5 rounded-full bg-white/80 border border-slate-200/90 backdrop-blur-md shadow-xs">
-              {filters.map((category) => {
-                const isActive = activeFilter === category;
-                return (
-                  <button
-                    key={category}
-                    onClick={() => setActiveFilter(category)}
-                    className={`relative px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors cursor-pointer whitespace-nowrap z-10 ${
-                      isActive ? 'text-white' : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    {isActive && (
-                      <motion.div
-                        layoutId="activeWorkFilterPill"
-                        className="absolute inset-0 bg-gradient-to-r from-sky-500 to-indigo-600 rounded-full shadow-[0_4px_15px_rgba(2,132,199,0.35)] -z-10"
-                        transition={{ type: "spring", stiffness: 450, damping: 30 }}
-                      />
-                    )}
-                    <span>{category}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Project Grid */}
-          <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <AnimatePresence>
-              {filteredProjects.map((project) => (
-                <motion.div
-                  layout
-                  key={project.id}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                  className="h-full"
-                >
-                  <TiltCard 
-                    tiltDegree={10} 
-                    glareColor="#0284C7"
-                    onClick={() => setSelectedProject(project)}
-                    className="h-full cursor-pointer"
-                  >
-                    <div className="group rounded-3xl bg-white/90 border border-slate-200 hover:border-sky-400 overflow-hidden flex flex-col h-full transition-all duration-300 shadow-xs hover:shadow-xl relative">
-                      <BorderBeam size={120} duration={12} colorFrom="#0284C7" colorTo="#7C3AED" />
-
-                      {/* Project Image Container */}
-                      <div className="relative h-60 sm:h-64 w-full overflow-hidden bg-slate-100">
-                        <img
-                          src={project.image}
-                          alt={project.title}
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                          loading="lazy"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-50 group-hover:opacity-30 transition-opacity duration-300" />
-
-                        {/* Concept Project Badge */}
-                        <div className="absolute top-4 left-4">
-                          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-tech font-bold bg-white/95 text-sky-700 border border-sky-200 backdrop-blur-md shadow-xs">
-                            {project.badge}
-                          </span>
-                        </div>
-
-                        {/* Category Tag Top Right */}
-                        <div className="absolute top-4 right-4">
-                          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-tech font-medium text-slate-800 bg-white/90 backdrop-blur-md border border-slate-200 shadow-xs">
-                            {project.category}
-                          </span>
-                        </div>
-
-                        {/* Hover Quick Action */}
-                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 bg-slate-900/30 backdrop-blur-xs">
-                          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-sky-500 to-indigo-600 text-white font-bold text-xs shadow-xl transform translate-y-3 group-hover:translate-y-0 transition-transform duration-300">
-                            <Eye className="w-3.5 h-3.5" />
-                            <span>View Project Brief</span>
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Project Card Body */}
-                      <div className="p-6 flex-1 flex flex-col justify-between">
-                        <div>
-                          <div className="text-xs font-tech text-slate-500 mb-1 font-medium">
-                            {project.industry}
-                          </div>
-                          
-                          <h3 className="text-xl font-display font-extrabold text-slate-900 group-hover:text-sky-600 transition-colors mb-2 flex items-center justify-between">
-                            <span>{project.title}</span>
-                            <ArrowUpRight className="w-4 h-4 text-slate-400 group-hover:text-sky-600 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
-                          </h3>
-
-                          <p className="text-xs sm:text-sm text-slate-600 font-sans-clean leading-relaxed line-clamp-2 mb-4">
-                            {project.description}
-                          </p>
-                        </div>
-
-                        {/* Services List / Tags */}
-                        <div className="pt-4 border-t border-slate-100 flex flex-wrap gap-1.5">
-                          {project.services.slice(0, 3).map((srv, idx) => (
-                            <span 
-                              key={idx} 
-                              className="px-2.5 py-1 rounded-md text-[11px] font-tech text-slate-600 bg-slate-50 border border-slate-200"
-                            >
-                              {srv}
-                            </span>
-                          ))}
-                          {project.services.length > 3 && (
-                            <span className="px-2 py-1 rounded-md text-[11px] font-tech text-slate-400 bg-slate-50">
-                              +{project.services.length - 3}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </TiltCard>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
-
-        </div>
-      </section>
-
-      {/* Featured Spotlight Case Studies Deep-Dive */}
-      <section className="relative py-20 bg-transparent">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="text-center max-w-2xl mx-auto mb-14">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-sky-200 text-xs font-tech text-sky-700 font-semibold mb-3 shadow-xs">
-              <TrendingUp className="w-3.5 h-3.5 text-sky-600" />
-              <span>MEASURABLE OUTCOMES</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-display font-black text-slate-900">
-              Case Study Spotlights
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {spotlightCaseStudies.map((study, idx) => (
-              <div
-                key={idx}
-                className="p-8 rounded-3xl bg-white/95 border border-slate-200 shadow-md relative overflow-hidden flex flex-col justify-between"
+          {/* Search Input Bar */}
+          <div className="max-w-md mx-auto mb-8 relative">
+            <Search className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search by keyword, technology, or industry..."
+              className="w-full pl-11 pr-4 py-3 rounded-full bg-white border border-slate-200 text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 shadow-2xs"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-tech text-slate-400 hover:text-slate-600"
               >
-                <BorderBeam size={140} duration={12 + idx * 2} colorFrom="#0284C7" colorTo="#7C3AED" />
+                Clear
+              </button>
+            )}
+          </div>
 
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-xs font-tech font-semibold text-sky-700 bg-sky-50 px-3 py-1 rounded-full border border-sky-200">
-                      {study.category}
-                    </span>
-                    <span className="text-xs font-tech text-slate-500">{study.client}</span>
-                  </div>
-
-                  <h3 className="text-2xl font-display font-extrabold text-slate-900 mb-3">
-                    {study.title}
-                  </h3>
-
-                  <p className="text-sm text-slate-600 font-sans-clean leading-relaxed mb-6">
-                    {study.desc}
-                  </p>
-
-                  <div className="grid grid-cols-2 gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-200 mb-6">
-                    <div className="text-center">
-                      <div className="text-sm font-display font-bold text-slate-900">{study.focus1}</div>
-                      <div className="text-[10px] font-tech text-slate-500 uppercase font-semibold">Core Framework</div>
-                    </div>
-                    <div className="text-center border-l border-slate-200">
-                      <div className="text-sm font-display font-bold text-sky-600">{study.focus2}</div>
-                      <div className="text-[10px] font-tech text-slate-500 uppercase font-semibold">Primary Focus</div>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {study.tags.map((t, i) => (
-                      <span key={i} className="px-2.5 py-1 rounded-md text-[11px] font-tech text-slate-600 bg-white border border-slate-200">
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <MagneticButton
-                  onClick={() => onOpenProjectModal(study.title)}
-                  className="w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl bg-slate-100 hover:bg-gradient-to-r hover:from-sky-500 hover:to-indigo-600 text-slate-800 hover:text-white font-bold text-xs transition-all border border-slate-200 hover:border-transparent cursor-pointer shadow-xs"
-                >
-                  <span>Request Similar Architecture</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </MagneticButton>
-              </div>
+          {/* Category Filter Pills */}
+          <div className="flex flex-wrap items-center justify-center gap-2 max-w-4xl mx-auto">
+            {filters.map((filter) => (
+              <button
+                key={filter}
+                onClick={() => setActiveFilter(filter)}
+                className={`px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                  activeFilter === filter
+                    ? 'bg-sky-600 text-white shadow-md'
+                    : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300'
+                }`}
+              >
+                {filter}
+              </button>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Projects Grid */}
+      <section className="relative py-12 sm:py-16 bg-transparent">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          {filteredProjects.length === 0 ? (
+            <div className="text-center py-16 p-8 rounded-3xl bg-white border border-slate-200">
+              <p className="text-sm text-slate-500">No case studies match your active search or category filter.</p>
+              <button
+                onClick={() => { setActiveFilter('All'); setSearchQuery(''); }}
+                className="mt-3 text-xs font-tech text-sky-600 font-bold hover:underline"
+              >
+                Reset All Filters
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredProjects.map((project) => (
+                <div
+                  key={project.id}
+                  className="group rounded-3xl bg-white border border-slate-200 hover:border-sky-300 transition-all duration-300 shadow-sm hover:shadow-xl flex flex-col justify-between overflow-hidden relative"
+                >
+                  <div>
+                    {/* Media Thumbnail */}
+                    <div className="relative aspect-video w-full overflow-hidden bg-slate-900 cursor-pointer"
+                         onClick={() => onNavigate('case-study-detail', project.id)}>
+                      <img
+                        src={project.image}
+                        alt={`${project.title} - ${project.industry}`}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                      <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
+                        <span className="px-2.5 py-1 rounded-full text-[10px] font-tech font-bold uppercase bg-white/90 backdrop-blur-md text-slate-900 shadow-xs">
+                          {project.category}
+                        </span>
+                        {project.isConcept && (
+                          <span className="px-2.5 py-1 rounded-full text-[10px] font-tech font-bold uppercase bg-amber-500/90 text-white shadow-xs flex items-center gap-1">
+                            <AlertTriangle className="w-2.5 h-2.5" />
+                            <span>Concept</span>
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Card Content */}
+                    <div className="p-6">
+                      <div className="text-[11px] font-tech text-slate-500 font-semibold mb-1">
+                        {project.industry}
+                      </div>
+
+                      <h3 
+                        onClick={() => onNavigate('case-study-detail', project.id)}
+                        className="text-xl font-display font-black text-slate-900 group-hover:text-sky-600 transition-colors cursor-pointer mb-2"
+                      >
+                        {project.title}
+                      </h3>
+
+                      <p className="text-xs text-slate-600 line-clamp-2 font-sans-clean leading-relaxed mb-4">
+                        {project.overview}
+                      </p>
+
+                      {/* Tech Stack Pills */}
+                      <div className="flex flex-wrap gap-1.5 mb-4">
+                        {project.technologies.slice(0, 3).map((tech, i) => (
+                          <span key={i} className="text-[10px] font-mono font-medium px-2 py-0.5 rounded bg-slate-100 text-slate-700">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Card Footer CTAs */}
+                  <div className="p-6 pt-0 border-t border-slate-100 mt-2 flex items-center justify-between">
+                    <button
+                      onClick={() => onNavigate('case-study-detail', project.id)}
+                      className="inline-flex items-center gap-1 text-xs font-tech font-bold text-sky-600 hover:text-sky-700 cursor-pointer"
+                    >
+                      <span>Read Case Study</span>
+                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                    </button>
+
+                    <button
+                      onClick={() => setSelectedProject(project)}
+                      className="px-3 py-1.5 rounded-full text-[11px] font-semibold text-slate-600 bg-slate-50 hover:bg-slate-100 border border-slate-200 cursor-pointer"
+                    >
+                      Quick View
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
 
         </div>
       </section>
 
-      {/* Project Modal */}
-      <PortfolioModal
-        project={selectedProject}
-        onClose={() => setSelectedProject(null)}
-        onInquire={(srv) => onOpenProjectModal(srv)}
-      />
+      {/* Bottom Start Project Callout */}
+      <section className="relative py-16 bg-white border-t border-slate-200 mt-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="p-8 sm:p-12 rounded-3xl bg-slate-50 border border-slate-200">
+            <h2 className="text-2xl sm:text-3xl font-display font-black text-slate-900 mb-3">
+              Ready to create your brand&apos;s breakthrough case study?
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto mb-6">
+              Tell us about your project requirements, target deliverables, and timeline. Our team will prepare a structured Scope of Work within 24 business hours.
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <MagneticButton
+                onClick={() => onNavigate('start-project')}
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-sm font-bold text-white bg-gradient-to-r from-sky-500 to-indigo-600 hover:shadow-lg transition-all cursor-pointer"
+              >
+                <span>Submit Project Brief</span>
+                <ArrowRight className="w-4 h-4" />
+              </MagneticButton>
+              {onOpenProjectModal && (
+                <button
+                  type="button"
+                  onClick={() => onOpenProjectModal('Portfolio Inquiry')}
+                  className="px-6 py-4 rounded-full text-sm font-semibold text-sky-700 bg-sky-50 hover:bg-sky-100 border border-sky-200 transition-colors cursor-pointer"
+                >
+                  Quick Quote Modal
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Quick View Modal */}
+      {selectedProject && (
+        <PortfolioModal
+          project={selectedProject}
+          isOpen={!!selectedProject}
+          onClose={() => setSelectedProject(null)}
+          onSelectService={() => {
+            setSelectedProject(null);
+            onNavigate('start-project');
+          }}
+        />
+      )}
     </motion.div>
   );
 };

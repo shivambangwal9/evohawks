@@ -24,6 +24,16 @@ export interface EnquiryPayload {
   description?: string;
   acceptedPrivacy: boolean;
   botField?: string; // Honeypot field - must be empty
+
+  // Extended Qualification Fields (Part B: Feature 3)
+  websiteOrSocial?: string;
+  additionalServices?: string[];
+  businessGoal?: string;
+  targetAudience?: string;
+  deadline?: string;
+  engagementType?: string;
+  preferredContactMethod?: string;
+  conditionalDetails?: Record<string, string>;
 }
 
 export interface ValidationErrors {
@@ -97,19 +107,31 @@ export function validateEnquiry(data: EnquiryPayload): { isValid: boolean; error
  * Builds formatted text for WhatsApp or Email dispatch.
  */
 export function formatLeadBrief(data: EnquiryPayload): string {
-  return [
+  const lines = [
     `*NEW PROJECT ENQUIRY — EVO HAWKS*`,
     `----------------------------------------`,
     `Client Name: ${data.fullName.trim()}`,
     `Business: ${data.businessName.trim()}`,
     `Email: ${data.email.trim()}`,
     `Phone/WhatsApp: ${data.phone.trim()}`,
-    `Required Service: ${data.service}`,
+    data.websiteOrSocial ? `Website/Social: ${data.websiteOrSocial.trim()}` : null,
+    `Primary Service: ${data.service}`,
+    data.additionalServices && data.additionalServices.length > 0 ? `Additional Services: ${data.additionalServices.join(', ')}` : null,
     `Budget Range: ${data.budget}`,
+    data.engagementType ? `Engagement: ${data.engagementType}` : null,
+    data.deadline ? `Target Deadline: ${data.deadline}` : null,
+    data.businessGoal ? `Primary Goal: ${data.businessGoal}` : null,
+    data.targetAudience ? `Target Audience: ${data.targetAudience}` : null,
+    data.preferredContactMethod ? `Preferred Contact: ${data.preferredContactMethod}` : null,
+    data.conditionalDetails && Object.keys(data.conditionalDetails).length > 0 
+      ? `Scope Specifics:\n${Object.entries(data.conditionalDetails).map(([k, v]) => `  • ${k}: ${v}`).join('\n')}` 
+      : null,
     `Project Brief: ${data.description?.trim() || 'Scope to be discussed on discovery call.'}`,
     `----------------------------------------`,
     `Submitted from evohawks.tech`,
-  ].join('\n');
+  ];
+
+  return lines.filter(Boolean).join('\n');
 }
 
 /**

@@ -12,16 +12,24 @@ import { SpotlightCursor } from './components/SpotlightCursor';
 import { KineticAurora } from './components/ui/KineticAurora';
 import { AnimatePresence } from 'framer-motion';
 import { trackEvent } from './utils/analytics';
+import { SERVICES_DATA, PORTFOLIO_DATA } from './data/agencyData';
 
 // Distinct Pages
 import { HomePage } from './pages/HomePage';
 import { ServicesPage } from './pages/ServicesPage';
+import { ServiceDetailPage } from './pages/ServiceDetailPage';
 import { WorkPage } from './pages/WorkPage';
+import { CaseStudyDetailPage } from './pages/CaseStudyDetailPage';
+import { PackagesPage } from './pages/PackagesPage';
+import { StartProjectPage } from './pages/StartProjectPage';
 import { WhyUsPage } from './pages/WhyUsPage';
 import { AboutPage } from './pages/AboutPage';
 import { ProcessPage } from './pages/ProcessPage';
 import { FAQPage } from './pages/FAQPage';
 import { ContactPage } from './pages/ContactPage';
+import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
+import { TermsPage } from './pages/TermsPage';
+import { RefundPolicyPage } from './pages/RefundPolicyPage';
 
 // Portal & Authentication Pages
 import { LoginPage } from './pages/LoginPage';
@@ -30,16 +38,36 @@ import { ClientDashboardPage } from './pages/ClientDashboardPage';
 
 const PAGE_METADATA: Record<PageId, { title: string; description: string }> = {
   home: {
-    title: 'Evo Hawks | Digital Creative & Marketing Agency',
-    description: 'Full-service digital agency delivering sub-second websites, high-retention video creative, technical SEO, and paid performance marketing.',
+    title: 'Evo Hawks | Creative Production, Branding, Marketing & Web Agency',
+    description: 'Evo Hawks delivers high-converting websites, cinematic video production, data-driven paid advertising, and comprehensive digital marketing.',
   },
   services: {
-    title: 'Services & Deliverables | Evo Hawks Digital Agency',
-    description: 'Explore our 6 core disciplines: Website Engineering, Graphic Design, Video & Reels, Social Media Management, SEO, and Performance Marketing.',
+    title: 'Complete Services Catalogue | Evo Hawks Digital Agency',
+    description: 'Explore all 12 core agency disciplines: Creative Production, Social Media, Meta Ads, Influencer Marketing, SEO, Web Development, Shopify, YouTube, Branding, Email & WhatsApp, Strategy, and Maintenance.',
+  },
+  'service-detail': {
+    title: 'Service Deep-Dive & Deliverables | Evo Hawks',
+    description: 'Detailed scope, concrete deliverables, working process, and pricing references for Evo Hawks services.',
   },
   work: {
     title: 'Portfolio & Verified Case Studies | Evo Hawks',
-    description: 'Explore production projects and concept benchmarks across web development, brand identity, and video production.',
+    description: 'Explore real client deliverables and production-grade concept projects across web development, brand identity, and video production.',
+  },
+  portfolio: {
+    title: 'Portfolio & Verified Case Studies | Evo Hawks',
+    description: 'Explore real client deliverables and production-grade concept projects across web development, brand identity, and video production.',
+  },
+  'case-study-detail': {
+    title: 'Case Study Breakdown | Evo Hawks Portfolio',
+    description: 'Explore client challenges, strategic approaches, deliverables, and technical implementation details.',
+  },
+  packages: {
+    title: 'Transparent Packages & Pricing | Evo Hawks',
+    description: 'Explore clear, itemized packages for web development, video production, social media management, SEO, and Meta ads with zero hidden markups.',
+  },
+  'start-project': {
+    title: 'Start a Project Intake | Evo Hawks',
+    description: 'Qualify your project scope, budget, and timeline to receive an itemized proposal and kick-off roadmap from Evo Hawks.',
   },
   'why-us': {
     title: 'Why Choose Evo Hawks | Architecture & Velocity',
@@ -58,8 +86,20 @@ const PAGE_METADATA: Record<PageId, { title: string; description: string }> = {
     description: 'Clear answers on project scope, timelines, revision limits, ad spend billing, code ownership, and analytics reporting.',
   },
   contact: {
-    title: 'Start a Project | Contact Evo Hawks',
-    description: 'Get in touch with our team for website engineering, creative design, or digital marketing inquiries.',
+    title: 'Contact Us | Evo Hawks Digital Agency',
+    description: 'Connect with our team directly via email, phone, or verified WhatsApp for project inquiries and consultations.',
+  },
+  'privacy-policy': {
+    title: 'Privacy Policy | Evo Hawks',
+    description: 'Transparent privacy and data handling practices. We do not sell client data or track without consent.',
+  },
+  terms: {
+    title: 'Terms of Service | Commercial Agreement | Evo Hawks',
+    description: 'Clear commercial terms, 100% intellectual property ownership handover, revision policies, and billing structures.',
+  },
+  'refund-policy': {
+    title: 'Cancellation & Refund Policy | Evo Hawks',
+    description: 'Fair professional services cancellation terms and pro-rata milestone accounting policies.',
   },
   login: {
     title: 'Client & Admin Portal Demo | Evo Hawks',
@@ -76,7 +116,7 @@ const PAGE_METADATA: Record<PageId, { title: string; description: string }> = {
 };
 
 function AppContent() {
-  const { currentPage, navigateTo } = usePageRouter();
+  const { currentPage, currentSlug, navigateTo } = usePageRouter();
   const { user } = useAuth();
   const [projectModalOpen, setProjectModalOpen] = useState(false);
   const [selectedServiceForModal, setSelectedServiceForModal] = useState<string>('Website Development');
@@ -85,8 +125,28 @@ function AppContent() {
 
   // Synchronize document title, meta description, and page view analytics
   useEffect(() => {
-    const meta = PAGE_METADATA[currentPage] || PAGE_METADATA.home;
-    document.title = meta.title;
+    let title = PAGE_METADATA[currentPage]?.title || PAGE_METADATA.home.title;
+    let description = PAGE_METADATA[currentPage]?.description || PAGE_METADATA.home.description;
+
+    // Dynamic SEO metadata for specific service detail pages
+    if (currentPage === 'service-detail' && currentSlug) {
+      const match = SERVICES_DATA.find(s => s.slug === currentSlug);
+      if (match) {
+        title = `${match.title} | Evo Hawks Digital Agency`;
+        description = `${match.tagline} Deliverables, prerequisites, process, and transparent scopes from Evo Hawks.`;
+      }
+    }
+
+    // Dynamic SEO metadata for specific case studies
+    if (currentPage === 'case-study-detail' && currentSlug) {
+      const match = PORTFOLIO_DATA.find(p => p.slug === currentSlug);
+      if (match) {
+        title = `${match.title} (${match.client}) | Case Study | Evo Hawks`;
+        description = `${match.overview} Work delivered: ${match.deliverables.slice(0, 3).join(', ')}.`;
+      }
+    }
+
+    document.title = title;
 
     let metaDesc = document.querySelector('meta[name="description"]');
     if (!metaDesc) {
@@ -94,14 +154,14 @@ function AppContent() {
       metaDesc.setAttribute('name', 'description');
       document.head.appendChild(metaDesc);
     }
-    metaDesc.setAttribute('content', meta.description);
+    metaDesc.setAttribute('content', description);
 
     // Privacy-preserving page view tracking
-    trackEvent('page_view', { page: currentPage, title: meta.title });
+    trackEvent('page_view', { page: currentPage, slug: currentSlug || '', title });
 
     // Scroll to top on navigation
     window.scrollTo({ top: 0, behavior: 'instant' });
-  }, [currentPage]);
+  }, [currentPage, currentSlug]);
 
   const handleOpenProjectModal = (serviceName?: string) => {
     if (serviceName) {
@@ -119,6 +179,41 @@ function AppContent() {
 
   const renderActivePage = () => {
     switch (currentPage) {
+      case 'start-project':
+        return <StartProjectPage key="start-project" onNavigate={navigateTo} />;
+      case 'packages':
+        return (
+          <PackagesPage 
+            key="packages" 
+            onOpenProjectModal={handleOpenProjectModal} 
+            onNavigate={navigateTo} 
+          />
+        );
+      case 'service-detail':
+        return (
+          <ServiceDetailPage 
+            key={`service-${currentSlug || 'index'}`} 
+            slug={currentSlug || ''} 
+            onOpenProjectModal={handleOpenProjectModal}
+            onOpenBookingModal={handleOpenBookingModal}
+            onNavigate={navigateTo}
+          />
+        );
+      case 'case-study-detail':
+        return (
+          <CaseStudyDetailPage 
+            key={`case-study-${currentSlug || 'index'}`} 
+            slug={currentSlug || ''} 
+            onOpenProjectModal={handleOpenProjectModal}
+            onNavigate={navigateTo}
+          />
+        );
+      case 'privacy-policy':
+        return <PrivacyPolicyPage key="privacy-policy" onNavigate={navigateTo} />;
+      case 'terms':
+        return <TermsPage key="terms" onNavigate={navigateTo} />;
+      case 'refund-policy':
+        return <RefundPolicyPage key="refund-policy" onNavigate={navigateTo} />;
       case 'login':
         return <LoginPage key="login" onNavigate={navigateTo} />;
       case 'admin-portal':
@@ -137,10 +232,11 @@ function AppContent() {
             key="services" 
             onOpenProjectModal={handleOpenProjectModal} 
             onOpenBookingModal={handleOpenBookingModal} 
+            onNavigate={navigateTo}
           />
         );
       case 'work':
-        return <WorkPage key="work" onOpenProjectModal={handleOpenProjectModal} />;
+        return <WorkPage key="work" onOpenProjectModal={handleOpenProjectModal} onNavigate={navigateTo} />;
       case 'why-us':
         return <WhyUsPage key="why-us" onOpenProjectModal={handleOpenProjectModal} />;
       case 'about':

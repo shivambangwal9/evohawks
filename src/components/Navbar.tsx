@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Logo } from './Logo';
 import { MagneticButton } from './ui/MagneticButton';
 import { useAuth } from '../context/useAuth';
@@ -11,14 +11,16 @@ import {
   UserCheck, 
   ShieldCheck, 
   LogOut,
-  LayoutDashboard 
+  LayoutDashboard,
+  ChevronDown
 } from 'lucide-react';
 import type { PageId } from '../hooks/usePageRouter';
 import { motion, AnimatePresence } from 'framer-motion';
+import { SERVICES_DATA } from '../data/agencyData';
 
 interface NavbarProps {
   currentPage: PageId;
-  onNavigate: (page: PageId) => void;
+  onNavigate: (page: PageId, slug?: string) => void;
   onOpenProjectModal: () => void;
   onOpenBookingModal?: () => void;
 }
@@ -26,21 +28,22 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ 
   currentPage, 
   onNavigate, 
-  onOpenProjectModal,
+  onOpenProjectModal: _onOpenProjectModal,
   onOpenBookingModal 
 }) => {
   const { user, logout } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
+  const dropdownTimeoutRef = useRef<any>(null);
 
   const navLinks: { name: string; id: PageId }[] = [
     { name: 'Home', id: 'home' },
     { name: 'Services', id: 'services' },
     { name: 'Work', id: 'work' },
-    { name: 'Why Us', id: 'why-us' },
+    { name: 'Packages', id: 'packages' },
     { name: 'About', id: 'about' },
     { name: 'Process', id: 'process' },
-    { name: 'FAQ', id: 'faq' },
     { name: 'Contact', id: 'contact' },
   ];
 
@@ -74,10 +77,22 @@ export const Navbar: React.FC<NavbarProps> = ({
     }
   }, [mobileMenuOpen]);
 
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, pageId: PageId) => {
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, pageId: PageId, slug?: string) => {
     e.preventDefault();
     setMobileMenuOpen(false);
-    onNavigate(pageId);
+    setServicesDropdownOpen(false);
+    onNavigate(pageId, slug);
+  };
+
+  const handleMouseEnterServices = () => {
+    if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
+    setServicesDropdownOpen(true);
+  };
+
+  const handleMouseLeaveServices = () => {
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setServicesDropdownOpen(false);
+    }, 180);
   };
 
   return (
@@ -95,10 +110,86 @@ export const Navbar: React.FC<NavbarProps> = ({
             <Logo size="md" lightText={false} />
           </div>
 
-          {/* Desktop Navigation Links with layoutId active pill */}
+          {/* Desktop Navigation Links with layoutId active pill & Services Mega-dropdown */}
           <nav className="hidden lg:flex items-center gap-1 bg-white/80 px-3.5 py-1.5 rounded-full border border-slate-200/90 backdrop-blur-md shadow-xs">
             {navLinks.map((link) => {
-              const isActive = currentPage === link.id;
+              const isActive = currentPage === link.id || (link.id === 'services' && currentPage === 'service-detail');
+              
+              if (link.id === 'services') {
+                return (
+                  <div 
+                    key={link.id} 
+                    className="relative"
+                    onMouseEnter={handleMouseEnterServices}
+                    onMouseLeave={handleMouseLeaveServices}
+                  >
+                    <a
+                      href={`#${link.id}`}
+                      onClick={(e) => handleLinkClick(e, link.id)}
+                      className={`relative px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-semibold transition-colors duration-200 z-10 flex items-center gap-1 ${
+                        isActive 
+                          ? 'text-sky-600' 
+                          : 'text-slate-600 hover:text-slate-900'
+                      }`}
+                    >
+                      {isActive && (
+                        <motion.div
+                          layoutId="activeNavbarPill"
+                          className="absolute inset-0 bg-sky-50 border border-sky-300/80 rounded-full shadow-[0_2px_10px_rgba(2,132,199,0.15)] -z-10"
+                          transition={{ type: "spring", stiffness: 450, damping: 32 }}
+                        />
+                      )}
+                      <span>{link.name}</span>
+                      <ChevronDown className={`w-3.5 h-3.5 transition-transform ${servicesDropdownOpen ? 'rotate-180 text-sky-600' : 'text-slate-400'}`} />
+                    </a>
+
+                    {/* Desktop Services Mega Dropdown */}
+                    <AnimatePresence>
+                      {servicesDropdownOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 8, scale: 0.98 }}
+                          transition={{ duration: 0.18, ease: "easeOut" }}
+                          className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[620px] bg-white/95 backdrop-blur-xl border border-slate-200/90 rounded-2xl shadow-xl p-5 z-50 overflow-hidden"
+                        >
+                          <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-3 text-xs font-tech">
+                            <span className="font-bold text-slate-800 uppercase tracking-wider">ALL 12 CORE DISCIPLINES</span>
+                            <a
+                              href="#services"
+                              onClick={(e) => handleLinkClick(e, 'services')}
+                              className="text-sky-600 hover:text-sky-700 font-bold flex items-center gap-1"
+                            >
+                              <span>Explore Full Catalogue</span>
+                              <ArrowRight className="w-3 h-3" />
+                            </a>
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-2 text-xs">
+                            {SERVICES_DATA.map((srv) => (
+                              <a
+                                key={srv.id}
+                                href={`#services/${srv.slug}`}
+                                onClick={(e) => handleLinkClick(e, 'service-detail', srv.slug)}
+                                className="p-2.5 rounded-xl hover:bg-sky-50 border border-transparent hover:border-sky-200 transition-colors group flex flex-col"
+                              >
+                                <span className="font-bold text-slate-900 group-hover:text-sky-600 transition-colors flex items-center justify-between">
+                                  <span>{srv.title}</span>
+                                  <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity text-sky-600" />
+                                </span>
+                                <span className="text-[11px] text-slate-500 font-sans-clean line-clamp-1 mt-0.5">
+                                  {srv.tagline}
+                                </span>
+                              </a>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              }
+
               return (
                 <a
                   key={link.id}
@@ -160,7 +251,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 title="Preview client sprint tracker & admin portal"
               >
                 <UserCheck className="w-3.5 h-3.5 text-sky-600" />
-                <span>Portal Preview</span>
+                <span>Portal</span>
                 <span className="text-[9px] font-tech text-sky-700 bg-sky-100 px-1.5 py-0.2 rounded font-bold">DEMO</span>
               </button>
             )}
@@ -177,7 +268,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             )}
 
             <MagneticButton
-              onClick={() => onOpenProjectModal()}
+              onClick={() => onNavigate('start-project')}
               className="group relative inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs md:text-sm font-bold text-white bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:shadow-[0_6px_20px_rgba(2,132,199,0.4)] transition-all duration-300 cursor-pointer overflow-hidden animate-shimmer"
             >
               <Sparkles className="w-4 h-4 text-white transition-transform duration-300 group-hover:rotate-12" />
@@ -202,12 +293,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onClick={() => onNavigate('login')}
                 className="px-2.5 py-1.5 rounded-full text-[11px] font-tech font-bold text-slate-700 bg-white/90 border border-slate-200 hover:border-sky-300"
               >
-                Demo Portal
+                Demo
               </button>
             )}
 
             <button
-              onClick={() => onOpenProjectModal()}
+              onClick={() => onNavigate('start-project')}
               className="px-3 sm:px-4 py-1.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-sky-500 to-indigo-600 hover:shadow-md transition-all cursor-pointer shadow-xs active:scale-95"
             >
               Start <span className="hidden sm:inline">Project</span> →
@@ -289,7 +380,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
-                  onOpenProjectModal();
+                  onNavigate('start-project');
                 }}
                 className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-bold text-white bg-gradient-to-r from-sky-500 to-indigo-600 shadow-[0_6px_20px_rgba(2,132,199,0.3)] text-sm cursor-pointer"
               >

@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { AGENCY_CONFIG } from '../data/agencyData';
 import { TiltCard } from '../components/ui/TiltCard';
 import { BorderBeam } from '../components/ui/BorderBeam';
 import { MagneticButton } from '../components/ui/MagneticButton';
@@ -9,7 +10,8 @@ import {
   TrendingUp, 
   Compass, 
   Rocket, 
-  ArrowRight 
+  ArrowRight,
+  ShieldCheck 
 } from 'lucide-react';
 
 interface AboutPageProps {
@@ -230,6 +232,110 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenProjectModal }) => {
             ))}
           </div>
 
+        </div>
+      </section>
+
+      {/* Squad Specializations & Discipline Matrix */}
+      <section className="relative py-20 bg-transparent border-t border-slate-200/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-sky-200 text-xs font-tech text-sky-700 font-semibold mb-3 shadow-xs">
+              <ShieldCheck className="w-3.5 h-3.5 text-sky-600" />
+              <span>CORE DISCIPLINES</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-display font-black text-slate-900 mb-3">
+              Squad Specializations
+            </h2>
+            <p className="text-sm text-slate-600">
+              Direct access to senior craft specialists—no middle managers or communication layers.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {AGENCY_CONFIG.leadership.map((lead, idx) => (
+              <div 
+                key={idx}
+                className="p-6 sm:p-8 rounded-3xl bg-white/90 border border-slate-200 hover:border-sky-400 transition-all shadow-sm hover:shadow-md flex flex-col justify-between relative overflow-hidden"
+              >
+                <BorderBeam size={100} duration={12 + idx * 3} colorFrom="#0284C7" colorTo="#7C3AED" />
+                <div>
+                  <div className="text-[11px] font-tech text-sky-600 font-bold uppercase tracking-wider mb-2">
+                    DISCIPLINE PILLAR 0{idx + 1}
+                  </div>
+                  <h3 className="text-xl font-display font-black text-slate-900 mb-3">
+                    {lead.role}
+                  </h3>
+                  <div className="text-xs font-sans-clean text-slate-700 font-medium mb-4 p-3 rounded-xl bg-slate-50 border border-slate-100">
+                    <strong className="text-slate-900 block mb-1">Domain Expertise:</strong>
+                    {lead.discipline}
+                  </div>
+                  <p className="text-xs text-slate-600 font-sans-clean leading-relaxed">
+                    <strong className="text-slate-900">Sprint Focus:</strong> {lead.focus}
+                  </p>
+                </div>
+                <div className="pt-6 border-t border-slate-100 mt-6 flex items-center justify-between text-xs font-tech text-slate-500">
+                  <span>Sprint Alignment</span>
+                  <span className="text-sky-600 font-bold">Direct Channel</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Operational Principles & Commitments */}
+      <section className="relative py-20 bg-transparent border-t border-slate-200/80">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <h2 className="text-3xl sm:text-4xl font-display font-black text-slate-900 mb-3">
+              Operational Commitments
+            </h2>
+            <p className="text-sm text-slate-600">
+              The professional guidelines that protect your intellectual property and project velocity.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs">
+              <div className="text-sm font-display font-bold text-slate-900 mb-2 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                <span>100% IP &amp; Code Ownership</span>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed font-sans-clean">
+                Upon final invoice settlement, full intellectual property rights, repository access, and production credentials transfer entirely to you. No proprietary locks.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs">
+              <div className="text-sm font-display font-bold text-slate-900 mb-2 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-sky-500" />
+                <span>Private Slack / WhatsApp Channel</span>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed font-sans-clean">
+                You communicate directly with the engineers, designers, and strategists working on your project—not account coordinators who need to pass messages.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs">
+              <div className="text-sm font-display font-bold text-slate-900 mb-2 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-indigo-500" />
+                <span>Staging Previews Before Production</span>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed font-sans-clean">
+                Every code update and video draft is deployed to an isolated staging link for your review and sign-off before anything touches your live domain.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs">
+              <div className="text-sm font-display font-bold text-slate-900 mb-2 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-violet-500" />
+                <span>Zero Hidden Third-Party Markups</span>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed font-sans-clean">
+                Hosting (Vercel, AWS), ad budgets (Google, Meta), and SaaS tools are billed directly to your business card. You pay only our agreed service fee.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 

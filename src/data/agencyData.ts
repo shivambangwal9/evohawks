@@ -1,3 +1,8 @@
+export interface ServiceFAQ {
+  q: string;
+  a: string;
+}
+
 export interface ServiceItem {
   id: string;
   number: string;
@@ -5,6 +10,10 @@ export interface ServiceItem {
   tagline: string;
   description: string;
   services: string[];
+  deliverables: string[];
+  whoItsFor: string;
+  clientPrerequisites: string[];
+  serviceFaqs: ServiceFAQ[];
   cta: string;
   icon: string;
   badge?: string;
@@ -20,6 +29,9 @@ export interface PortfolioItem {
   industry: string;
   services: string[];
   description: string;
+  challenge: string;
+  solution: string;
+  technologies: string[];
   deliverables: string[];
   metricsPreview?: string;
   image: string;
@@ -100,6 +112,39 @@ export const AGENCY_CONFIG = {
     responseTime: "Usually responds within 24 business hours"
   },
 
+  // Consultation Booking Configuration (Item 10)
+  booking: {
+    isConfigured: false, // Set to true when VITE_CAL_BOOKING_URL is set in environment
+    bookingUrl: "",
+    defaultDurationMinutes: 30,
+    modes: ["Google Meet", "WhatsApp Call", "Direct Phone Call"],
+    responseExpectation: "Session confirmation within 24 business hours"
+  },
+
+  // Authentic Leadership & Operations Focus (Item 3)
+  leadership: [
+    {
+      role: "Design Systems & Digital Experience",
+      discipline: "Full-Fidelity UI/UX Systems, Responsive Components, Brand Systems",
+      focus: "High-contrast UI/UX, brand typography, responsive web interactions, and design systems built for clarity and conversion."
+    },
+    {
+      role: "Engineering & Technical Architecture",
+      discipline: "Full-Stack Web Architecture, React/TypeScript, Cloud Deployments",
+      focus: "Modern responsive web development, React/TypeScript architecture, Core Web Vitals optimization, and clean code handover."
+    },
+    {
+      role: "Creative Content & Video Production",
+      discipline: "Cinematic Vertical Video, Motion Design, Kinetic Typography",
+      focus: "High-retention vertical video pacing, sound engineering, visual storytelling, and kinetic motion cuts."
+    },
+    {
+      role: "Growth Strategy & Performance Marketing",
+      discipline: "Technical SEO, Search Intent Modeling, Paid Acquisition Funnels",
+      focus: "Audience intent mapping, Meta/Google ad funnel architecture, technical SEO, and conversion analytics."
+    }
+  ],
+
   socials: {
     instagram: "https://instagram.com/evohawks",
     facebook: "https://facebook.com/evohawks",
@@ -151,6 +196,30 @@ export const SERVICES_DATA: ServiceItem[] = [
       "Website maintenance",
       "Domain & hosting setup"
     ],
+    deliverables: [
+      "Production-ready responsive website code (HTML5/React/Vite)",
+      "Mobile-optimized layout for 320px–1440px viewports",
+      "Core Web Vitals & speed optimization pass",
+      "Lead generation contact form with validation",
+      "Full source code & asset repository handover"
+    ],
+    whoItsFor: "Startups, agencies, consultants, and established brands needing high performance and conversion-focused web presence.",
+    clientPrerequisites: [
+      "Brand logo & brand guideline files (SVG/PNG)",
+      "Draft page content & service descriptions",
+      "High-resolution product/team photos",
+      "Domain & hosting provider credentials (when deployment is included)"
+    ],
+    serviceFaqs: [
+      {
+        q: "Do you build custom designs or use standard templates?",
+        a: "We craft custom, bespoke layouts built with clean code and modern CSS. We do not use bloated or generic templates that hurt performance."
+      },
+      {
+        q: "Who owns the code upon project completion?",
+        a: "You own 100% of all source code, assets, and repository files upon milestone sign-off with zero vendor lock-in."
+      }
+    ],
     cta: "Build Your Website →",
     icon: "Globe",
     accentColor: "#00F0FF"
@@ -169,6 +238,28 @@ export const SERVICES_DATA: ServiceItem[] = [
       "YouTube thumbnails",
       "Marketing creatives",
       "Basic branding & identity"
+    ],
+    deliverables: [
+      "Exported high-res PNG/JPG creatives for mobile and desktop",
+      "Layered source files (Figma / Adobe Illustrator)",
+      "Cohesive brand color palette & typography tokens",
+      "Standard banner & ad dimension adaptations (1:1, 9:16, 16:9)"
+    ],
+    whoItsFor: "Brands seeking consistent visual identity, high-CTR ad creatives, pitch decks, or engaging social media graphic suites.",
+    clientPrerequisites: [
+      "Vector brand logo",
+      "Key text copy / headline requirements",
+      "Reference styles or mood boards (optional but encouraged)"
+    ],
+    serviceFaqs: [
+      {
+        q: "In what formats do you deliver design files?",
+        a: "We deliver web-optimized JPG/PNG files alongside complete Figma or vector master files."
+      },
+      {
+        q: "How many design revisions are included?",
+        a: "Standard creative deliverables include 2 structured revision rounds prior to final export."
+      }
     ],
     cta: "Create With Us →",
     icon: "Palette",
@@ -190,6 +281,28 @@ export const SERVICES_DATA: ServiceItem[] = [
       "Podcast & interview editing",
       "Social media video series"
     ],
+    deliverables: [
+      "Final color-graded 1080x1920 (9:16) or 1920x1080 (16:9) MP4 video exports",
+      "Dynamic synced captions and animated motion text",
+      "Commercial-safe sound design, audio leveling & sound effects",
+      "First 3-second hook variations for A/B testing"
+    ],
+    whoItsFor: "Founders, content creators, ecommerce brands, and educators wanting high-retention video content.",
+    clientPrerequisites: [
+      "Raw video footage via Google Drive / Dropbox",
+      "Script or talking points outline",
+      "Brand assets and logo animations"
+    ],
+    serviceFaqs: [
+      {
+        q: "What raw video quality do you require?",
+        a: "Standard smartphone 4K or 1080p footage with clear audio is completely sufficient for viral short-form content."
+      },
+      {
+        q: "Are the background music and sound effects commercial-safe?",
+        a: "Yes. All audio and music tracks used are licensed for commercial social media use."
+      }
+    ],
     cta: "Edit Your Content →",
     icon: "Video",
     accentColor: "#38BDF8"
@@ -210,6 +323,28 @@ export const SERVICES_DATA: ServiceItem[] = [
       "Regular scheduled posting",
       "Account & bio optimization"
     ],
+    deliverables: [
+      "Monthly structured content calendar with scheduled publishing dates",
+      "Engaging caption copywriting with relevant hashtag research",
+      "Bio overhaul and highlight cover set",
+      "Monthly activity review and top-performing post breakdown"
+    ],
+    whoItsFor: "Local businesses, clinics, cafes, brands, and service professionals seeking a polished and active digital footprint.",
+    clientPrerequisites: [
+      "Instagram / Facebook page access (Manager role)",
+      "Product/service pricing and promotion schedules",
+      "Monthly updates on new offerings or events"
+    ],
+    serviceFaqs: [
+      {
+        q: "Do you handle responding to direct messages and comments?",
+        a: "We provide community monitoring and flag high-intent sales queries directly to your team via WhatsApp or email."
+      },
+      {
+        q: "Can we review posts before they are published?",
+        a: "Yes. Monthly content calendars are submitted 5–7 days in advance for your review and approval before scheduling."
+      }
+    ],
     cta: "Grow Your Socials →",
     icon: "Share2",
     accentColor: "#A78BFA"
@@ -228,6 +363,29 @@ export const SERVICES_DATA: ServiceItem[] = [
       "Google Business Profile optimization",
       "SEO content strategy",
       "Performance & rank tracking"
+    ],
+    deliverables: [
+      "Baseline technical SEO audit & fix roadmap",
+      "Keyword mapping document targeting high-intent buyer searches",
+      "On-page metadata optimization (Title, meta description, H1/H2 hierarchy)",
+      "Google Business Profile local optimization pass",
+      "Monthly keyword ranking & search impressions report"
+    ],
+    whoItsFor: "Businesses seeking sustainable, long-term organic traffic that compounds over time without recurring ad clicks.",
+    clientPrerequisites: [
+      "Website CMS / repository access for technical tag deployment",
+      "Google Search Console & Google Analytics access (or permission to configure)",
+      "Google Business Profile manager access (for local SEO)"
+    ],
+    serviceFaqs: [
+      {
+        q: "How soon do SEO results appear?",
+        a: "Technical fixes take effect within 2–4 weeks upon re-indexing; competitive organic ranking improvements typically mature over 3 to 6 months of compounding optimization."
+      },
+      {
+        q: "Do you guarantee #1 ranking on Google?",
+        a: "No reputable agency can guarantee #1 rankings because search engine algorithms evolve constantly. We implement transparent, white-hat best practices that maximize ranking potential."
+      }
     ],
     cta: "Improve Your SEO →",
     icon: "Search",
@@ -249,6 +407,29 @@ export const SERVICES_DATA: ServiceItem[] = [
       "In-depth analytics & pixel tracking",
       "Transparent performance reporting"
     ],
+    deliverables: [
+      "Targeted campaign structure setup (TOF, MOF, BOF retargeting)",
+      "Ad creatives (copy variants, graphic cards, video cut adaptations)",
+      "Meta Pixel & Google Conversion tracking verification",
+      "A/B creative testing matrix",
+      "Weekly performance summary detailing spend, clicks, leads, and CPA"
+    ],
+    whoItsFor: "Businesses with validated offerings ready to scale customer acquisition with direct paid media budgets.",
+    clientPrerequisites: [
+      "Meta Business Manager / Google Ads account access (client payment method linked)",
+      "Minimum recommended monthly ad budget of ₹15,000 paid directly to platforms",
+      "Clear lead qualification criteria or target cost-per-acquisition (CPA)"
+    ],
+    serviceFaqs: [
+      {
+        q: "Is the advertising budget paid to Evo Hawks or directly to the platform?",
+        a: "Your advertising budget is billed directly by Meta and Google to your own payment method. Our fee covers strategy, creative production, management, and optimization."
+      },
+      {
+        q: "How do you track whether ads are generating real leads?",
+        a: "We configure conversion tracking pixels and form submission events to trace inquiries directly to the campaign and creative variant that produced them."
+      }
+    ],
     cta: "Grow Your Business →",
     icon: "TrendingUp",
     accentColor: "#60A5FA"
@@ -265,6 +446,9 @@ export const PORTFOLIO_DATA: PortfolioItem[] = [
     industry: "Luxury Architecture & Interiors",
     services: ["UI/UX Design", "Next.js Web Development", "Interactive 3D Walkthrough"],
     description: "A dark, editorial, ultra-fast website concept designed for an elite architectural studio featuring smooth scroll transitions and project galleries.",
+    challenge: "High-resolution architectural photography frequently causes layout shifts, bloated bundle sizes, and slow mobile loading.",
+    solution: "Engineered with Next.js image optimization, progressive blur placeholders, and CSS grid layouts that achieve smooth 60fps scrolling on mobile devices.",
+    technologies: ["React 19", "TypeScript", "Next.js", "Tailwind CSS", "Framer Motion"],
     deliverables: ["Responsive Web Platform", "Project Showcase System", "Fast Page Loading Architecture", "Inquiry Lead Capture"],
     metricsPreview: "Editorial layout with responsive project showcase",
     image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
@@ -279,6 +463,9 @@ export const PORTFOLIO_DATA: PortfolioItem[] = [
     industry: "Consumer Goods & Fitness",
     services: ["Brand Visual Identity", "Product Packaging Concept", "Social Media Creatives"],
     description: "High-contrast visual design and dynamic social creatives developed for a clean-energy performance beverage targeted at high-output creators.",
+    challenge: "Standing out in saturated beverage retail feeds without falling into generic gym-supplement tropes.",
+    solution: "Created high-contrast typography, electric neon color systems, and modular social media templates designed specifically for rapid feed scannability.",
+    technologies: ["Figma", "Adobe Illustrator", "Vector Graphics", "Brand Style Guide"],
     deliverables: ["3D Product Renders", "Instagram Post & Story Templates", "Launch Banner Graphics", "Ad Creative Suite"],
     metricsPreview: "Cohesive visual identity across 20+ creative assets",
     image: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=1200&q=80",
@@ -293,6 +480,9 @@ export const PORTFOLIO_DATA: PortfolioItem[] = [
     industry: "B2B SaaS & Tech",
     services: ["Short-form Video Editing", "Motion Graphics", "Reels & Shorts Strategy"],
     description: "Fast-paced, kinetic product demo reels with custom sound design, highlight callouts, and punchy motion typography built for social virality.",
+    challenge: "Technical software features are difficult to explain in under 30 seconds without losing viewer attention.",
+    solution: "Produced kinetic screen zooms, custom Foley sound effects, and animated UI overlays that communicate core software utility in the first 3 seconds.",
+    technologies: ["DaVinci Resolve", "Adobe After Effects", "Motion Typography", "Audio Mastering"],
     deliverables: ["6x High-Retention Reels", "YouTube Shorts Series", "Audio Mastered Sound FX", "Animated UI Overlays"],
     metricsPreview: "Kinetic short-form reels with custom sound engineering",
     image: "https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&w=1200&q=80",
@@ -307,6 +497,9 @@ export const PORTFOLIO_DATA: PortfolioItem[] = [
     industry: "Hospitality & Specialty Coffee",
     services: ["Social Media Management", "Content Calendar", "Community Engagement"],
     description: "A 30-day comprehensive organic social blueprint that pairs aesthetic visual storytelling with local community growth strategies.",
+    challenge: "Translating an in-person artisan atmosphere into an active digital community that drives physical foot traffic.",
+    solution: "Designed a 30-day publishing calendar alternating between barista craft closeups, seasonal origin stories, and geo-targeted Instagram stories.",
+    technologies: ["Content Calendar", "Meta Business Suite", "Canva Pro", "Hashtag Analysis"],
     deliverables: ["30-Day Content Calendar", "Bio & Highlight Overhaul", "Grid Aesthetic Template", "Local Hashtag & Location Playbook"],
     metricsPreview: "Multi-platform aesthetic consistency & content calendars",
     image: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1200&q=80",
@@ -321,6 +514,9 @@ export const PORTFOLIO_DATA: PortfolioItem[] = [
     industry: "Healthcare & Wellness",
     services: ["Meta Paid Ads", "Google Search Ads", "Conversion Landing Page"],
     description: "A multi-channel performance marketing funnel targeted at local health and wellness patient acquisition with strict cost-per-lead optimization.",
+    challenge: "High cost-per-click on healthcare search terms and strict privacy compliance on medical advertising.",
+    solution: "Combined focused local Google Search intent ads with a HIPAA-compliant consultation scheduler and lightweight landing page.",
+    technologies: ["Google Ads Manager", "Meta Pixel", "Unbounce / Custom HTML", "Google Tag Manager"],
     deliverables: ["Ad Copy Variants & Creative", "Retargeting Pixel Setup", "Appointment Booking Landing Page", "Performance Tracking Setup"],
     metricsPreview: "Targeted patient consultation booking architecture",
     image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80",
@@ -335,6 +531,9 @@ export const PORTFOLIO_DATA: PortfolioItem[] = [
     industry: "E-commerce & Streetwear",
     services: ["E-commerce Development", "Shopify Setup", "Speed Optimization"],
     description: "An ultra-minimalist, sleek e-commerce storefront tailored for streetwear drops with express checkout, size guides, and instant stock alerts.",
+    challenge: "Spike traffic during streetwear drop announcements causing slow checkout times and abandoned carts on mobile.",
+    solution: "Designed a headless mobile-first checkout flow with one-click payment integration and instant stock status indicators.",
+    technologies: ["Shopify Liquid", "Tailwind CSS", "JavaScript ES6+", "Stripe Elements"],
     deliverables: ["Custom E-commerce Store", "Mobile-First Cart Flow", "Inventory Management", "Integrated Analytics"],
     metricsPreview: "Frictionless mobile storefront & checkout UX",
     image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80",
@@ -380,43 +579,68 @@ export const WHY_US_DATA: ValuePillar[] = [
 export const PROCESS_DATA: ProcessStep[] = [
   {
     step: "01",
-    title: "DISCOVER",
+    title: "DISCOVERY & REQUIREMENTS",
     tagline: "Listen, analyze, and align.",
-    description: "We dive deep into your business model, target audience, brand goals, and specific project requirements to establish a rock-solid foundation.",
-    deliverables: ["Goal alignment brief", "Target audience persona", "Competitor landscape review", "Scope & roadmap definition"],
+    description: "We conduct a thorough intake session to understand your business objectives, target audience demographics, competitive landscape, and functional requirements.",
+    deliverables: [
+      "Requirements specification brief",
+      "Competitive digital positioning review",
+      "Asset & dependency checklist",
+      "Target audience profile"
+    ],
     icon: "Compass"
   },
   {
     step: "02",
-    title: "STRATEGIZE",
-    tagline: "Architect the plan of attack.",
-    description: "We define the creative direction, technical architecture, content themes, and marketing funnels before writing a single line of code or design file.",
-    deliverables: ["Creative concept boards", "Information architecture", "Content & campaign calendars", "Tech stack selection"],
+    title: "PROPOSAL & SCOPE APPROVAL",
+    tagline: "Transparent deliverables and sprint milestones.",
+    description: "We compile a structured proposal with itemized deliverables, revision rounds, timeline milestones, and fixed pricing terms. Work begins only upon your sign-off.",
+    deliverables: [
+      "Itemized Scope of Work (SOW)",
+      "Milestone schedule & delivery dates",
+      "Pricing breakdown & payment terms",
+      "Dedicated communication channel setup"
+    ],
     icon: "Target"
   },
   {
     step: "03",
-    title: "CREATE",
-    tagline: "Craft with precision and speed.",
-    description: "Our team designs, develops, edits, and produces the required digital assets with modern aesthetics, clean code, and engaging copy.",
-    deliverables: ["Production-ready websites", "Graphic & video assets", "Copywriting & ad creatives", "Interactive prototypes"],
+    title: "PLANNING & PRODUCTION",
+    tagline: "Precision execution across design and code.",
+    description: "Our team drafts wireframes, crafts design systems, writes clean code, or cuts dynamic video assets according to the approved scope specifications.",
+    deliverables: [
+      "Figma UI wireframes & style guides",
+      "Clean responsive codebase development",
+      "Raw video rough cuts & audio mastering",
+      "Staging preview environment deployment"
+    ],
     icon: "Sparkles"
   },
   {
     step: "04",
-    title: "LAUNCH",
-    tagline: "Deploy seamlessly to the world.",
-    description: "We deliver the website, launch the advertising campaigns, schedule the social content, and execute final QA checks across all devices.",
-    deliverables: ["Live website deployment", "Active ad campaign launch", "Tracking & pixel verification", "Asset handover & walkthrough"],
-    icon: "Rocket"
+    title: "CLIENT REVIEW & REVISIONS",
+    tagline: "Structured feedback and refinement.",
+    description: "You review the work in a live staging environment. Standard packages include 2 structured revision cycles to refine copy, visual elements, or styling until approved.",
+    deliverables: [
+      "Interactive staging URL or video review link",
+      "Itemized revision tracking log",
+      "Cross-browser and mobile device QA checks",
+      "Final milestone sign-off"
+    ],
+    icon: "Activity"
   },
   {
     step: "05",
-    title: "OPTIMIZE",
-    tagline: "Measure, refine, and accelerate.",
-    description: "We analyze performance metrics, user behavior, and conversion data to continuously refine creatives, campaigns, and user flows for maximum ROI.",
-    deliverables: ["Performance reports", "A/B test iterations", "Conversion rate enhancements", "Ongoing growth recommendations"],
-    icon: "Activity"
+    title: "DELIVERY, LAUNCH & OPTIMIZATION",
+    tagline: "Seamless deployment and 100% asset handover.",
+    description: "We push the project live to production, verify domain SSL and analytics tags, and hand over 100% of source code, design files, and production assets with zero vendor lock-in.",
+    deliverables: [
+      "Production deployment & SSL verification",
+      "Complete Git repository & asset package handover",
+      "Admin walkthrough & documentation",
+      "Post-launch support & ongoing growth options"
+    ],
+    icon: "Rocket"
   }
 ];
 
@@ -510,7 +734,7 @@ export const FAQ_DATA: FAQItem[] = [
   {
     id: "faq-1",
     question: "What services does Evo Hawks provide?",
-    answer: "Evo Hawks is a full-service digital creative and marketing agency. We provide 6 core services: Website Development (business, landing pages, e-commerce), Graphic Design (social media, branding, decks), Video Editing & Reels (short-form, promos, YouTube), Social Media Management (content calendars, captions, posting), SEO (keyword research, technical, local SEO), and Digital Marketing (Meta and Google paid ads).",
+    answer: "Evo Hawks is a full-service digital creative and marketing agency. We provide 6 core disciplines: Website Development (business, landing pages, e-commerce), Graphic Design (social media, branding, decks), Video Editing & Reels (short-form, promos, YouTube), Social Media Management (content calendars, captions, posting), SEO (keyword research, technical, local SEO), and Digital Marketing (Meta and Google paid ads).",
     category: "General"
   },
   {
@@ -521,56 +745,62 @@ export const FAQ_DATA: FAQItem[] = [
   },
   {
     id: "faq-3",
-    question: "Do you build websites from scratch?",
-    answer: "Yes. Every website we build is crafted with intentional design, modern UI/UX principles, clean responsive code, and optimized performance. We do not use bloated, generic templates that slow down your site. Your website will be unique, fast, and built to convert.",
+    question: "Do you build websites from scratch or use templates?",
+    answer: "Every website we build is crafted with intentional design, modern UI/UX principles, clean responsive code, and optimized performance. We do not use bloated, generic templates that slow down your site. Your website will be unique, fast, and built to convert.",
     category: "Services"
   },
   {
     id: "faq-4",
-    question: "Do you provide website maintenance?",
-    answer: "Yes. We offer ongoing website maintenance and support packages to ensure your site remains secure, updated, lightning fast, and compatible with modern web standards, including content updates, speed optimization, and backups.",
-    category: "Services"
+    question: "What happens if our project scope changes mid-sprint?",
+    answer: "Scope changes are handled with complete transparency. If you wish to add new features or pages not specified in the initial Scope of Work (SOW), we review the request, calculate the timeline and budget impact, and proceed only upon your written approval of an addendum.",
+    category: "Process"
   },
   {
     id: "faq-5",
-    question: "Can you manage our Instagram and Facebook?",
-    answer: "Yes! Our Social Media Management covers end-to-end execution: content planning, monthly content calendars, graphic design, caption copywriting, Reels strategy, scheduled publishing, and account bio optimization to keep your brand active and credible.",
-    category: "Services"
+    question: "How do project revisions work?",
+    answer: "Standard production packages include 2 structured rounds of revisions during the staging phase. We share live staging links or video drafts where you can compile all feedback. This ensures revisions are implemented methodically and completed within the sprint timeline.",
+    category: "Process"
   },
   {
     id: "faq-6",
-    question: "Do you edit Reels and YouTube videos?",
-    answer: "Yes. We specialize in high-retention video editing for Instagram Reels, YouTube Shorts, long-form YouTube videos, brand promos, and podcast cuts. We handle pacing, sound design, motion graphics, and subtitles engineered to keep viewers hooked.",
-    category: "Services"
-  },
-  {
-    id: "faq-7",
-    question: "Do you provide SEO services?",
-    answer: "Yes. Our SEO services include thorough keyword research, on-page optimization, technical SEO (Core Web Vitals and site structure), Local SEO (Google Business Profile optimization), and SEO content strategy to help your business gain sustainable organic visibility.",
-    category: "Services"
-  },
-  {
-    id: "faq-8",
-    question: "Do you run Meta and Google Ads?",
-    answer: "Yes. We manage end-to-end paid advertising campaigns across Facebook, Instagram, Google Search, and YouTube. This includes audience research, ad creative design, copywriting, landing page optimization, tracking pixel setup, and ongoing ROAS optimization.",
-    category: "Services"
-  },
-  {
-    id: "faq-9",
-    question: "How much do your services cost?",
-    answer: "Our pricing depends on your specific scope, deliverables, and timeline. We offer transparent, competitive packages for startups, growing businesses, and established brands starting from under ₹10,000 up to comprehensive enterprise packages. Contact us for a clear, no-obligation quote tailored to your budget.",
+    question: "Is advertising budget included in your digital marketing fee?",
+    answer: "No. Advertising spend is paid directly by your business to advertising platforms (Meta Ads, Google Ads) through your own linked payment card. Our agency fee strictly covers campaign strategy, audience targeting, creative asset production, weekly optimization, and conversion tracking.",
     category: "Pricing"
   },
   {
+    id: "faq-7",
+    question: "Who owns the code, graphics, and video files upon completion?",
+    answer: "You own 100% of all deliverables upon final milestone payment and sign-off. We provide full Git repository access, exported production files, and layered design assets with zero vendor lock-in.",
+    category: "General"
+  },
+  {
+    id: "faq-8",
+    question: "What third-party expenses should we expect?",
+    answer: "Third-party infrastructure costs — such as domain names (approx. ₹800–₹1,500/year), web server hosting (approx. ₹300–₹2,000/month depending on traffic), and any premium third-party API or font licenses — are paid directly by the client to maintain complete ownership.",
+    category: "Pricing"
+  },
+  {
+    id: "faq-9",
+    question: "How often will we receive project updates and reporting?",
+    answer: "For project sprints, we provide milestone updates at each key checkpoint along with a live staging preview. For ongoing marketing and SEO retainers, we provide bi-weekly or monthly performance reports detailing traffic, leads, CPA, and optimization recommendations.",
+    category: "Process"
+  },
+  {
     id: "faq-10",
-    question: "How long does a website take?",
-    answer: "A standard business website or high-converting landing page typically takes 1 to 3 weeks depending on the complexity, number of pages, and how quickly content assets are finalized. We establish a clear timeline during our Discovery phase and stick to it.",
+    question: "How long does a website take from start to finish?",
+    answer: "A standard responsive business website or high-converting landing page typically takes 1 to 3 weeks depending on scope, number of pages, and prompt receipt of brand assets and copy feedback. Timelines are confirmed during the Discovery phase.",
     category: "Process"
   },
   {
     id: "faq-11",
-    question: "How can I start a project?",
-    answer: "Starting is simple: click the 'Start a Project' button on this website, fill out our quick project enquiry form, or reach out directly to us via WhatsApp or email. We will review your requirements and get back to you with an actionable plan within 24 hours.",
-    category: "Process"
+    question: "Do you guarantee #1 rankings or specific ROAS figures?",
+    answer: "No reputable agency can guarantee #1 rankings or exact return on ad spend, as search algorithms and market conditions fluctuate. We commit to proven, data-backed best practices, rigorous A/B creative testing, and transparent analytics so you can verify real performance.",
+    category: "Services"
+  },
+  {
+    id: "faq-12",
+    question: "How can I start a project with Evo Hawks?",
+    answer: "Starting is simple: click 'Start a Project', choose your service discipline and budget range, and submit your project brief. You can also contact us directly via WhatsApp or email (teamevohawks@gmail.com). We will review your brief and respond within 24 business hours.",
+    category: "General"
   }
 ];

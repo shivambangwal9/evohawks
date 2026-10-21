@@ -21,7 +21,7 @@ export const FAQPage: React.FC<FAQPageProps> = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [customQuestion, setCustomQuestion] = useState<string>('');
 
-  const categories = ['All', 'General', 'Services', 'Process', 'Pricing'];
+  const categories = ['All', 'General', 'Services', 'Process', 'Pricing', 'Operations'];
 
   const filteredFAQs = FAQ_DATA.filter(faq => {
     const matchesCategory = selectedCategory === 'All' || faq.category === selectedCategory;

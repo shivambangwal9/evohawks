@@ -13,9 +13,14 @@ import type { PageId } from '../hooks/usePageRouter';
 interface HomePageProps {
   onOpenProjectModal: (service?: string) => void;
   onNavigate: (page: PageId) => void;
+  onOpenBookingModal?: () => void;
 }
 
-export const HomePage: React.FC<HomePageProps> = ({ onOpenProjectModal, onNavigate }) => {
+export const HomePage: React.FC<HomePageProps> = ({ 
+  onOpenProjectModal, 
+  onNavigate,
+  onOpenBookingModal 
+}) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 15 }}
@@ -147,11 +152,20 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenProjectModal, onNaviga
                 <ArrowRight className="w-4 h-4" />
               </MagneticButton>
 
+              {onOpenBookingModal && (
+                <button
+                  onClick={onOpenBookingModal}
+                  className="px-7 py-4 rounded-full text-sm font-semibold text-sky-700 bg-white hover:bg-sky-50 border border-sky-300 transition-colors cursor-pointer shadow-xs"
+                >
+                  Book Strategy Call &rarr;
+                </button>
+              )}
+
               <button
                 onClick={() => onNavigate('contact')}
                 className="px-7 py-4 rounded-full text-sm font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 transition-colors cursor-pointer shadow-xs"
               >
-                Contact Strategists &rarr;
+                Contact Team
               </button>
             </div>
           </div>

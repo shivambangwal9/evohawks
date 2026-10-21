@@ -20,12 +20,14 @@ interface NavbarProps {
   currentPage: PageId;
   onNavigate: (page: PageId) => void;
   onOpenProjectModal: () => void;
+  onOpenBookingModal?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ 
   currentPage, 
   onNavigate, 
-  onOpenProjectModal 
+  onOpenProjectModal,
+  onOpenBookingModal 
 }) => {
   const { user, logout } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -163,6 +165,17 @@ export const Navbar: React.FC<NavbarProps> = ({
               </button>
             )}
 
+            {onOpenBookingModal && (
+              <button
+                onClick={onOpenBookingModal}
+                className="py-1.5 px-3 rounded-full text-xs font-tech font-bold text-slate-700 hover:text-sky-700 bg-white/80 hover:bg-white border border-slate-200/90 hover:border-sky-300 transition-all cursor-pointer flex items-center gap-1.5 shadow-2xs"
+                title="Schedule a 30-minute consultation"
+              >
+                <PhoneCall className="w-3.5 h-3.5 text-sky-600" />
+                <span>Book Call</span>
+              </button>
+            )}
+
             <MagneticButton
               onClick={() => onOpenProjectModal()}
               className="group relative inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs md:text-sm font-bold text-white bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:shadow-[0_6px_20px_rgba(2,132,199,0.4)] transition-all duration-300 cursor-pointer overflow-hidden animate-shimmer"
@@ -293,6 +306,18 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <PhoneCall className="w-4 h-4 text-sky-600" />
                 <span>Get in Touch</span>
               </button>
+              {onOpenBookingModal && (
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    onOpenBookingModal();
+                  }}
+                  className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sky-700 hover:text-sky-900 bg-sky-50 border border-sky-200 text-sm cursor-pointer"
+                >
+                  <PhoneCall className="w-4 h-4 text-sky-600" />
+                  <span>Book 30-Min Strategy Call</span>
+                </button>
+              )}
             </div>
           </motion.div>
         )}

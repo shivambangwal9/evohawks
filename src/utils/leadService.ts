@@ -220,3 +220,161 @@ export async function submitEnquiry(data: EnquiryPayload): Promise<SubmissionRes
     };
   }
 }
+
+export interface ConsultationPayload {
+  fullName: string;
+  email: string;
+  phone?: string;
+  businessName?: string;
+  format: 'Google Meet' | 'WhatsApp Call' | 'Phone Call';
+  timeSlot: 'Morning (09:00 - 12:00 IST)' | 'Afternoon (12:00 - 16:00 IST)' | 'Evening (16:00 - 20:00 IST)';
+  topic: string;
+  acceptedPrivacy: boolean;
+  botField?: string;
+}
+
+export interface ConsultationValidationErrors {
+  fullName?: string;
+  email?: string;
+  phone?: string;
+  format?: string;
+  timeSlot?: string;
+  topic?: string;
+  acceptedPrivacy?: string;
+}
+
+export function validateConsultation(data: ConsultationPayload): { isValid: boolean; errors: ConsultationValidationErrors } {
+  const errors: ConsultationValidationErrors = {};
+
+  if (!data.fullName || data.fullName.trim().length < 2) {
+    errors.fullName = 'Please enter your full name (at least 2 characters).';
+  }
+
+  if (!data.email || !EMAIL_REGEX.test(data.email.trim())) {
+    errors.email = 'Please provide a valid email address for the calendar invite.';
+  }
+
+  if (data.phone && data.phone.trim().length > 0) {
+    const digits = data.phone.match(PHONE_CLEAN_REGEX) || [];
+    if (digits.length < 10 || digits.length > 15) {
+      errors.phone = 'Please enter a valid phone or WhatsApp number (10–15 digits).';
+    }
+  }
+
+  if (!data.topic || data.topic.trim().length < 5) {
+    errors.topic = 'Please briefly outline what you would like to discuss (at least 5 characters).';
+  }
+
+  if (!data.acceptedPrivacy) {
+    errors.acceptedPrivacy = 'You must acknowledge the privacy notice to proceed.';
+  }
+
+  return {
+    isValid: Object.keys(errors).length === 0,
+    errors,
+  };
+}
+
+export function formatConsultationBrief(data: ConsultationPayload): string {
+  return [
+    `*STRATEGY SESSION REQUEST — EVO HAWKS*`,
+    `----------------------------------------`,
+    `Name: ${data.fullName.trim()}`,
+    `Email: ${data.email.trim()}`,
+    `Phone/WhatsApp: ${data.phone?.trim() || 'Not provided'}`,
+    `Business: ${data.businessName?.trim() || 'Not specified'}`,
+    `Preferred Format: ${data.format}`,
+    `Preferred Time Window: ${data.timeSlot}`,
+    `Discussion Topic: ${data.topic.trim()}`,
+    `----------------------------------------`,
+    `Submitted from evohawks.tech/booking`,
+  ].join('\n');
+}
+
+export function buildWhatsAppConsultationUrl(data: ConsultationPayload): string {
+  const brief = formatConsultationBrief(data);
+  const cleanNumber = AGENCY_CONFIG.contact.whatsappCleanNumber;
+  return `https://wa.me/${cleanNumber}?text=${encodeURIComponent(brief)}`;
+}
+
+export function buildMailtoConsultationUrl(data: ConsultationPayload): string {
+  const subject = encodeURIComponent(`Strategy Session Request: ${data.fullName.trim()} (${data.format})`);
+  const body = encodeURIComponent(formatConsultationBrief(data));
+  return `mailto:${AGENCY_CONFIG.contact.email}?subject=${subject}&body=${body}`;
+}
+
+export async function submitConsultation(data: ConsultationPayload): Promise<SubmissionResult> {
+  // 1. Honeypot check
+  if (data.botField && data.botField.trim().length > 0) {
+    return {
+      success: true,
+      status: 'sent',
+      message: 'Consultation request received.',
+    };
+  }
+
+  // 2. Validation
+  const { isValid, errors } = validateConsultation(data);
+  if (!isValid) {
+    const firstError = Object.values(errors)[0] || 'Please complete required fields.';
+    return {
+      success: false,
+      status: 'error',
+      message: firstError,
+    };
+  }
+
+  // 3. Inspect endpoint
+  const endpoint = import.meta.env.VITE_CONTACT_FORM_ENDPOINT;
+  if (!endpoint || endpoint.trim().length === 0) {
+    return {
+      success: false,
+      status: 'unconfigured',
+      message: 'Direct server booking transmission is pending configuration.',
+    };
+  }
+
+  // 4. Send HTTP request
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({
+        formType: 'consultation_request',
+        fullName: data.fullName.trim(),
+        email: data.email.trim(),
+        phone: data.phone?.trim() || '',
+        businessName: data.businessName?.trim() || '',
+        format: data.format,
+        timeSlot: data.timeSlot,
+        topic: data.topic.trim(),
+        submittedAt: new Date().toISOString(),
+        sourceUrl: window.location.href,
+      }),
+    });
+
+    if (response.ok) {
+      return {
+        success: true,
+        status: 'sent',
+        message: 'Your strategy session request has been received. Our team will review your objectives and email you a calendar invitation within 24 business hours.',
+      };
+    }
+
+    return {
+      success: false,
+      status: 'error',
+      message: `Delivery failed (HTTP ${response.status}). Please use WhatsApp or email below.`,
+    };
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : 'Network error';
+    return {
+      success: false,
+      status: 'error',
+      message: `Unable to transmit request: ${msg}. Please dispatch directly via WhatsApp or email.`,
+    };
+  }
+}

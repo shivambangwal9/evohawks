@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SERVICES_DATA } from '../data/agencyData';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BorderBeam } from '../components/ui/BorderBeam';
 import { MagneticButton } from '../components/ui/MagneticButton';
+import { trackEvent } from '../utils/analytics';
 import { 
   Globe, 
   Palette, 
@@ -17,7 +18,10 @@ import {
   Cpu, 
   Zap, 
   CheckCircle2, 
-  ShieldCheck 
+  ShieldCheck,
+  HelpCircle,
+  FileCheck,
+  Users
 } from 'lucide-react';
 
 const ServiceIcon: React.FC<{ iconName: string; className?: string }> = ({ iconName, className }) => {
@@ -34,10 +38,14 @@ const ServiceIcon: React.FC<{ iconName: string; className?: string }> = ({ iconN
 
 interface ServicesPageProps {
   onOpenProjectModal: (service?: string) => void;
+  onOpenBookingModal?: (topic?: string) => void;
 }
 
-export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenProjectModal }) => {
-  const [activeTab, setActiveTab] = useState<string>('web-dev');
+export const ServicesPage: React.FC<ServicesPageProps> = ({ 
+  onOpenProjectModal,
+  onOpenBookingModal 
+}) => {
+  const [activeTab, setActiveTab] = useState<string>('web-development');
 
   // Interactive Scope & Cost Estimator State
   const [selectedWebsite, setSelectedWebsite] = useState<'none' | 'landing' | 'custom' | 'enterprise'>('custom');
@@ -77,6 +85,14 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenProjectModal }
 
   const estimate = calculateEstimate();
   const activeService = SERVICES_DATA.find(s => s.id === activeTab) || SERVICES_DATA[0];
+
+  // Track service discovery analytics
+  useEffect(() => {
+    trackEvent('service_viewed', {
+      service_id: activeService.id,
+      service_title: activeService.title,
+    });
+  }, [activeService]);
 
   return (
     <motion.div
@@ -179,58 +195,107 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenProjectModal }
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -15 }}
                 transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-10 items-center"
+                className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-10 items-start"
               >
-                {/* Left Specs */}
-                <div className="lg:col-span-7 flex flex-col items-start">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600 shadow-xs flex-shrink-0">
-                      <ServiceIcon iconName={activeService.icon} className="w-6 h-6 sm:w-7 sm:h-7" />
+                {/* Left Specs & Deliverables */}
+                <div className="lg:col-span-7 flex flex-col items-start space-y-6">
+                  <div>
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600 shadow-xs flex-shrink-0">
+                        <ServiceIcon iconName={activeService.icon} className="w-6 h-6 sm:w-7 sm:h-7" />
+                      </div>
+                      <div>
+                        <span className="text-[11px] sm:text-xs font-tech text-sky-600 font-bold tracking-widest uppercase">
+                          SERVICE 0{activeService.number} DISCIPLINE
+                        </span>
+                        <h3 className="text-xl sm:text-2xl md:text-3xl font-display font-black text-slate-900">
+                          {activeService.title}
+                        </h3>
+                      </div>
                     </div>
-                    <div>
-                      <span className="text-[11px] sm:text-xs font-tech text-sky-600 font-bold tracking-widest uppercase">
-                        SERVICE 0{activeService.number} DISCIPLINE
-                      </span>
-                      <h3 className="text-xl sm:text-2xl md:text-3xl font-display font-black text-slate-900">
-                        {activeService.title}
-                      </h3>
-                    </div>
+
+                    <p className="text-sm sm:text-base font-semibold text-slate-700 mb-2 font-sans-clean">
+                      {activeService.tagline}
+                    </p>
+
+                    <p className="text-xs sm:text-sm text-slate-600 font-sans-clean leading-relaxed">
+                      {activeService.description}
+                    </p>
                   </div>
 
-                  <p className="text-sm sm:text-base font-semibold text-slate-700 mb-2 sm:mb-3 font-sans-clean">
-                    {activeService.tagline}
-                  </p>
-
-                  <p className="text-xs sm:text-sm md:text-base text-slate-600 font-sans-clean leading-relaxed mb-6">
-                    {activeService.description}
-                  </p>
-
-                  <div className="w-full pt-4 border-t border-slate-100 mb-6 sm:mb-8">
-                    <div className="text-xs font-tech uppercase text-sky-600 font-bold tracking-wider mb-3">
-                      Included Capabilities &amp; Standards:
+                  {/* Included Deliverables */}
+                  <div className="w-full pt-4 border-t border-slate-100">
+                    <div className="flex items-center gap-2 text-xs font-tech uppercase text-sky-700 font-bold tracking-wider mb-3">
+                      <FileCheck className="w-4 h-4 text-sky-600" />
+                      <span>Concrete Client Deliverables:</span>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                      {activeService.services.map((feat, idx) => (
-                        <div key={idx} className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-700">
-                          <div className="w-4 h-4 rounded-full bg-sky-100 flex items-center justify-center text-sky-600 flex-shrink-0">
+                    <div className="grid grid-cols-1 gap-2.5">
+                      {activeService.deliverables && activeService.deliverables.map((deliv, idx) => (
+                        <div key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                          <div className="w-4 h-4 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 shrink-0 mt-0.5">
                             <Check className="w-2.5 h-2.5" />
                           </div>
-                          <span>{feat}</span>
+                          <span>{deliv}</span>
                         </div>
                       ))}
                     </div>
                   </div>
 
-                  <MagneticButton
-                    onClick={() => onOpenProjectModal(activeService.title)}
-                    className="w-full sm:w-auto justify-center inline-flex items-center gap-2 px-6 sm:px-8 py-3.5 rounded-full text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:shadow-[0_6px_20px_rgba(2,132,199,0.35)] transition-all cursor-pointer"
-                  >
-                    <span>Request {activeService.title}</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </MagneticButton>
+                  {/* Who It's For & Prerequisites */}
+                  <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                    <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/70 text-xs">
+                      <div className="flex items-center gap-1.5 font-tech font-bold text-slate-800 uppercase tracking-wider mb-1.5">
+                        <Users className="w-3.5 h-3.5 text-sky-600" />
+                        <span>Who This Service Suits:</span>
+                      </div>
+                      <p className="text-slate-600 text-[11px] leading-relaxed">
+                        {activeService.whoItsFor || "Businesses and founders wanting high quality and predictable velocity."}
+                      </p>
+                    </div>
+
+                    <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/70 text-xs">
+                      <div className="flex items-center gap-1.5 font-tech font-bold text-slate-800 uppercase tracking-wider mb-1.5">
+                        <FileCheck className="w-3.5 h-3.5 text-violet-600" />
+                        <span>Client Materials Needed:</span>
+                      </div>
+                      <ul className="text-slate-600 text-[11px] leading-relaxed list-disc list-inside space-y-0.5">
+                        {activeService.clientPrerequisites && activeService.clientPrerequisites.slice(0, 2).map((item, idx) => (
+                          <li key={idx}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  {/* CTAs */}
+                  <div className="w-full pt-2 flex flex-wrap items-center gap-3">
+                    <MagneticButton
+                      onClick={() => onOpenProjectModal(activeService.title)}
+                      className="w-full sm:w-auto justify-center inline-flex items-center gap-2 px-6 sm:px-8 py-3.5 rounded-full text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:shadow-[0_6px_20px_rgba(2,132,199,0.35)] transition-all cursor-pointer"
+                    >
+                      <span>Inquire About {activeService.title}</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </MagneticButton>
+
+                    <a
+                      href="#estimator"
+                      className="w-full sm:w-auto text-center px-5 py-3.5 rounded-full text-xs sm:text-sm font-semibold text-slate-700 bg-white border border-slate-200 hover:border-sky-300 hover:text-sky-600 transition-colors"
+                    >
+                      Estimate Package Budget &darr;
+                    </a>
+
+                    {onOpenBookingModal && (
+                      <button
+                        type="button"
+                        onClick={() => onOpenBookingModal(`Service Consultation: ${activeService.title}`)}
+                        className="w-full sm:w-auto text-center px-5 py-3.5 rounded-full text-xs sm:text-sm font-semibold text-sky-700 bg-sky-50 border border-sky-200 hover:bg-sky-100 hover:border-sky-300 transition-colors cursor-pointer"
+                      >
+                        Book Strategy Call &rarr;
+                      </button>
+                    )}
+                  </div>
                 </div>
 
-                {/* Right Interactive Card / Guarantee */}
+                {/* Right Interactive Card: Standards & Service FAQs */}
                 <div className="lg:col-span-5 bg-slate-50 rounded-2xl border border-slate-200 p-6 sm:p-8 flex flex-col justify-between space-y-6">
                   <div>
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100 text-sky-800 text-xs font-tech font-bold mb-3">
@@ -238,27 +303,45 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenProjectModal }
                       <span>QUALITY ASSURANCE</span>
                     </div>
                     <h4 className="text-lg font-display font-bold text-slate-900 mb-2">
-                      Why Choose This Service
+                      Execution Guarantees
                     </h4>
-                    <p className="text-xs text-slate-600 leading-relaxed font-sans-clean">
-                      Every project includes dedicated project tracking, transparent code/asset handover, and post-launch support guarantee.
+                    <p className="text-xs text-slate-600 leading-relaxed font-sans-clean mb-4">
+                      Every project includes senior leadership oversight, 100% asset and code ownership upon completion, and milestone sign-off.
                     </p>
+
+                    <div className="space-y-2.5 pt-3 border-t border-slate-200 text-xs font-tech text-slate-600">
+                      <div className="flex items-center justify-between">
+                        <span className="text-slate-500">Typical Sprint Delivery</span>
+                        <span className="text-sky-600 font-bold">5 - 14 Days</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-slate-500">Revisions Model</span>
+                        <span className="text-slate-900 font-bold">2 Structured Review Rounds</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-slate-500">Source Ownership</span>
+                        <span className="text-emerald-600 font-bold">100% Client Owned</span>
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="space-y-3 pt-4 border-t border-slate-200 text-xs font-tech text-slate-600">
-                    <div className="flex items-center justify-between">
-                      <span className="text-slate-500">Typical Sprint Delivery</span>
-                      <span className="text-sky-600 font-bold">5 - 14 Days</span>
+                  {/* Discipline-Specific FAQs */}
+                  {activeService.serviceFaqs && activeService.serviceFaqs.length > 0 && (
+                    <div className="pt-4 border-t border-slate-200 space-y-3">
+                      <div className="flex items-center gap-1.5 text-xs font-tech font-bold text-slate-800 uppercase tracking-wider">
+                        <HelpCircle className="w-3.5 h-3.5 text-sky-600" />
+                        <span>Common Questions on This Service:</span>
+                      </div>
+                      <div className="space-y-2">
+                        {activeService.serviceFaqs.map((faq, idx) => (
+                          <div key={idx} className="p-3 rounded-xl bg-white border border-slate-200/80 text-xs">
+                            <strong className="block text-slate-900 mb-1">{faq.q}</strong>
+                            <p className="text-slate-600 leading-relaxed text-[11px]">{faq.a}</p>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-slate-500">Revisions Model</span>
-                      <span className="text-slate-900 font-bold">Iterative until approved</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-slate-500">Source Ownership</span>
-                      <span className="text-emerald-600 font-bold">100% Client Owned</span>
-                    </div>
-                  </div>
+                  )}
                 </div>
 
               </motion.div>

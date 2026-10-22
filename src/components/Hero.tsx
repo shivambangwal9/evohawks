@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { AGENCY_CONFIG } from '../data/agencyData';
 import { useSiteConfig } from '../context/SiteConfigContext';
-import { motion, type Variants } from 'framer-motion';
+import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import { BorderBeam } from './ui/BorderBeam';
 import { TiltCard } from './ui/TiltCard';
 import { MagneticButton } from './ui/MagneticButton';
@@ -30,6 +30,54 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
   const { siteConfig } = useSiteConfig();
+  const [mobileActiveDiscipline, setMobileActiveDiscipline] = useState<number>(0);
+
+  const mobileDisciplines = [
+    {
+      id: 'web',
+      name: 'Web Dev',
+      badge: 'REACT 19 + NEXT',
+      metric: '100/100 Core Web Vitals',
+      icon: Code2,
+      color: '#0099FF',
+      title: 'High-Velocity Web Architecture',
+      description: 'Responsive, bespoke websites and dynamic platforms engineered for sub-second page loads and conversions.',
+      deliverable: 'Clean Semantic Code & Edge Deployment'
+    },
+    {
+      id: 'video',
+      name: 'Video & Reels',
+      badge: '9:16 VERTICAL CUTS',
+      metric: '15M+ Organic Impressions',
+      icon: Video,
+      color: '#FF1361',
+      title: 'High-Retention Short-Form Content',
+      description: 'Cinematic pacing, customized motion graphics, and audio synchronization engineered for TikTok and Instagram Reels.',
+      deliverable: '4K Color Grading & Sound Design Sync'
+    },
+    {
+      id: 'seo',
+      name: 'Search & SEO',
+      badge: 'INTENT ENGINE',
+      metric: '#1 Page Google Rankings',
+      icon: Search,
+      color: '#38BDF8',
+      title: 'Technical Search Domination',
+      description: 'Keyword intent mapping, schema graph architecture, and technical Core Web Vitals fixes that compound organic traffic.',
+      deliverable: 'Zero Spambacklinks & Real Search Equity'
+    },
+    {
+      id: 'ads',
+      name: 'Paid Growth',
+      badge: 'META & GOOGLE',
+      metric: '+340% Average ROAS',
+      icon: TrendingUp,
+      color: '#FF2A85',
+      title: 'Direct-Response Funnels',
+      description: 'High-intent creative ad variations paired with dedicated high-converting landing pages and pixel tracking.',
+      deliverable: 'Targeted Customer Acquisition & Retargeting'
+    }
+  ];
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
@@ -197,73 +245,128 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
           {/* Right Hero Column: Sculpted Cyber-Creative Aerodynamic Capsules */}
           <div className="lg:col-span-5 relative flex flex-col justify-center items-center mt-6 lg:mt-0 w-full">
             
-            {/* MOBILE & TABLET ECOSYSTEM VIEW (< lg) */}
-            <div className="block lg:hidden w-full max-w-md mx-auto space-y-3.5">
-              <div className="flex items-center justify-center">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0B0D16]/95 border border-[#0099FF]/30 shadow-[0_0_20px_rgba(0,153,255,0.2)]">
-                  <Sparkles className="w-4 h-4 text-[#FF1361] animate-spin-slow" />
-                  <span className="text-xs font-tech font-extrabold text-white tracking-wider">EVO HAWKS DISCIPLINES</span>
+            {/* MOBILE & TABLET INTERACTIVE DISCIPLINE COCKPIT (< lg) */}
+            <div className="block lg:hidden w-full max-w-lg mx-auto space-y-3.5">
+              {/* Studio Core Header Pill */}
+              <div className="flex items-center justify-between px-1">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0B0D16]/95 border border-[#0099FF]/30 shadow-[0_0_20px_rgba(0,153,255,0.2)]">
+                  <Sparkles className="w-3.5 h-3.5 text-[#FF1361] animate-spin-slow" />
+                  <span className="text-[11px] font-tech font-extrabold text-white tracking-wider">AGENCY DISCIPLINES</span>
                 </div>
+                <span className="text-[10px] font-tech text-[#38BDF8] uppercase tracking-wider font-semibold">
+                  Tap to preview &#9889;
+                </span>
               </div>
 
-              {/* Asymmetrical Curved Capsule Pods for Mobile */}
-              <div className="grid grid-cols-1 min-[420px]:grid-cols-2 gap-3 w-full">
-                {/* Mobile Pod 1: Web Development (Top Left Stadium Cut) */}
-                <div className="glass-panel p-4 rounded-[2rem] rounded-tl-md border border-white/10 shadow-lg relative overflow-hidden">
-                  <BorderBeam size={80} duration={8} colorFrom="#0099FF" colorTo="#38BDF8" />
-                  <div className="flex items-center justify-between pb-1.5 border-b border-white/10 mb-2">
-                    <span className="text-[11px] font-display font-bold text-white flex items-center gap-1.5">
-                      <Code2 className="w-3.5 h-3.5 text-[#0099FF]" /> Web Dev
-                    </span>
-                    <span className="text-[9px] font-tech text-[#38BDF8] font-bold bg-[#0099FF]/15 px-1.5 py-0.5 rounded-full border border-[#0099FF]/30">REACT 19</span>
-                  </div>
-                  <p className="text-[11px] text-slate-300 font-sans-clean leading-tight">
-                    Custom responsive websites built with clean, modern code.
-                  </p>
-                </div>
-
-                {/* Mobile Pod 2: Video Editing (Top Right Stadium Cut) */}
-                <div className="glass-panel p-4 rounded-[2rem] rounded-tr-md border border-white/10 shadow-lg relative overflow-hidden">
-                  <BorderBeam size={80} duration={9} colorFrom="#FF1361" colorTo="#0099FF" />
-                  <div className="flex items-center justify-between pb-1.5 border-b border-white/10 mb-2">
-                    <span className="text-[11px] font-display font-bold text-white flex items-center gap-1.5">
-                      <Video className="w-3.5 h-3.5 text-[#FF1361]" /> Video &amp; Reels
-                    </span>
-                    <span className="text-[9px] font-tech text-[#FF2A85] font-bold bg-[#FF1361]/15 px-1.5 py-0.5 rounded-full border border-[#FF1361]/30">9:16 CUTS</span>
-                  </div>
-                  <p className="text-[11px] text-slate-300 font-sans-clean leading-tight">
-                    Dynamic pacing, motion graphics, and audio sync for socials.
-                  </p>
-                </div>
-
-                {/* Mobile Pod 3: SEO Architecture (Bottom Left Stadium Cut) */}
-                <div className="glass-panel p-4 rounded-[2rem] rounded-bl-md border border-white/10 shadow-lg relative overflow-hidden">
-                  <BorderBeam size={80} duration={10} colorFrom="#0099FF" colorTo="#FF1361" />
-                  <div className="flex items-center justify-between pb-1.5 border-b border-white/10 mb-2">
-                    <span className="text-[11px] font-display font-bold text-white flex items-center gap-1.5">
-                      <Search className="w-3.5 h-3.5 text-[#38BDF8]" /> Search &amp; SEO
-                    </span>
-                    <span className="text-[9px] font-tech text-[#38BDF8] font-bold bg-[#0099FF]/15 px-1.5 py-0.5 rounded-full border border-[#0099FF]/30">ORGANIC</span>
-                  </div>
-                  <p className="text-[11px] text-slate-300 font-sans-clean leading-tight">
-                    Keyword intent, semantic markup, and Core Web Vitals structure.
-                  </p>
-                </div>
-
-                {/* Mobile Pod 4: Paid Marketing (Bottom Right Stadium Cut) */}
-                <div className="glass-panel p-4 rounded-[2rem] rounded-br-md border border-white/10 shadow-lg relative overflow-hidden">
-                  <BorderBeam size={80} duration={11} colorFrom="#FF1361" colorTo="#FF2A85" />
-                  <div className="flex items-center justify-between pb-1.5 border-b border-white/10 mb-2">
-                    <span className="text-[11px] font-display font-bold text-white flex items-center gap-1.5">
-                      <TrendingUp className="w-3.5 h-3.5 text-[#FF2A85]" /> Paid Ads
-                    </span>
-                    <span className="text-[9px] font-tech text-[#FF2A85] font-bold bg-[#FF1361]/15 px-1.5 py-0.5 rounded-full border border-[#FF1361]/30">FUNNELS</span>
-                  </div>
-                  <p className="text-[11px] text-slate-300 font-sans-clean leading-tight">
-                    Meta &amp; Google ad creatives paired with conversion landing pages.
-                  </p>
-                </div>
+              {/* Interactive Discipline Horizontal Tab Pills */}
+              <div className="grid grid-cols-4 gap-1.5 p-1 rounded-full bg-[#070912]/90 border border-white/10 backdrop-blur-xl">
+                {mobileDisciplines.map((item, idx) => {
+                  const isActive = mobileActiveDiscipline === idx;
+                  const Icon = item.icon;
+                  return (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => setMobileActiveDiscipline(idx)}
+                      className={`relative py-2 px-1 rounded-full text-[11px] font-tech font-bold transition-all flex flex-col items-center justify-center gap-1 cursor-pointer z-10 ${
+                        isActive ? 'text-white' : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      {isActive && (
+                        <motion.div
+                          layoutId="mobileActiveDisciplineTab"
+                          className="absolute inset-0 bg-gradient-to-r from-[#FF1361] to-[#0099FF] rounded-full shadow-[0_0_15px_rgba(255,19,97,0.4)] -z-10"
+                          transition={{ type: "spring", stiffness: 450, damping: 30 }}
+                        />
+                      )}
+                      <Icon className="w-3.5 h-3.5" style={{ color: isActive ? '#fff' : item.color }} />
+                      <span className="truncate max-w-full text-[10px]">{item.name}</span>
+                    </button>
+                  );
+                })}
               </div>
+
+              {/* Animated Interactive Showcase Card */}
+              {(() => {
+                const current = mobileDisciplines[mobileActiveDiscipline];
+                const Icon = current.icon;
+                return (
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={current.id}
+                      initial={{ opacity: 0, y: 12, scale: 0.98 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -12, scale: 0.98 }}
+                      transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                      className="p-5 sm:p-6 rounded-[2.5rem] rounded-tl-md bg-gradient-to-br from-[#0A0D18]/95 to-[#070912]/95 border border-white/15 shadow-[0_20px_45px_rgba(0,0,0,0.85)] relative overflow-hidden backdrop-blur-xl"
+                    >
+                      <BorderBeam size={100} duration={8} colorFrom={current.color} colorTo="#FF1361" />
+
+                      {/* Header with Icon, Badge, and Metric */}
+                      <div className="flex items-center justify-between pb-3 border-b border-white/10 mb-3.5">
+                        <div className="flex items-center gap-2.5">
+                          <div 
+                            className="w-10 h-10 rounded-2xl flex items-center justify-center shadow-lg border border-white/15"
+                            style={{ backgroundColor: `${current.color}15` }}
+                          >
+                            <Icon className="w-5 h-5" style={{ color: current.color }} />
+                          </div>
+                          <div>
+                            <span className="text-[10px] font-tech text-slate-400 uppercase tracking-wider block">
+                              Discipline 0{mobileActiveDiscipline + 1}
+                            </span>
+                            <span 
+                              className="text-[10px] font-tech font-bold px-2 py-0.5 rounded-full border inline-block"
+                              style={{ 
+                                backgroundColor: `${current.color}15`, 
+                                color: current.color,
+                                borderColor: `${current.color}35`
+                              }}
+                            >
+                              {current.badge}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Live Metric Badge */}
+                        <div className="text-right">
+                          <span className="text-[9px] font-tech text-emerald-400 uppercase tracking-widest block font-bold flex items-center justify-end gap-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                            VERIFIED
+                          </span>
+                          <span className="text-xs font-display font-black text-white">
+                            {current.metric}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Title & Description */}
+                      <h3 className="text-base font-display font-bold text-white mb-1.5 leading-snug">
+                        {current.title}
+                      </h3>
+                      <p className="text-xs text-slate-300 font-sans-clean leading-relaxed mb-4">
+                        {current.description}
+                      </p>
+
+                      {/* Deliverable Pill & CTA Action */}
+                      <div className="pt-3 border-t border-white/10 flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-1.5 text-[11px] font-tech text-[#38BDF8]">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-[#0099FF] shrink-0" />
+                          <span className="truncate">{current.deliverable}</span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => scrollToSection('services')}
+                          className="py-1.5 px-3 rounded-full bg-white/10 hover:bg-white/20 text-white font-tech font-bold text-[11px] flex items-center gap-1 shrink-0 cursor-pointer transition-colors"
+                        >
+                          <span>Explore</span>
+                          <ArrowRight className="w-3 h-3 text-[#FF1361]" />
+                        </button>
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+                );
+              })()}
             </div>
 
             {/* DESKTOP VIEW (lg:flex): 3D Orbit with Sculpted Asymmetrical Pods */}

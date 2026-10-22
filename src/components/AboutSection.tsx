@@ -37,9 +37,9 @@ export const AboutSection: React.FC = () => {
   ];
 
   return (
-    <section id="about" className={`relative py-24 sm:py-32 bg-transparent border-y ${isLight ? 'border-slate-200' : 'border-white/10'} overflow-hidden`}>
+    <section id="about" className={`relative py-14 sm:py-24 lg:py-32 bg-transparent border-y ${isLight ? 'border-slate-200' : 'border-white/10'} overflow-hidden`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
           
           {/* Left Column: Vision & Narrative */}
           <motion.div 
@@ -127,10 +127,10 @@ export const AboutSection: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="lg:col-span-6 flex justify-center"
           >
-            <TiltCard tiltDegree={12} glareColor="#0099FF" className="w-full max-w-md aspect-square">
+            <TiltCard tiltDegree={12} glareColor="#0099FF" className="w-full max-w-xs sm:max-w-md aspect-square">
               <div className={`relative w-full h-full rounded-3xl ${
                 isLight ? 'bg-white/95 border border-slate-200 shadow-xl' : 'bg-[#070912]/95 border border-white/15 shadow-[0_0_40px_rgba(0,153,255,0.25)]'
-              } p-8 flex flex-col items-center justify-center overflow-hidden`}>
+              } p-6 sm:p-8 flex flex-col items-center justify-center overflow-hidden`}>
                 <BorderBeam size={160} duration={10} colorFrom="#0099FF" colorTo="#FF1361" />
                 
                 {/* Animated Orbital Radar Rings */}
@@ -144,7 +144,7 @@ export const AboutSection: React.FC = () => {
                 {/* Large Abstract Geometric Hawk Vector Silhouette */}
                 <svg 
                   viewBox="0 0 200 200" 
-                  className="w-56 h-56 drop-shadow-[0_8px_30px_rgba(0,153,255,0.3)] animate-float relative z-10"
+                  className="w-44 h-44 sm:w-56 sm:h-56 drop-shadow-[0_8px_30px_rgba(0,153,255,0.3)] animate-float relative z-10"
                   fill="none" 
                   xmlns="http://www.w3.org/2000/svg"
                 >

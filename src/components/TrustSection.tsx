@@ -73,7 +73,7 @@ export const TrustSection: React.FC = () => {
   };
 
   return (
-    <section className="relative py-20 bg-transparent border-y border-white/10 overflow-hidden">
+    <section className="relative py-14 sm:py-20 bg-transparent border-y border-white/10 overflow-hidden">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Animated Metrics Bar - Creative Stadium Pods */}
@@ -82,7 +82,7 @@ export const TrustSection: React.FC = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 pb-12 border-b border-white/10"
+          className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-10 sm:mb-16 pb-8 sm:pb-12 border-b border-white/10"
         >
           {stats.map((stat, idx) => {
             const Icon = stat.icon;
@@ -90,12 +90,12 @@ export const TrustSection: React.FC = () => {
               <motion.div
                 key={idx}
                 variants={itemVariants}
-                className="p-5 rounded-[2rem] bg-[#0A0D18]/90 border border-white/10 shadow-[0_15px_35px_rgba(0,0,0,0.8)] backdrop-blur-xl flex flex-col items-center text-center group hover:border-[#0099FF]/50 hover:shadow-[0_0_25px_rgba(0,153,255,0.2)] transition-all"
+                className="p-3.5 sm:p-5 rounded-2xl sm:rounded-[2rem] bg-[#0A0D18]/90 border border-white/10 shadow-[0_15px_35px_rgba(0,0,0,0.8)] backdrop-blur-xl flex flex-col items-center text-center group hover:border-[#0099FF]/50 hover:shadow-[0_0_25px_rgba(0,153,255,0.2)] transition-all"
               >
-                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#0099FF]/20 to-[#FF1361]/20 border border-white/15 flex items-center justify-center mb-2.5 group-hover:scale-110 transition-transform">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-gradient-to-br from-[#0099FF]/20 to-[#FF1361]/20 border border-white/15 flex items-center justify-center mb-2 sm:mb-2.5 group-hover:scale-110 transition-transform">
                   <Icon className="w-4 h-4" style={{ color: stat.color }} />
                 </div>
-                <div className="text-2xl sm:text-3xl font-display font-black text-white tracking-tight">
+                <div className="text-xl sm:text-3xl font-display font-black text-white tracking-tight">
                   <AnimatedCounter
                     value={stat.value}
                     decimals={stat.decimals}
@@ -103,7 +103,7 @@ export const TrustSection: React.FC = () => {
                     duration={2.2}
                   />
                 </div>
-                <div className="text-xs font-tech text-slate-400 mt-1 uppercase tracking-wider font-semibold">
+                <div className="text-[10px] sm:text-xs font-tech text-slate-400 mt-1 uppercase tracking-wider font-semibold">
                   {stat.label}
                 </div>
               </motion.div>
@@ -112,7 +112,7 @@ export const TrustSection: React.FC = () => {
         </motion.div>
 
         {/* Main Grid Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           
           {/* Left Text Column */}
           <motion.div 
@@ -127,7 +127,7 @@ export const TrustSection: React.FC = () => {
               <span>Full-Stack Digital Synergy</span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold text-white tracking-tight leading-tight mb-5">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-display font-extrabold text-white tracking-tight leading-tight mb-4 sm:mb-5">
               {AGENCY_CONFIG.trustHeadline}
             </h2>
 
@@ -148,7 +148,7 @@ export const TrustSection: React.FC = () => {
           </motion.div>
 
           {/* Right Capability Cards with Asymmetrical Curves & BorderBeam */}
-          <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4">
             {highlights.map((item, idx) => {
               const Icon = item.icon;
               return (

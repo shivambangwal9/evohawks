@@ -17,7 +17,7 @@ export const TestimonialsSection: React.FC = () => {
   };
 
   return (
-    <section className="relative py-24 sm:py-32 bg-transparent overflow-hidden border-t border-white/10">
+    <section className="relative py-14 sm:py-24 lg:py-32 bg-transparent overflow-hidden border-t border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         
         {/* Section Header */}
@@ -26,7 +26,7 @@ export const TestimonialsSection: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6 }}
-          className="flex flex-col items-center text-center max-w-3xl mx-auto mb-16 sm:mb-20"
+          className="flex flex-col items-center text-center max-w-3xl mx-auto mb-10 sm:mb-16 lg:mb-20"
         >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0B0D16]/90 border border-white/10 text-xs font-tech text-[#38BDF8] font-semibold mb-4 shadow-[0_0_20px_rgba(0,153,255,0.2)]">
             <ShieldCheck className="w-3.5 h-3.5 text-[#FF1361]" />
@@ -43,15 +43,15 @@ export const TestimonialsSection: React.FC = () => {
         </motion.div>
 
         {/* 4 Creative Sculpted Delivery Pods */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {QUALITY_STANDARDS.map((item, idx) => {
             const Icon = getIcon(item.icon);
             const isRose = idx % 2 === 1;
             const curves = [
-              'rounded-[2.5rem] rounded-tl-sm',
-              'rounded-[2.5rem] rounded-tr-sm',
-              'rounded-[2.5rem] rounded-bl-sm',
-              'rounded-[2.5rem] rounded-br-sm'
+              'rounded-[1.75rem] sm:rounded-[2.5rem] rounded-tl-sm',
+              'rounded-[1.75rem] sm:rounded-[2.5rem] rounded-tr-sm',
+              'rounded-[1.75rem] sm:rounded-[2.5rem] rounded-bl-sm',
+              'rounded-[1.75rem] sm:rounded-[2.5rem] rounded-br-sm'
             ];
             const curve = curves[idx % 4];
 
@@ -65,7 +65,7 @@ export const TestimonialsSection: React.FC = () => {
                 className="h-full"
               >
                 <TiltCard tiltDegree={8} glareColor={isRose ? '#FF1361' : '#0099FF'} className="h-full">
-                  <div className={`${curve} bg-[#0A0D18]/90 border border-white/10 hover:border-[#0099FF]/50 p-6 sm:p-7 flex flex-col justify-between h-full shadow-[0_20px_45px_rgba(0,0,0,0.85)] hover:shadow-[0_25px_50px_rgba(0,153,255,0.2)] transition-all relative overflow-hidden group`}>
+                  <div className={`${curve} bg-[#0A0D18]/90 border border-white/10 hover:border-[#0099FF]/50 p-5 sm:p-7 flex flex-col justify-between h-full shadow-[0_20px_45px_rgba(0,0,0,0.85)] hover:shadow-[0_25px_50px_rgba(0,153,255,0.2)] transition-all relative overflow-hidden group`}>
                     <BorderBeam size={100} duration={10 + idx * 2} colorFrom={isRose ? '#FF1361' : '#0099FF'} colorTo={isRose ? '#0099FF' : '#FF1361'} />
                     
                     <div>

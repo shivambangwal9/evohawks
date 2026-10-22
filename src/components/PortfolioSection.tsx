@@ -69,7 +69,7 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ onSelectServ
   };
 
   return (
-    <section id="work" className="relative py-24 sm:py-32 bg-transparent overflow-hidden">
+    <section id="work" className="relative py-14 sm:py-24 lg:py-32 bg-transparent overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         
         {/* Section Header */}
@@ -78,7 +78,7 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ onSelectServ
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6 }}
-          className="flex flex-col items-center text-center max-w-3xl mx-auto mb-14"
+          className="flex flex-col items-center text-center max-w-3xl mx-auto mb-10 sm:mb-14"
         >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0B0D16]/90 border border-white/10 text-xs font-tech text-[#38BDF8] font-semibold mb-4 shadow-[0_0_20px_rgba(0,153,255,0.2)]">
             <Sparkles className="w-3.5 h-3.5 text-[#FF1361]" />
@@ -119,15 +119,15 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ onSelectServ
         </motion.div>
 
         {/* Filter Tabs with Active Animated Pill */}
-        <div className="flex items-center justify-center mb-12 overflow-x-auto pb-2 scrollbar-none">
-          <div className="inline-flex items-center gap-1.5 p-1.5 rounded-full bg-[#0B0D16]/90 border border-white/10 backdrop-blur-md shadow-lg">
+        <div className="flex items-center justify-start sm:justify-center mb-8 sm:mb-12 overflow-x-auto pb-2 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
+          <div className="inline-flex items-center gap-1 sm:gap-1.5 p-1 sm:p-1.5 rounded-full bg-[#0B0D16]/90 border border-white/10 backdrop-blur-md shadow-lg shrink-0">
             {filters.map((category) => {
               const isActive = activeFilter === category;
               return (
                 <button
                   key={category}
                   onClick={() => setActiveFilter(category)}
-                  className={`relative px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors cursor-pointer whitespace-nowrap z-10 ${
+                  className={`relative px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors cursor-pointer whitespace-nowrap z-10 ${
                     isActive ? 'text-white' : 'text-slate-400 hover:text-white'
                   }`}
                 >
@@ -149,12 +149,14 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ onSelectServ
         {filteredProjects.length > 0 ? (
           <motion.div 
             layout
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8"
           >
             <AnimatePresence>
               {filteredProjects.map((project, idx) => {
                 const isEven = idx % 2 === 0;
-                const creativeCurve = isEven ? 'rounded-[2.5rem] rounded-tl-lg' : 'rounded-[2.5rem] rounded-tr-lg';
+                const creativeCurve = isEven 
+                  ? 'rounded-[1.75rem] sm:rounded-[2.5rem] rounded-tl-lg' 
+                  : 'rounded-[1.75rem] sm:rounded-[2.5rem] rounded-tr-lg';
                 
                 return (
                   <motion.div
@@ -196,7 +198,7 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ onSelectServ
                         )}
 
                         {/* Project Image Viewport */}
-                        <div className="relative h-60 sm:h-64 w-full overflow-hidden bg-[#070912]">
+                        <div className="relative h-52 sm:h-64 w-full overflow-hidden bg-[#070912]">
                           <img
                             src={project.image}
                             alt={project.title}
@@ -237,7 +239,7 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ onSelectServ
                         </div>
 
                         {/* Project Card Body */}
-                        <div className="p-6 flex-1 flex flex-col justify-between">
+                        <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between">
                           <div>
                             <div className="text-xs font-tech text-[#38BDF8] mb-1 font-semibold tracking-wider uppercase">
                               {project.industry}

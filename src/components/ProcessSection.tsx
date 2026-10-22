@@ -33,7 +33,7 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenProjectMod
   const [activeStep, setActiveStep] = useState<number>(0);
 
   return (
-    <section id="process" className="relative py-24 sm:py-32 bg-transparent overflow-hidden">
+    <section id="process" className="relative py-14 sm:py-24 lg:py-32 bg-transparent overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         
         {/* Section Header */}
@@ -42,7 +42,7 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenProjectMod
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6 }}
-          className="flex flex-col items-center text-center max-w-3xl mx-auto mb-16 sm:mb-20"
+          className="flex flex-col items-center text-center max-w-3xl mx-auto mb-10 sm:mb-16 lg:mb-20"
         >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0B0D16]/90 border border-white/10 text-xs font-tech text-[#38BDF8] font-semibold mb-4 shadow-[0_0_20px_rgba(0,153,255,0.2)]">
             <Activity className="w-3.5 h-3.5 text-[#FF1361]" />
@@ -99,7 +99,7 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenProjectMod
         {(() => {
           const current = PROCESS_DATA[activeStep];
           return (
-            <div className="relative rounded-[3rem] rounded-tl-lg bg-[#0A0D18]/95 border border-white/10 p-6 sm:p-8 md:p-12 backdrop-blur-2xl shadow-[0_25px_60px_rgba(0,0,0,0.95)] overflow-hidden">
+            <div className="relative rounded-[2rem] sm:rounded-[3rem] rounded-tl-lg bg-[#0A0D18]/95 border border-white/10 p-5 sm:p-8 md:p-12 backdrop-blur-2xl shadow-[0_25px_60px_rgba(0,0,0,0.95)] overflow-hidden">
               <BorderBeam size={160} duration={12} colorFrom="#0099FF" colorTo="#FF1361" />
               <AnimatePresence mode="wait">
                 <motion.div
@@ -155,7 +155,7 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenProjectMod
                   </div>
 
                   {/* Right Deliverables Column in Sculpted Pod */}
-                  <div className="lg:col-span-5 bg-[#060810]/90 rounded-[2.2rem] border border-white/10 p-5 sm:p-6 shadow-inner w-full">
+                  <div className="lg:col-span-5 bg-[#060810]/90 rounded-2xl sm:rounded-[2.2rem] border border-white/10 p-4 sm:p-6 shadow-inner w-full">
                     <div className="text-xs font-tech text-[#38BDF8] font-bold uppercase tracking-wider mb-4 flex items-center gap-2">
                       <CheckCircle2 className="w-4 h-4 text-[#FF1361]" />
                       <span>Stage Deliverables &amp; Outcomes:</span>

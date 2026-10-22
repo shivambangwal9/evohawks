@@ -47,10 +47,10 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
 
   const getCreativeBorderClass = (index: number) => {
     switch (index % 3) {
-      case 0: return 'rounded-[2.75rem] rounded-tl-lg rounded-br-lg';
-      case 1: return 'rounded-[2.75rem] rounded-tr-lg rounded-bl-lg';
-      case 2: return 'rounded-[3rem] rounded-bl-lg rounded-tr-lg';
-      default: return 'rounded-[2.75rem]';
+      case 0: return 'rounded-[2rem] sm:rounded-[2.75rem] rounded-tl-lg rounded-br-lg';
+      case 1: return 'rounded-[2rem] sm:rounded-[2.75rem] rounded-tr-lg rounded-bl-lg';
+      case 2: return 'rounded-[2rem] sm:rounded-[3rem] rounded-bl-lg rounded-tr-lg';
+      default: return 'rounded-[2rem] sm:rounded-[2.75rem]';
     }
   };
 
@@ -74,7 +74,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
   };
 
   return (
-    <section id="services" className="relative py-24 sm:py-32 bg-transparent overflow-hidden">
+    <section id="services" className="relative py-14 sm:py-24 lg:py-32 bg-transparent overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         
         {/* Section Header */}
@@ -83,7 +83,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6 }}
-          className="flex flex-col items-center text-center max-w-3xl mx-auto mb-16 sm:mb-20"
+          className="flex flex-col items-center text-center max-w-3xl mx-auto mb-10 sm:mb-16 lg:mb-20"
         >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0B0D16]/90 border border-white/10 text-xs font-tech text-[#38BDF8] font-semibold mb-4 shadow-[0_0_20px_rgba(0,153,255,0.2)]">
             <Sparkles className="w-3.5 h-3.5 text-[#FF1361]" />
@@ -105,7 +105,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8"
         >
           {SERVICES_DATA.map((service: ServiceItem, index: number) => {
             const IconComponent = getIcon(service.icon);
@@ -120,18 +120,18 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
                 className="h-full"
               >
                 <TiltCard tiltDegree={10} glareColor={accent} className="h-full">
-                  <div className={`group relative ${creativeRadius} bg-[#0A0D18]/90 border border-white/10 hover:border-[#0099FF]/50 p-7 sm:p-8 flex flex-col justify-between h-full transition-all duration-300 shadow-[0_20px_45px_rgba(0,0,0,0.85)] hover:shadow-[0_25px_50px_rgba(0,153,255,0.2)] backdrop-blur-xl overflow-hidden`}>
+                  <div className={`group relative ${creativeRadius} bg-[#0A0D18]/90 border border-white/10 hover:border-[#0099FF]/50 p-5 sm:p-8 flex flex-col justify-between h-full transition-all duration-300 shadow-[0_20px_45px_rgba(0,0,0,0.85)] hover:shadow-[0_25px_50px_rgba(0,153,255,0.2)] backdrop-blur-xl overflow-hidden`}>
                     <BorderBeam size={120} duration={12} colorFrom={accent} colorTo={isRoseAccent ? '#0099FF' : '#FF1361'} />
 
                     {/* Subtle Large Artistic Watermark Number in Background */}
-                    <span className="absolute -top-3 -right-2 text-7xl font-display font-black text-white/[0.04] pointer-events-none group-hover:text-[#0099FF]/10 transition-colors select-none">
+                    <span className="absolute -top-3 -right-2 text-6xl sm:text-7xl font-display font-black text-white/[0.04] pointer-events-none group-hover:text-[#0099FF]/10 transition-colors select-none">
                       {service.number}
                     </span>
 
                     <div className="relative z-10">
                       {/* Service Number & Icon Header */}
-                      <div className="flex items-center justify-between mb-6">
-                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#0099FF]/20 via-transparent to-[#FF1361]/20 border border-white/15 flex items-center justify-center group-hover:border-[#0099FF]/60 group-hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(0,153,255,0.25)]">
+                      <div className="flex items-center justify-between mb-5 sm:mb-6">
+                        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-[#0099FF]/20 via-transparent to-[#FF1361]/20 border border-white/15 flex items-center justify-center group-hover:border-[#0099FF]/60 group-hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(0,153,255,0.25)]">
                           <IconComponent className={`w-6 h-6 ${isRoseAccent ? 'text-[#FF1361]' : 'text-[#0099FF]'} group-hover:scale-115 transition-transform duration-300`} />
                         </div>
                         <span className="font-tech text-xs tracking-widest text-[#38BDF8] font-bold bg-[#0099FF]/10 px-3 py-1 rounded-full border border-[#0099FF]/25">

@@ -14,11 +14,12 @@ import {
   ShieldCheck, 
   LogOut,
   LayoutDashboard,
-  ChevronDown
+  ChevronDown,
+  MessageSquare
 } from 'lucide-react';
 import type { PageId } from '../hooks/usePageRouter';
 import { motion, AnimatePresence } from 'framer-motion';
-import { SERVICES_DATA } from '../data/agencyData';
+import { SERVICES_DATA, AGENCY_CONFIG } from '../data/agencyData';
 
 interface NavbarProps {
   currentPage: PageId;
@@ -371,19 +372,33 @@ export const Navbar: React.FC<NavbarProps> = ({
             transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
             className={`fixed inset-0 z-40 ${
               isLight ? 'bg-white/98 text-slate-900' : 'bg-[#050508]/98 text-white'
-            } backdrop-blur-2xl lg:hidden flex flex-col justify-between pt-20 pb-6 px-5 sm:px-8 border-b ${
+            } backdrop-blur-2xl lg:hidden flex flex-col justify-between pt-20 pb-8 px-4 sm:px-6 border-b ${
               isLight ? 'border-slate-200' : 'border-white/10'
             } overflow-y-auto pb-safe`}
             onClick={() => setMobileMenuOpen(false)}
           >
-            <div className="flex flex-col gap-2 pt-4" onClick={(e) => e.stopPropagation()}>
-              <div className="flex items-center justify-between text-xs uppercase tracking-wider font-tech text-[#0284C7] font-bold mb-2 px-2">
-                <span>Navigation Menu</span>
-                <span className={`text-[10px] ${isLight ? 'text-slate-400' : 'text-slate-500'} font-normal`}>Tap to explore</span>
+            <div className="flex flex-col gap-3 pt-3" onClick={(e) => e.stopPropagation()}>
+              
+              {/* Studio Status Pulse Bar */}
+              <div className={`p-3 rounded-2xl flex items-center justify-between border ${
+                isLight ? 'bg-sky-50/90 border-sky-200' : 'bg-gradient-to-r from-[#0099FF]/10 via-[#8B5CF6]/10 to-[#FF1361]/10 border-white/10'
+              } shadow-xs`}>
+                <div className="flex items-center gap-2">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                  </span>
+                  <span className={`text-[11px] font-tech font-bold uppercase tracking-wider ${isLight ? 'text-slate-800' : 'text-slate-200'}`}>
+                    Live Studio Intake
+                  </span>
+                </div>
+                <span className="text-[10px] font-tech text-[#0099FF] font-bold bg-[#0099FF]/10 px-2.5 py-0.5 rounded-full border border-[#0099FF]/25">
+                  Q2 Sprints Active
+                </span>
               </div>
 
-              {/* Theme Toggle Row in Mobile Menu */}
-              <div className={`flex items-center justify-between px-4 py-2.5 rounded-2xl mb-1 ${
+              {/* Theme & Display Mode Row */}
+              <div className={`flex items-center justify-between px-3.5 py-2.5 rounded-2xl ${
                 isLight ? 'bg-slate-100/90 border border-slate-200' : 'bg-white/5 border border-white/10'
               }`}>
                 <span className={`text-xs font-tech font-bold uppercase tracking-wider ${
@@ -394,37 +409,92 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <ThemeToggle showLabel={true} size="md" />
               </div>
 
-              {navLinks.map((link, idx) => {
-                const isActive = currentPage === link.id;
-                return (
-                  <motion.a
-                    key={link.id}
-                    initial={{ opacity: 0, x: -12 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: idx * 0.025 }}
-                    href={`#${link.id}`}
-                    onClick={(e) => handleLinkClick(e, link.id)}
-                    className={`flex items-center justify-between px-4 py-3 min-h-[46px] rounded-2xl text-sm sm:text-base font-semibold transition-colors border ${
-                      isActive 
-                        ? (isLight 
-                            ? 'bg-sky-50 border-sky-300 text-sky-700 shadow-xs' 
-                            : 'bg-gradient-to-r from-[#0099FF]/20 to-[#FF1361]/20 border-[#0099FF]/50 text-white shadow-[0_0_15px_rgba(0,153,255,0.2)]')
-                        : (isLight 
-                            ? 'text-slate-700 hover:text-slate-900 hover:bg-slate-100 border-slate-200/80' 
-                            : 'text-slate-300 hover:text-white hover:bg-white/5 border-white/5')
-                    }`}
-                  >
-                    <span>{link.name}</span>
-                    <ArrowRight className={`w-4 h-4 ${isActive ? 'text-[#FF1361]' : (isLight ? 'text-slate-400' : 'text-slate-500')}`} />
-                  </motion.a>
-                );
-              })}
+              {/* Quick Jump Disciplines */}
+              <div>
+                <div className="flex items-center justify-between text-[10px] font-tech uppercase tracking-wider text-slate-400 font-bold mb-1.5 px-1">
+                  <span>Popular Capabilities</span>
+                  <span className="text-[#38BDF8]">12 Full Services</span>
+                </div>
+                <div className="grid grid-cols-2 gap-1.5">
+                  {[
+                    { title: 'Web & Next.js', slug: 'web-development' },
+                    { title: 'Video & Reels', slug: 'video-editing' },
+                    { title: 'Search & SEO', slug: 'seo-ranking' },
+                    { title: 'Paid Ads', slug: 'digital-marketing' },
+                  ].map((item) => (
+                    <button
+                      key={item.slug}
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        onNavigate('service-detail', item.slug);
+                      }}
+                      className={`px-3 py-2 rounded-xl text-left border transition-all text-xs font-semibold flex items-center justify-between ${
+                        isLight
+                          ? 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-800'
+                          : 'bg-[#0B0D16]/90 hover:bg-[#121624] border-white/10 text-slate-200 hover:border-white/20'
+                      }`}
+                    >
+                      <span className="truncate">{item.title}</span>
+                      <ArrowRight className="w-3 h-3 text-[#38BDF8] shrink-0" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Navigation Grid (2-Column Compact Cards) */}
+              <div>
+                <div className="text-[10px] font-tech uppercase tracking-wider text-slate-400 font-bold mb-1.5 px-1">
+                  <span>Explore Navigation</span>
+                </div>
+                <div className="grid grid-cols-2 gap-1.5">
+                  {navLinks.map((link, idx) => {
+                    const isActive = currentPage === link.id;
+                    const subtitles: Record<string, string> = {
+                      home: 'Digital HQ',
+                      services: '12 Capabilities',
+                      work: 'Case Studies',
+                      packages: 'Transparent ROI',
+                      blog: 'Growth Guides',
+                      about: 'Agency Ethos',
+                      process: '5-Stage Plan',
+                      contact: 'Direct Dispatch',
+                    };
+                    return (
+                      <motion.a
+                        key={link.id}
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: idx * 0.02 }}
+                        href={`#${link.id}`}
+                        onClick={(e) => handleLinkClick(e, link.id)}
+                        className={`p-3 rounded-2xl flex flex-col justify-between border transition-all ${
+                          isActive 
+                            ? (isLight 
+                                ? 'bg-sky-50 border-sky-300 text-sky-700 shadow-xs' 
+                                : 'bg-gradient-to-br from-[#0099FF]/20 to-[#FF1361]/20 border-[#0099FF]/50 text-white shadow-[0_0_15px_rgba(0,153,255,0.25)]')
+                            : (isLight 
+                                ? 'bg-white hover:bg-slate-50 border-slate-200 text-slate-700' 
+                                : 'bg-[#080B14]/90 hover:bg-[#0F1322] border-white/10 text-slate-300')
+                        }`}
+                      >
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-xs font-bold font-display">{link.name}</span>
+                          <ArrowRight className={`w-3 h-3 ${isActive ? 'text-[#FF1361]' : (isLight ? 'text-slate-400' : 'text-slate-500')}`} />
+                        </div>
+                        <span className={`text-[10px] ${isActive ? (isLight ? 'text-sky-600' : 'text-[#38BDF8]') : (isLight ? 'text-slate-500' : 'text-slate-400')} font-sans-clean truncate`}>
+                          {subtitles[link.id] || 'Explore'}
+                        </span>
+                      </motion.a>
+                    );
+                  })}
+                </div>
+              </div>
 
               {/* Portal link in mobile */}
               <motion.button
-                initial={{ opacity: 0, x: -12 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: navLinks.length * 0.025 }}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.16 }}
                 onClick={() => {
                   setMobileMenuOpen(false);
                   if (user) {
@@ -433,9 +503,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                     onNavigate('login');
                   }
                 }}
-                className={`flex items-center justify-between px-4 py-3 min-h-[46px] rounded-2xl text-sm sm:text-base font-semibold transition-colors border ${
+                className={`flex items-center justify-between px-3.5 py-3 rounded-2xl text-xs font-semibold transition-colors border ${
                   isLight ? 'bg-slate-100 border-slate-200 text-slate-800' : 'bg-[#0B0D16] border-white/10 text-slate-200'
-                } cursor-pointer mt-1`}
+                } cursor-pointer`}
               >
                 <div className="flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-[#FF1361]" />
@@ -446,47 +516,63 @@ export const Navbar: React.FC<NavbarProps> = ({
                     }
                   </span>
                 </div>
-                <ArrowRight className={`w-4 h-4 ${isLight ? 'text-slate-400' : 'text-slate-500'}`} />
+                <ArrowRight className={`w-3.5 h-3.5 ${isLight ? 'text-slate-400' : 'text-slate-500'}`} />
               </motion.button>
             </div>
 
-            <div className={`flex flex-col gap-2.5 pt-4 border-t ${isLight ? 'border-slate-200' : 'border-white/10'} mt-4`} onClick={(e) => e.stopPropagation()}>
+            {/* Bottom Direct Conversion Actions */}
+            <div className={`flex flex-col gap-2 pt-3 border-t ${isLight ? 'border-slate-200' : 'border-white/10'} mt-3 pb-4`} onClick={(e) => e.stopPropagation()}>
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
                   onNavigate('start-project');
                 }}
-                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl font-bold text-white bg-gradient-to-r from-[#FF1361] to-[#0099FF] shadow-[0_0_25px_rgba(255,19,97,0.4)] text-sm cursor-pointer"
+                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl font-bold text-white bg-gradient-to-r from-[#FF1361] via-[#FF2A85] to-[#0099FF] shadow-[0_0_25px_rgba(255,19,97,0.4)] text-sm cursor-pointer active:scale-98 transition-transform"
               >
+                <Sparkles className="w-4 h-4" />
                 <span>Start a Project</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onNavigate('contact');
-                }}
-                className={`w-full flex items-center justify-center gap-2 py-3 rounded-2xl font-semibold ${
-                  isLight ? 'text-slate-700 hover:text-slate-900 bg-slate-100 border-slate-200' : 'text-slate-200 hover:text-white bg-white/5 border-white/10'
-                } border text-sm cursor-pointer`}
-              >
-                <PhoneCall className="w-4 h-4 text-[#0284C7]" />
-                <span>Get in Touch</span>
-              </button>
-              {onOpenBookingModal && (
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    onOpenBookingModal();
-                  }}
-                  className={`w-full flex items-center justify-center gap-2 py-3 rounded-2xl font-semibold ${
-                    isLight ? 'text-rose-600 hover:text-rose-700 bg-rose-50 border-rose-200' : 'text-[#FF2A85] hover:text-white bg-[#FF1361]/10 border-[#FF1361]/30'
-                  } border text-sm cursor-pointer`}
+
+              <div className="grid grid-cols-2 gap-2">
+                <a
+                  href={`https://wa.me/${AGENCY_CONFIG.contact.whatsappCleanNumber}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-1.5 py-3 rounded-2xl font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/25 text-xs hover:bg-emerald-500/20 transition-colors"
                 >
-                  <PhoneCall className="w-4 h-4 text-[#FF1361]" />
-                  <span>Book 30-Min Strategy Call</span>
-                </button>
-              )}
+                  <MessageSquare className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>WhatsApp Lead</span>
+                </a>
+
+                {onOpenBookingModal ? (
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      onOpenBookingModal();
+                    }}
+                    className={`flex items-center justify-center gap-1.5 py-3 rounded-2xl font-semibold ${
+                      isLight ? 'text-rose-600 bg-rose-50 border-rose-200' : 'text-[#FF2A85] bg-[#FF1361]/10 border-[#FF1361]/30'
+                    } border text-xs cursor-pointer`}
+                  >
+                    <PhoneCall className="w-3.5 h-3.5" />
+                    <span>Book Strategy</span>
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      onNavigate('contact');
+                    }}
+                    className={`flex items-center justify-center gap-1.5 py-3 rounded-2xl font-semibold ${
+                      isLight ? 'text-slate-700 bg-slate-100 border-slate-200' : 'text-slate-200 bg-white/5 border-white/10'
+                    } border text-xs cursor-pointer`}
+                  >
+                    <PhoneCall className="w-3.5 h-3.5 text-[#0099FF]" />
+                    <span>Contact Team</span>
+                  </button>
+                )}
+              </div>
             </div>
           </motion.div>
         )}

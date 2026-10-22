@@ -9,6 +9,7 @@ import { Footer } from './components/Footer';
 import { SuperAdminFloatingBar } from './components/SuperAdminFloatingBar';
 import { PostPortfolioModal } from './components/PostPortfolioModal';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
+import { MobileBottomNav } from './components/MobileBottomNav';
 import { ProjectModal } from './components/ProjectModal';
 import { BookingModal } from './components/BookingModal';
 import { HawkFlightCanvas } from './components/HawkFlightCanvas';
@@ -215,7 +216,7 @@ function AppContent() {
       />
 
       {/* Main Dynamic Page Router Container with Suspense Code Splitting */}
-      <main id="main-content" tabIndex={-1} className="relative z-10 flex-1 outline-none">
+      <main id="main-content" tabIndex={-1} className="relative z-10 flex-1 outline-none pb-20 lg:pb-0">
         <Suspense fallback={<RouteLoadingFallback />}>
           <AnimatePresence mode="wait">
             {renderActivePage()}
@@ -226,8 +227,15 @@ function AppContent() {
       {/* Footer */}
       <Footer onNavigate={navigateTo} />
 
-      {/* Floating WhatsApp Action Widget */}
+      {/* Floating WhatsApp Action Widget (Desktop) */}
       <FloatingWhatsApp />
+
+      {/* Floating Native-Style Mobile Bottom Navigation Dock */}
+      <MobileBottomNav
+        currentPage={currentPage}
+        onNavigate={navigateTo}
+        onOpenProjectModal={() => handleOpenProjectModal()}
+      />
 
       {/* Super Admin Floating Quick Control Dock */}
       <SuperAdminFloatingBar

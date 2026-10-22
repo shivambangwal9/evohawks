@@ -35,7 +35,7 @@ export const SuperAdminFloatingBar: React.FC<SuperAdminFloatingBarProps> = ({
       initial={{ y: 50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.3 }}
-      className="fixed bottom-5 left-1/2 -translate-x-1/2 z-40 max-w-xl w-[92%] sm:w-auto"
+      className="fixed bottom-20 sm:bottom-5 left-1/2 -translate-x-1/2 z-40 max-w-xl w-[92%] sm:w-auto"
     >
       <div className="flex items-center gap-1.5 sm:gap-2.5 p-2 sm:px-4 sm:py-2.5 rounded-full bg-[#080B14]/95 border border-[#FF1361]/40 backdrop-blur-xl shadow-[0_15px_40px_rgba(255,19,97,0.35),0_0_20px_rgba(0,153,255,0.25)] text-white">
         {/* Status Indicator */}

@@ -18,16 +18,23 @@ export const SpotlightCursor: React.FC = () => {
     let currentX = -500;
     let currentY = -500;
     let isVisible = false;
+    let isRunning = false;
 
     const updatePosition = () => {
-      // Smooth lerp (linear interpolation) for butter-smooth gliding cursor
-      currentX += (targetX - currentX) * 0.2;
-      currentY += (targetY - currentY) * 0.2;
+      const dx = targetX - currentX;
+      const dy = targetY - currentY;
 
-      el.style.transform = `translate3d(${currentX - 225}px, ${currentY - 225}px, 0)`;
+      currentX += dx * 0.25;
+      currentY += dy * 0.25;
 
-      if (isVisible) {
+      el.style.transform = `translate3d(${Math.round(currentX - 225)}px, ${Math.round(currentY - 225)}px, 0)`;
+
+      // If still gliding toward mouse, continue loop; otherwise sleep until next mouse move
+      if (Math.abs(dx) > 0.5 || Math.abs(dy) > 0.5) {
         rafId = requestAnimationFrame(updatePosition);
+      } else {
+        isRunning = false;
+        rafId = null;
       }
     };
 
@@ -38,12 +45,17 @@ export const SpotlightCursor: React.FC = () => {
       if (!isVisible) {
         isVisible = true;
         el.style.opacity = '1';
+      }
+
+      if (!isRunning) {
+        isRunning = true;
         rafId = requestAnimationFrame(updatePosition);
       }
     };
 
     const handleMouseLeave = () => {
       isVisible = false;
+      isRunning = false;
       el.style.opacity = '0';
       if (rafId) {
         cancelAnimationFrame(rafId);

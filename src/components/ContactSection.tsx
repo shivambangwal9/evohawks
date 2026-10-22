@@ -146,7 +146,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ preselectedServi
             className="lg:col-span-5 flex flex-col gap-6"
           >
             
-            <div className="p-5 sm:p-8 rounded-[2rem] sm:rounded-[2.75rem] rounded-tl-lg rounded-br-lg bg-[#0A0D18]/95 border border-white/10 backdrop-blur-2xl space-y-5 sm:space-y-6 relative overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
+            <div className="p-5 sm:p-8 rounded-[2rem] sm:rounded-[2.75rem] rounded-tl-lg rounded-br-lg bg-[#0A0D18]/95 border border-white/10 space-y-5 sm:space-y-6 relative overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
               <BorderBeam size={130} duration={12} colorFrom="#0099FF" colorTo="#FF1361" />
 
               <div className="relative">
@@ -234,7 +234,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ preselectedServi
             transition={{ duration: 0.6 }}
             className="lg:col-span-7"
           >
-            <div className="p-5 sm:p-10 rounded-[2rem] sm:rounded-[2.75rem] rounded-tr-lg rounded-bl-lg bg-[#0A0D18]/95 border border-white/10 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] relative overflow-hidden">
+            <div className="p-5 sm:p-10 rounded-[2rem] sm:rounded-[2.75rem] rounded-tr-lg rounded-bl-lg bg-[#0A0D18]/95 border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.8)] relative overflow-hidden">
               <BorderBeam size={160} duration={14} colorFrom="#FF1361" colorTo="#0099FF" />
 
               {/* SUCCESS STATE */}

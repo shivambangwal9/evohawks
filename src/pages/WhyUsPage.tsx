@@ -130,7 +130,7 @@ export const WhyUsPage: React.FC<WhyUsPageProps> = ({ onOpenProjectModal }) => {
                 'rounded-[2.75rem] rounded-br-sm';
               return (
                 <TiltCard key={pillar.id} tiltDegree={8} glareColor="#0099FF" className="h-full">
-                  <div className={`group relative ${cornerRadius} bg-[#060810] border border-white/10 hover:border-[#0099FF]/50 p-8 sm:p-10 flex flex-col justify-between h-full transition-all duration-300 shadow-[0_0_30px_rgba(0,0,0,0.5)] backdrop-blur-xl overflow-hidden`}>
+                  <div className={`group relative ${cornerRadius} bg-[#060810] border border-white/10 hover:border-[#0099FF]/50 p-8 sm:p-10 flex flex-col justify-between h-full transition-all duration-300 shadow-[0_0_30px_rgba(0,0,0,0.5)] overflow-hidden`}>
                     <BorderBeam size={120} duration={12} colorFrom="#0099FF" colorTo="#FF1361" />
 
                     <div>

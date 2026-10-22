@@ -90,7 +90,7 @@ export const TrustSection: React.FC = () => {
               <motion.div
                 key={idx}
                 variants={itemVariants}
-                className="p-3.5 sm:p-5 rounded-2xl sm:rounded-[2rem] bg-[#0A0D18]/90 border border-white/10 shadow-[0_15px_35px_rgba(0,0,0,0.8)] backdrop-blur-xl flex flex-col items-center text-center group hover:border-[#0099FF]/50 hover:shadow-[0_0_25px_rgba(0,153,255,0.2)] transition-all"
+                className="p-3.5 sm:p-5 rounded-2xl sm:rounded-[2rem] bg-[#0A0D18]/95 border border-white/10 shadow-[0_15px_35px_rgba(0,0,0,0.8)] flex flex-col items-center text-center group hover:border-[#0099FF]/50 hover:shadow-[0_0_25px_rgba(0,153,255,0.2)] transition-all"
               >
                 <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-gradient-to-br from-[#0099FF]/20 to-[#FF1361]/20 border border-white/15 flex items-center justify-center mb-2 sm:mb-2.5 group-hover:scale-110 transition-transform">
                   <Icon className="w-4 h-4" style={{ color: stat.color }} />

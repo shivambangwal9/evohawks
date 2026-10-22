@@ -76,29 +76,23 @@
 .text-gradient-cyan,
 .text-gradient-cerulean {
   background: linear-gradient(135deg, #0099FF 0%, #38BDF8 50%, #93C5FD 100%);
-  background-size: 250% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: textShimmer 5s ease-in-out infinite;
 }
 
 .text-gradient-rose,
 .text-gradient-neon-rose {
   background: linear-gradient(135deg, #FF1361 0%, #FF2A85 50%, #FDA4AF 100%);
-  background-size: 250% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: textShimmer 5s ease-in-out infinite;
 }
 
 .text-gradient-violet,
 .text-gradient-hawk,
 .text-gradient-cerulean-rose {
   background: linear-gradient(135deg, #0099FF 0%, #8B5CF6 45%, #FF1361 90%, #FF2A85 100%);
-  background-size: 250% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: textShimmer 5.5s ease-in-out infinite;
 }
 
 /* Glow & Halo Effects for Jet Black Palette */

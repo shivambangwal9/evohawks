@@ -170,7 +170,7 @@ export const AboutSection: React.FC = () => {
                 {/* Floating Stat Badges on Visual */}
                 <div className={`absolute bottom-6 left-6 right-6 flex items-center justify-between text-xs font-tech ${
                   isLight ? 'bg-white/90 border-slate-200 shadow-md' : 'bg-[#0B0D16]/90 border-white/10 shadow-lg'
-                } border px-4 py-2.5 rounded-xl backdrop-blur-md z-20`}>
+                } border px-4 py-2.5 rounded-xl z-20`}>
                   <span className={`${isLight ? 'text-slate-600' : 'text-slate-400'} font-medium`}>Brand Ethos</span>
                   <span className={`${isLight ? 'text-sky-600' : 'text-[#38BDF8]'} font-bold`}>Speed • Tech • Growth</span>
                 </div>

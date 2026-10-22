@@ -8,13 +8,17 @@ interface Particle {
   size: number;
   alpha: number;
   color: string;
-  pulseSpeed: number;
 }
 
 export const HawkFlightCanvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
+    // Completely disable canvas particle rendering on mobile screens for 120 FPS scrolling & battery efficiency
+    if (window.innerWidth < 768) {
+      return;
+    }
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -32,47 +36,41 @@ export const HawkFlightCanvas: React.FC = () => {
     window.addEventListener('resize', handleResize, { passive: true });
 
     // Cyber-creative particles: Cerulean Blue and Neon Rose against Jet Black
-    const colors = ['#0099FF', '#FF1361', '#38BDF8', '#FF2A85', '#8B5CF6'];
+    const colors = ['#0099FF', '#FF1361', '#38BDF8', '#FF2A85'];
     const particles: Particle[] = [];
-    const isMobile = width < 768;
-    const particleCount = isMobile ? 12 : 28;
+    const particleCount = 20;
 
     for (let i = 0; i < particleCount; i++) {
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.3) * 0.4,
-        vy: (Math.random() - 0.5) * 0.35,
+        vx: (Math.random() - 0.3) * 0.35,
+        vy: (Math.random() - 0.5) * 0.3,
         size: Math.random() * 2 + 1,
-        alpha: Math.random() * 0.45 + 0.25,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        pulseSpeed: Math.random() * 0.02 + 0.01,
+        alpha: Math.random() * 0.35 + 0.2,
+        color: colors[i % colors.length],
       });
     }
 
-    let mouseX = -9999;
-    let mouseY = -9999;
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    };
-    if (!isMobile) {
-      window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    }
-
-    const connectDist = 120;
+    const connectDist = 110;
     const connectDistSq = connectDist * connectDist;
-    const mouseDist = 150;
-    const mouseDistSq = mouseDist * mouseDist;
 
     let isPaused = false;
-    const handleVisibilityChange = () => {
-      isPaused = document.hidden;
-      if (!isPaused) {
-        animationFrameId = requestAnimationFrame(render);
+
+    // Intelligent scroll observer: Pause canvas whenever user scrolls down past the Hero section!
+    const checkPauseState = () => {
+      const pastHero = window.scrollY > window.innerHeight * 1.1;
+      const shouldPause = pastHero || document.hidden;
+      if (shouldPause !== isPaused) {
+        isPaused = shouldPause;
+        if (!isPaused) {
+          animationFrameId = requestAnimationFrame(render);
+        }
       }
     };
-    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    window.addEventListener('scroll', checkPauseState, { passive: true });
+    document.addEventListener('visibilitychange', checkPauseState);
 
     const render = () => {
       if (isPaused) return;
@@ -92,7 +90,6 @@ export const HawkFlightCanvas: React.FC = () => {
         if (p.y < 0) p.y = height;
         if (p.y > height) p.y = 0;
 
-        // Draw particle (zero shadowBlur for 60-120 FPS performance)
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fillStyle = p.color;
@@ -107,29 +104,11 @@ export const HawkFlightCanvas: React.FC = () => {
           const distSq = dx * dx + dy * dy;
 
           if (distSq < connectDistSq) {
-            const dist = Math.sqrt(distSq);
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
             ctx.strokeStyle = i % 2 === 0 ? '#0099FF' : '#FF1361';
-            ctx.globalAlpha = (1 - dist / connectDist) * 0.28;
-            ctx.lineWidth = 1;
-            ctx.stroke();
-          }
-        }
-
-        // Slight attraction toward cursor if mouse active
-        if (mouseX > 0) {
-          const mdx = mouseX - p.x;
-          const mdy = mouseY - p.y;
-          const mdistSq = mdx * mdx + mdy * mdy;
-          if (mdistSq < mouseDistSq) {
-            const mdist = Math.sqrt(mdistSq);
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(mouseX, mouseY);
-            ctx.strokeStyle = '#FF1361';
-            ctx.globalAlpha = (1 - mdist / mouseDist) * 0.35;
+            ctx.globalAlpha = (1 - Math.sqrt(distSq) / connectDist) * 0.22;
             ctx.lineWidth = 1;
             ctx.stroke();
           }
@@ -144,8 +123,8 @@ export const HawkFlightCanvas: React.FC = () => {
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('scroll', checkPauseState);
+      document.removeEventListener('visibilitychange', checkPauseState);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
@@ -153,8 +132,9 @@ export const HawkFlightCanvas: React.FC = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0 opacity-80"
-      style={{ width: '100%', height: '100%' }}
+      className="fixed inset-0 pointer-events-none z-0 select-none hidden md:block"
+      style={{ opacity: 0.8 }}
+      aria-hidden="true"
     />
   );
 };

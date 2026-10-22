@@ -143,7 +143,7 @@ export const SystemCrossSell: React.FC<SystemCrossSellProps> = ({ onOpenProjectM
           </div>
 
           {/* Active Node Detail Card with AnimatePresence & BorderBeam */}
-          <div className="mt-10 rounded-[2.75rem] rounded-tl-lg bg-[#0A0D18]/95 border border-white/10 p-6 sm:p-8 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] relative overflow-hidden">
+          <div className="mt-10 rounded-[2.75rem] rounded-tl-lg bg-[#0A0D18]/95 border border-white/10 p-6 sm:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.8)] relative overflow-hidden">
             <BorderBeam size={160} duration={10} colorFrom="#0099FF" colorTo="#FF1361" />
             <AnimatePresence mode="wait">
               <motion.div

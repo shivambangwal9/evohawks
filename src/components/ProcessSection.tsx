@@ -99,7 +99,7 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenProjectMod
         {(() => {
           const current = PROCESS_DATA[activeStep];
           return (
-            <div className="relative rounded-[2rem] sm:rounded-[3rem] rounded-tl-lg bg-[#0A0D18]/95 border border-white/10 p-5 sm:p-8 md:p-12 backdrop-blur-2xl shadow-[0_25px_60px_rgba(0,0,0,0.95)] overflow-hidden">
+            <div className="relative rounded-[2rem] sm:rounded-[3rem] rounded-tl-lg bg-[#0A0D18]/95 border border-white/10 p-5 sm:p-8 md:p-12 shadow-[0_25px_60px_rgba(0,0,0,0.95)] overflow-hidden">
               <BorderBeam size={160} duration={12} colorFrom="#0099FF" colorTo="#FF1361" />
               <AnimatePresence mode="wait">
                 <motion.div

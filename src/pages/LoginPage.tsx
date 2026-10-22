@@ -252,7 +252,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
         )}
 
         {/* Card Container */}
-        <div className="p-6 sm:p-10 rounded-[3rem] rounded-tl-lg bg-[#060810] border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.8)] backdrop-blur-xl relative overflow-hidden">
+        <div className="p-6 sm:p-10 rounded-[3rem] rounded-tl-lg bg-[#060810] border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.8)] relative overflow-hidden">
           <BorderBeam 
             size={140} 
             duration={10} 

@@ -259,7 +259,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
               </div>
 
               {/* Interactive Discipline Horizontal Tab Pills */}
-              <div className="grid grid-cols-4 gap-1.5 p-1 rounded-full bg-[#070912]/90 border border-white/10 backdrop-blur-xl">
+              <div className="grid grid-cols-4 gap-1.5 p-1 rounded-full bg-[#070912]/95 border border-white/10">
                 {mobileDisciplines.map((item, idx) => {
                   const isActive = mobileActiveDiscipline === idx;
                   const Icon = item.icon;
@@ -298,7 +298,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: -12, scale: 0.98 }}
                       transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                      className="p-5 sm:p-6 rounded-[2.5rem] rounded-tl-md bg-gradient-to-br from-[#0A0D18]/95 to-[#070912]/95 border border-white/15 shadow-[0_20px_45px_rgba(0,0,0,0.85)] relative overflow-hidden backdrop-blur-xl"
+                      className="p-5 sm:p-6 rounded-[2.5rem] rounded-tl-md bg-gradient-to-br from-[#0A0D18]/98 to-[#070912]/98 border border-white/15 shadow-[0_20px_45px_rgba(0,0,0,0.85)] relative overflow-hidden"
                     >
                       <BorderBeam size={100} duration={8} colorFrom={current.color} colorTo="#FF1361" />
 

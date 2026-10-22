@@ -233,7 +233,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
           </div>
 
           {/* Detailed Active Service Showcase Card - Asymmetric Cockpit Pod */}
-          <div className="relative rounded-[3rem] rounded-tl-lg rounded-br-lg bg-[#0A0D18]/95 border border-white/10 p-5 sm:p-8 md:p-12 backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.85)] overflow-hidden">
+          <div className="relative rounded-[3rem] rounded-tl-lg rounded-br-lg bg-[#0A0D18]/95 border border-white/10 p-5 sm:p-8 md:p-12 shadow-[0_20px_60px_rgba(0,0,0,0.85)] overflow-hidden">
             <BorderBeam size={160} duration={10} colorFrom="#0099FF" colorTo="#FF1361" />
 
             <AnimatePresence mode="wait">

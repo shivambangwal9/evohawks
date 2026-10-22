@@ -1,5 +1,4 @@
-import React, { useRef } from 'react';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import React, { useRef, useState } from 'react';
 
 interface TiltCardProps {
   children: React.ReactNode;
@@ -13,79 +12,104 @@ interface TiltCardProps {
 export const TiltCard: React.FC<TiltCardProps> = ({
   children,
   className = '',
-  tiltDegree = 12,
+  tiltDegree = 10,
   glareOpacity = 0.15,
   glareColor = '#00F0FF',
   onClick,
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
-  const rectRef = useRef<{ left: number; top: number; width: number; height: number } | null>(null);
+  const glareRef = useRef<HTMLDivElement>(null);
+  const [isTouchDevice] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.matchMedia('(hover: none) or (pointer: coarse)').matches || window.innerWidth < 1024;
+  });
+  const rafRef = useRef<number | null>(null);
 
-  const x = useMotionValue(0.5);
-  const y = useMotionValue(0.5);
-
-  const mouseXSpring = useSpring(x, { stiffness: 350, damping: 25 });
-  const mouseYSpring = useSpring(y, { stiffness: 350, damping: 25 });
-
-  const rotateX = useTransform(mouseYSpring, [0, 1], [tiltDegree, -tiltDegree]);
-  const rotateY = useTransform(mouseXSpring, [0, 1], [-tiltDegree, tiltDegree]);
-
-  const glareX = useTransform(mouseXSpring, [0, 1], ['0%', '100%']);
-  const glareY = useTransform(mouseYSpring, [0, 1], ['0%', '100%']);
+  if (isTouchDevice) {
+    return (
+      <div 
+        className={`relative ${className}`}
+        onClick={onClick}
+      >
+        <div className="relative w-full h-full rounded-[inherit] overflow-hidden">
+          {children}
+        </div>
+      </div>
+    );
+  }
 
   const handleMouseEnter = () => {
     if (cardRef.current) {
-      const r = cardRef.current.getBoundingClientRect();
-      rectRef.current = { left: r.left, top: r.top, width: r.width, height: r.height };
+      cardRef.current.style.transition = 'transform 0.1s ease-out';
     }
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = rectRef.current;
-    if (!rect || rect.width === 0 || rect.height === 0) return;
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-    const xPct = mouseX / rect.width;
-    const yPct = mouseY / rect.height;
-    x.set(xPct);
-    y.set(yPct);
+    if (!cardRef.current) return;
+
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+    }
+
+    rafRef.current = requestAnimationFrame(() => {
+      const card = cardRef.current;
+      if (!card) return;
+
+      const rect = card.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
+
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+
+      const rotX = (0.5 - y) * tiltDegree * 1.5;
+      const rotY = (x - 0.5) * tiltDegree * 1.5;
+
+      card.style.transform = `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) translateZ(0)`;
+
+      if (glareRef.current) {
+        glareRef.current.style.opacity = `${glareOpacity}`;
+        glareRef.current.style.background = `radial-gradient(350px circle at ${(x * 100).toFixed(1)}% ${(y * 100).toFixed(1)}%, ${glareColor}25, transparent 75%)`;
+      }
+    });
   };
 
   const handleMouseLeave = () => {
-    rectRef.current = null;
-    x.set(0.5);
-    y.set(0.5);
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+    if (cardRef.current) {
+      cardRef.current.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+      cardRef.current.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0)';
+    }
+    if (glareRef.current) {
+      glareRef.current.style.opacity = '0';
+    }
   };
 
   return (
-    <motion.div
+    <div
       ref={cardRef}
       onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onClick={onClick}
       style={{
-        rotateX,
-        rotateY,
-        transform: 'translateZ(0)',
-        backfaceVisibility: 'hidden',
-        WebkitBackfaceVisibility: 'hidden',
+        transformStyle: 'preserve-3d',
+        willChange: 'transform',
       }}
-      className={`relative transition-shadow duration-300 ${className}`}
+      className={`relative ${className}`}
     >
-      {/* 3D Content Container */}
       <div className="relative w-full h-full rounded-[inherit] overflow-hidden">
         {children}
 
-        {/* Dynamic Cursor Spotlight Glare */}
-        <motion.div
-          className="pointer-events-none absolute -inset-px rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-          style={{
-            background: `radial-gradient(400px circle at ${glareX} ${glareY}, ${glareColor}25, transparent 75%)`,
-            opacity: glareOpacity,
-          }}
+        {/* Dynamic Cursor Spotlight Glare (only active on desktop hover) */}
+        <div
+          ref={glareRef}
+          className="pointer-events-none absolute -inset-px rounded-[inherit] opacity-0 transition-opacity duration-300"
+          aria-hidden="true"
         />
       </div>
-    </motion.div>
+    </div>
   );
 };

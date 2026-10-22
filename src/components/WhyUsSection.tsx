@@ -102,7 +102,7 @@ export const WhyUsSection: React.FC = () => {
                 className="h-full"
               >
                 <TiltCard tiltDegree={10} glareColor={accent} className="h-full">
-                  <div className={`group relative ${creativeCurve} bg-[#0A0D18]/90 border border-white/10 hover:border-[#0099FF]/50 p-5 sm:p-8 md:p-10 flex flex-col justify-between h-full transition-all duration-300 shadow-[0_20px_45px_rgba(0,0,0,0.85)] hover:shadow-[0_25px_50px_rgba(0,153,255,0.25)] backdrop-blur-xl overflow-hidden`}>
+                  <div className={`group relative ${creativeCurve} bg-[#0A0D18]/95 border border-white/10 hover:border-[#0099FF]/50 p-5 sm:p-8 md:p-10 flex flex-col justify-between h-full transition-all duration-300 shadow-[0_20px_45px_rgba(0,0,0,0.85)] hover:shadow-[0_25px_50px_rgba(0,153,255,0.25)] overflow-hidden`}>
                     <BorderBeam size={130} duration={12} colorFrom={accent} colorTo={isRose ? '#0099FF' : '#FF1361'} />
 
                     {/* Subtle Large Artistic Watermark */}

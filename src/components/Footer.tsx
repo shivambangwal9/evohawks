@@ -42,7 +42,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   };
 
   return (
-    <footer className="relative bg-[#030407] border-t border-white/10 pt-16 sm:pt-20 pb-12 pb-safe overflow-hidden">
+    <footer className="relative bg-[#030407] border-t border-white/10 pt-16 sm:pt-20 pb-40 sm:pb-36 lg:pb-24 pb-safe overflow-hidden">
       {/* Dynamic Background Glow */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[250px] bg-gradient-to-r from-[#0099FF]/10 via-[#FF1361]/10 to-transparent rounded-full blur-[140px] pointer-events-none" />
 

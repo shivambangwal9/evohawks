@@ -16,23 +16,23 @@ import {
   MessageSquare 
 } from 'lucide-react';
 
+const ProcessStepIcon: React.FC<{ iconName: string; className?: string }> = ({ iconName, className }) => {
+  switch (iconName) {
+    case 'Compass': return <Compass className={className} />;
+    case 'Target': return <Target className={className} />;
+    case 'Sparkles': return <Sparkles className={className} />;
+    case 'Rocket': return <Rocket className={className} />;
+    case 'Activity': return <Activity className={className} />;
+    default: return <GitCommit className={className} />;
+  }
+};
+
 interface ProcessPageProps {
   onOpenProjectModal: (service?: string) => void;
 }
 
 export const ProcessPage: React.FC<ProcessPageProps> = ({ onOpenProjectModal }) => {
   const [activeStep, setActiveStep] = useState<number>(0);
-
-  const getStepIcon = (iconName: string) => {
-    switch (iconName) {
-      case 'Compass': return Compass;
-      case 'Target': return Target;
-      case 'Sparkles': return Sparkles;
-      case 'Rocket': return Rocket;
-      case 'Activity': return Activity;
-      default: return GitCommit;
-    }
-  };
 
   const weeklyCadence = [
     {
@@ -64,29 +64,29 @@ export const ProcessPage: React.FC<ProcessPageProps> = ({ onOpenProjectModal }) 
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -15 }}
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-      className="pt-28 pb-20 overflow-hidden"
+      className="pt-28 pb-20 overflow-hidden min-h-screen"
     >
       {/* Process Hero */}
-      <section className="relative py-16 sm:py-24 bg-transparent bg-grid-cyber">
+      <section className="relative py-16 sm:py-24 bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-sky-200 text-xs font-tech text-sky-700 font-semibold mb-6 shadow-xs">
-            <Activity className="w-3.5 h-3.5 text-sky-600" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0A0D18] border border-[#0099FF]/30 text-xs font-tech text-[#38BDF8] font-semibold mb-6 shadow-[0_0_20px_rgba(0,153,255,0.15)]">
+            <Activity className="w-3.5 h-3.5 text-[#0099FF]" />
             <span>TRANSPARENT 5-STAGE SPRINT CADENCE</span>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-display font-black text-slate-900 tracking-tight mb-6">
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-display font-black text-white tracking-tight mb-6">
             Predictable Velocity. <br />
-            <span className="text-gradient-cyan">Zero Guesswork.</span>
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#0099FF] via-[#38BDF8] to-[#FF1361]">Zero Guesswork.</span>
           </h1>
 
-          <p className="text-base sm:text-xl text-slate-600 font-sans-clean max-w-3xl mx-auto leading-relaxed mb-10">
+          <p className="text-base sm:text-xl text-slate-300 font-sans-clean max-w-3xl mx-auto leading-relaxed mb-10">
             A battle-tested 5-stage sprint methodology designed to eliminate delays, align stakeholders, and launch with precision.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
             <MagneticButton
               onClick={() => onOpenProjectModal("Stage 01 Discovery")}
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-sm font-bold text-white bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:shadow-[0_8px_25px_rgba(2,132,199,0.4)] transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-sm font-bold text-white bg-gradient-to-r from-[#0099FF] via-[#0077EE] to-[#FF1361] hover:shadow-[0_0_35px_rgba(255,19,97,0.4)] transition-all cursor-pointer"
             >
               <span>Kick Off Stage 01</span>
               <ArrowRight className="w-4 h-4" />
@@ -96,14 +96,14 @@ export const ProcessPage: React.FC<ProcessPageProps> = ({ onOpenProjectModal }) 
       </section>
 
       {/* Interactive 5-Stage Flight Simulator Hub */}
-      <section className="relative py-20 bg-transparent border-y border-slate-200/80">
+      <section className="relative py-20 bg-transparent border-y border-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-2xl mx-auto mb-14">
-            <h2 className="text-3xl sm:text-4xl font-display font-black text-slate-900 mb-3">
+            <h2 className="text-3xl sm:text-4xl font-display font-black text-white mb-3">
               The 5-Stage Flight Path
             </h2>
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-slate-400 font-sans-clean">
               Click any stage below to inspect sprint milestones, review cadences, and tangible outcomes.
             </p>
           </div>
@@ -111,32 +111,31 @@ export const ProcessPage: React.FC<ProcessPageProps> = ({ onOpenProjectModal }) 
           {/* Tab Selector - Swipeable on mobile, grid on sm+ */}
           <div className="flex sm:grid sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3 mb-8 sm:mb-12 overflow-x-auto pb-2 sm:pb-0 scrollbar-none touch-pan-x -mx-4 px-4 sm:mx-0 sm:px-0">
             {PROCESS_DATA.map((stepItem, index) => {
-              const Icon = getStepIcon(stepItem.icon);
               const isActive = activeStep === index;
               return (
                 <button
                   key={stepItem.step}
                   onClick={() => setActiveStep(index)}
-                  className={`flex-shrink-0 w-36 sm:w-auto p-3.5 sm:p-4 rounded-2xl border text-left transition-all duration-300 cursor-pointer flex flex-col justify-between relative overflow-hidden shadow-xs ${
+                  className={`flex-shrink-0 w-36 sm:w-auto p-4 rounded-[1.75rem] border text-left transition-all duration-300 cursor-pointer flex flex-col justify-between relative overflow-hidden ${
                     isActive
-                      ? 'bg-white border-sky-400 shadow-[0_6px_20px_rgba(2,132,199,0.2)]'
-                      : 'bg-white/70 border-slate-200 hover:border-slate-300 hover:bg-white'
+                      ? 'bg-[#0E1224] border-[#0099FF] shadow-[0_0_25px_rgba(0,153,255,0.3)]'
+                      : 'bg-[#060810] border-white/10 hover:border-white/25 hover:bg-[#0A0D18]'
                   }`}
                 >
                   {isActive && (
                     <motion.div
                       layoutId="activeProcessTabLine"
-                      className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-sky-500 to-indigo-600"
+                      className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#0099FF] to-[#FF1361]"
                       transition={{ type: "spring", stiffness: 450, damping: 30 }}
                     />
                   )}
                   <div className="flex items-center justify-between mb-2 sm:mb-3">
-                    <span className={`text-[11px] sm:text-xs font-tech font-extrabold ${isActive ? 'text-sky-600' : 'text-slate-400'}`}>
+                    <span className={`text-[11px] sm:text-xs font-tech font-extrabold ${isActive ? 'text-[#38BDF8]' : 'text-slate-500'}`}>
                       STAGE 0{stepItem.step}
                     </span>
-                    <Icon className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isActive ? 'text-sky-600' : 'text-slate-400'}`} />
+                    <ProcessStepIcon iconName={stepItem.icon} className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isActive ? 'text-[#38BDF8]' : 'text-slate-500'}`} />
                   </div>
-                  <div className="text-xs sm:text-sm font-display font-bold text-slate-900 leading-tight">
+                  <div className={`text-xs sm:text-sm font-display font-bold leading-tight ${isActive ? 'text-white' : 'text-slate-300'}`}>
                     {stepItem.title}
                   </div>
                 </button>
@@ -147,10 +146,9 @@ export const ProcessPage: React.FC<ProcessPageProps> = ({ onOpenProjectModal }) 
           {/* Active Stage Card */}
           {(() => {
             const current = PROCESS_DATA[activeStep];
-            const CurrentIcon = getStepIcon(current.icon);
             return (
-              <div className="relative rounded-2xl sm:rounded-3xl bg-white/95 border border-slate-200 p-5 sm:p-8 md:p-12 backdrop-blur-xl shadow-lg overflow-hidden">
-                <BorderBeam size={160} duration={12} colorFrom="#0284C7" colorTo="#7C3AED" />
+              <div className="relative rounded-[3rem] rounded-tl-lg bg-gradient-to-br from-[#0A0D18] via-[#060810] to-[#0A0D18] border border-white/10 p-6 sm:p-10 md:p-14 shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden">
+                <BorderBeam size={160} duration={12} colorFrom="#0099FF" colorTo="#FF1361" />
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeStep}
@@ -163,31 +161,31 @@ export const ProcessPage: React.FC<ProcessPageProps> = ({ onOpenProjectModal }) 
                     
                     <div className="lg:col-span-7 flex flex-col items-start">
                       <div className="flex items-center gap-3 mb-4">
-                        <div className="w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600 shadow-xs flex-shrink-0">
-                          <CurrentIcon className="w-5 h-5 sm:w-7 sm:h-7" />
+                        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#0099FF]/15 border border-[#0099FF]/30 flex items-center justify-center text-[#38BDF8] shadow-[0_0_20px_rgba(0,153,255,0.2)] flex-shrink-0">
+                          <ProcessStepIcon iconName={current.icon} className="w-5 h-5 sm:w-7 sm:h-7" />
                         </div>
                         <div>
-                          <span className="text-[11px] sm:text-xs font-tech text-sky-600 font-bold tracking-widest uppercase">
+                          <span className="text-[11px] sm:text-xs font-tech text-[#38BDF8] font-bold tracking-widest uppercase">
                             STAGE {current.step} OF 05
                           </span>
-                          <h3 className="text-xl sm:text-2xl md:text-3xl font-display font-black text-slate-900">
+                          <h3 className="text-xl sm:text-2xl md:text-3xl font-display font-black text-white">
                             {current.title}
                           </h3>
                         </div>
                       </div>
 
-                      <p className="text-xs sm:text-sm font-tech text-slate-500 uppercase tracking-wider mb-3 sm:mb-4 font-semibold">
+                      <p className="text-xs sm:text-sm font-tech text-[#FF2A85] uppercase tracking-wider mb-3 sm:mb-4 font-semibold">
                         {current.tagline}
                       </p>
 
-                      <p className="text-sm sm:text-base md:text-lg text-slate-600 font-sans-clean leading-relaxed mb-6 sm:mb-8">
+                      <p className="text-sm sm:text-base md:text-lg text-slate-300 font-sans-clean leading-relaxed mb-6 sm:mb-8">
                         {current.description}
                       </p>
 
                       <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full sm:w-auto">
                         <MagneticButton
                           onClick={() => onOpenProjectModal(`Stage 0${current.step}: ${current.title}`)}
-                          className="w-full sm:w-auto justify-center inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-sky-500 to-indigo-600 hover:shadow-[0_6px_20px_rgba(2,132,199,0.35)] transition-all cursor-pointer"
+                          className="w-full sm:w-auto justify-center inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-[#0099FF] via-[#0077EE] to-[#FF1361] hover:shadow-[0_0_25px_rgba(255,19,97,0.4)] transition-all cursor-pointer"
                         >
                           <span>Start This Stage</span>
                           <ArrowRight className="w-4 h-4" />
@@ -196,7 +194,7 @@ export const ProcessPage: React.FC<ProcessPageProps> = ({ onOpenProjectModal }) 
                         {activeStep < PROCESS_DATA.length - 1 && (
                           <button
                             onClick={() => setActiveStep(activeStep + 1)}
-                            className="w-full sm:w-auto text-center px-5 py-3.5 rounded-full text-xs font-semibold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 transition-colors cursor-pointer"
+                            className="w-full sm:w-auto text-center px-6 py-3.5 rounded-full text-xs font-semibold text-slate-300 hover:text-white bg-[#060810] hover:bg-[#12162A] border border-white/10 transition-colors cursor-pointer"
                           >
                             Next: Stage 0{activeStep + 2} &rarr;
                           </button>
@@ -205,9 +203,9 @@ export const ProcessPage: React.FC<ProcessPageProps> = ({ onOpenProjectModal }) 
                     </div>
 
                     {/* Right Deliverables Column */}
-                    <div className="lg:col-span-5 bg-slate-50 rounded-2xl border border-slate-200 p-4 sm:p-6 shadow-inner w-full">
-                      <div className="text-xs font-tech text-sky-700 font-bold uppercase tracking-wider mb-4 flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-sky-600" />
+                    <div className="lg:col-span-5 bg-[#060810] rounded-[2.5rem] border border-white/10 p-5 sm:p-7 shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)] w-full">
+                      <div className="text-xs font-tech text-[#38BDF8] font-bold uppercase tracking-wider mb-4 flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-[#0099FF]" />
                         <span>Stage Deliverables &amp; Outcomes:</span>
                       </div>
 
@@ -218,9 +216,9 @@ export const ProcessPage: React.FC<ProcessPageProps> = ({ onOpenProjectModal }) 
                             initial={{ opacity: 0, y: 8 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: idx * 0.08 }}
-                            className="flex items-start gap-3 text-xs sm:text-sm text-slate-700"
+                            className="flex items-start gap-3 text-xs sm:text-sm text-slate-300"
                           >
-                            <div className="w-5 h-5 rounded-full bg-white border border-slate-200 flex items-center justify-center text-[10px] font-tech text-sky-600 font-bold flex-shrink-0 mt-0.5 shadow-2xs">
+                            <div className="w-5 h-5 rounded-full bg-[#FF1361]/15 border border-[#FF1361]/30 flex items-center justify-center text-[10px] font-tech text-[#FF2A85] font-bold flex-shrink-0 mt-0.5">
                               {idx + 1}
                             </div>
                             <span className="leading-snug">{del}</span>
@@ -239,18 +237,18 @@ export const ProcessPage: React.FC<ProcessPageProps> = ({ onOpenProjectModal }) 
       </section>
 
       {/* Weekly Sprint Cadence Breakdown */}
-      <section className="relative py-20 bg-transparent">
+      <section className="relative py-20 bg-transparent border-t border-white/5">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-2xl mx-auto mb-14">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-sky-200 text-xs font-tech text-sky-700 font-semibold mb-3 shadow-xs">
-              <Calendar className="w-3.5 h-3.5 text-sky-600" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#0A0D18] border border-[#0099FF]/30 text-xs font-tech text-[#38BDF8] font-semibold mb-3 shadow-[0_0_20px_rgba(0,153,255,0.15)]">
+              <Calendar className="w-3.5 h-3.5 text-[#0099FF]" />
               <span>COMMUNICATION &amp; SPRINT RHYTHM</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-display font-black text-slate-900 mb-3">
+            <h2 className="text-3xl sm:text-4xl font-display font-black text-white mb-3">
               Weekly Client Cadence
             </h2>
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-slate-400 font-sans-clean">
               You will never be left wondering where your project stands.
             </p>
           </div>
@@ -258,27 +256,28 @@ export const ProcessPage: React.FC<ProcessPageProps> = ({ onOpenProjectModal }) 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {weeklyCadence.map((cadence, idx) => {
               const Icon = cadence.icon;
+              const cornerRadius = idx === 0 ? 'rounded-[2.75rem] rounded-tl-sm' : idx === 1 ? 'rounded-[2.75rem] rounded-tr-sm' : 'rounded-[2.75rem] rounded-bl-sm';
               return (
                 <div
                   key={idx}
-                  className="p-6 rounded-2xl bg-white/90 border border-slate-200 hover:border-sky-400 transition-all flex flex-col justify-between shadow-xs hover:shadow-md"
+                  className={`p-6 sm:p-7 ${cornerRadius} bg-[#060810] border border-white/10 hover:border-[#0099FF]/50 transition-all flex flex-col justify-between shadow-[0_0_30px_rgba(0,0,0,0.5)]`}
                 >
                   <div>
                     <div className="flex items-center justify-between mb-4">
-                      <span className="text-xs font-tech font-bold text-sky-700 bg-sky-50 px-2.5 py-1 rounded-md border border-sky-200">
+                      <span className="text-xs font-tech font-bold text-[#38BDF8] bg-[#0A0D18] px-3 py-1 rounded-full border border-[#0099FF]/30">
                         {cadence.day}
                       </span>
-                      <div className="flex items-center gap-1.5 text-[11px] font-tech text-slate-500 font-medium">
-                        <Icon className="w-3.5 h-3.5 text-sky-600" />
+                      <div className="flex items-center gap-1.5 text-[11px] font-tech text-slate-400 font-medium">
+                        <Icon className="w-3.5 h-3.5 text-[#0099FF]" />
                         <span>{cadence.time}</span>
                       </div>
                     </div>
 
-                    <h3 className="text-lg font-display font-bold text-slate-900 mb-2">
+                    <h3 className="text-lg font-display font-bold text-white mb-2">
                       {cadence.title}
                     </h3>
 
-                    <p className="text-xs text-slate-600 font-sans-clean leading-relaxed">
+                    <p className="text-xs text-slate-400 font-sans-clean leading-relaxed">
                       {cadence.desc}
                     </p>
                   </div>

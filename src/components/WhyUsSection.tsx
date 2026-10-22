@@ -18,11 +18,21 @@ export const WhyUsSection: React.FC = () => {
 
   const getAccent = (id: string) => {
     switch (id) {
-      case 'cross-discipline': return '#0284C7';
-      case 'commercial-focus': return '#7C3AED';
-      case 'speed-execution': return '#0EA5E9';
-      case 'deep-synergy': return '#059669';
-      default: return '#0284C7';
+      case 'cross-discipline': return '#0099FF';
+      case 'commercial-focus': return '#FF1361';
+      case 'speed-execution': return '#38BDF8';
+      case 'deep-synergy': return '#FF2A85';
+      default: return '#0099FF';
+    }
+  };
+
+  const getCreativeBorderClass = (index: number) => {
+    switch (index) {
+      case 0: return 'rounded-[3rem] rounded-tl-lg';
+      case 1: return 'rounded-[3rem] rounded-tr-lg';
+      case 2: return 'rounded-[3rem] rounded-bl-lg';
+      case 3: return 'rounded-[3rem] rounded-br-lg';
+      default: return 'rounded-[2.75rem]';
     }
   };
 
@@ -57,21 +67,21 @@ export const WhyUsSection: React.FC = () => {
           transition={{ duration: 0.6 }}
           className="flex flex-col items-center text-center max-w-3xl mx-auto mb-16 sm:mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-sky-200 text-xs font-tech text-sky-700 font-semibold mb-4 shadow-xs">
-            <Sparkles className="w-3.5 h-3.5 text-sky-600" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0B0D16]/90 border border-white/10 text-xs font-tech text-[#38BDF8] font-semibold mb-4 shadow-[0_0_20px_rgba(0,153,255,0.2)]">
+            <Sparkles className="w-3.5 h-3.5 text-[#FF1361]" />
             <span>THE AGENCY ADVANTAGE</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-black text-slate-900 tracking-tight mb-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-black text-white tracking-tight mb-4">
             Why Businesses Choose Evo Hawks
           </h2>
 
-          <p className="text-base sm:text-lg text-slate-600 font-sans-clean">
+          <p className="text-base sm:text-lg text-slate-300 font-sans-clean">
             Built for forward-thinking brands that demand creative excellence and real commercial momentum.
           </p>
         </motion.div>
 
-        {/* 4 Premium Cards Grid with Stagger & 3D Tilt */}
+        {/* 4 Creative Sculpted Architectural Pods */}
         <motion.div 
           variants={containerVariants}
           initial="hidden"
@@ -79,9 +89,12 @@ export const WhyUsSection: React.FC = () => {
           viewport={{ once: true, amount: 0.15 }}
           className="grid grid-cols-1 md:grid-cols-2 gap-8"
         >
-          {WHY_US_DATA.map((pillar) => {
+          {WHY_US_DATA.map((pillar, index) => {
             const Icon = getIcon(pillar.icon);
             const accent = getAccent(pillar.id);
+            const creativeCurve = getCreativeBorderClass(index);
+            const isRose = index % 2 === 1;
+
             return (
               <motion.div
                 key={pillar.id}
@@ -89,37 +102,42 @@ export const WhyUsSection: React.FC = () => {
                 className="h-full"
               >
                 <TiltCard tiltDegree={10} glareColor={accent} className="h-full">
-                  <div className="group relative rounded-3xl bg-white/90 border border-slate-200 hover:border-sky-400 p-8 sm:p-10 flex flex-col justify-between h-full transition-all duration-300 shadow-xs hover:shadow-xl backdrop-blur-xl overflow-hidden">
-                    <BorderBeam size={130} duration={12} colorFrom={accent} colorTo="#0EA5E9" />
+                  <div className={`group relative ${creativeCurve} bg-[#0A0D18]/90 border border-white/10 hover:border-[#0099FF]/50 p-8 sm:p-10 flex flex-col justify-between h-full transition-all duration-300 shadow-[0_20px_45px_rgba(0,0,0,0.85)] hover:shadow-[0_25px_50px_rgba(0,153,255,0.25)] backdrop-blur-xl overflow-hidden`}>
+                    <BorderBeam size={130} duration={12} colorFrom={accent} colorTo={isRose ? '#0099FF' : '#FF1361'} />
 
-                    <div>
+                    {/* Subtle Large Artistic Watermark */}
+                    <span className="absolute -top-3 -right-2 text-8xl font-display font-black text-white/[0.03] pointer-events-none group-hover:text-[#0099FF]/[0.08] transition-colors select-none">
+                      {pillar.number}
+                    </span>
+
+                    <div className="relative z-10">
                       {/* Top Row: Icon & Step Number */}
                       <div className="flex items-center justify-between mb-6">
-                        <div className="w-14 h-14 rounded-2xl bg-sky-50 border border-sky-200 flex items-center justify-center group-hover:border-sky-400 group-hover:bg-sky-100 transition-all duration-300 shadow-xs">
-                          <Icon className="w-7 h-7 text-sky-600 group-hover:scale-115 transition-transform duration-300" />
+                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#0099FF]/20 via-transparent to-[#FF1361]/20 border border-white/15 flex items-center justify-center group-hover:border-[#0099FF]/60 transition-all duration-300 shadow-[0_0_20px_rgba(0,153,255,0.2)]">
+                          <Icon className={`w-7 h-7 ${isRose ? 'text-[#FF1361]' : 'text-[#0099FF]'} group-hover:scale-115 transition-transform duration-300`} />
                         </div>
-                        <span className="text-sm font-tech font-extrabold text-slate-400 tracking-widest">
+                        <span className="text-xs font-tech font-extrabold text-[#38BDF8] tracking-widest bg-[#0099FF]/10 px-3 py-1 rounded-full border border-[#0099FF]/30">
                           PILLAR {pillar.number}
                         </span>
                       </div>
 
                       {/* Title & Tagline */}
-                      <h3 className="text-2xl sm:text-3xl font-display font-extrabold text-slate-900 tracking-tight mb-2 group-hover:text-sky-600 transition-colors">
+                      <h3 className="text-2xl sm:text-3xl font-display font-extrabold text-white tracking-tight mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-[#0099FF] group-hover:to-[#FF1361] group-hover:bg-clip-text transition-all">
                         {pillar.title}
                       </h3>
 
-                      <p className="text-xs sm:text-sm font-tech text-sky-600 font-bold uppercase tracking-wider mb-4">
+                      <p className="text-xs sm:text-sm font-tech text-[#FF2A85] font-bold uppercase tracking-wider mb-4">
                         {pillar.tagline}
                       </p>
 
-                      <p className="text-sm sm:text-base text-slate-600 font-sans-clean leading-relaxed">
+                      <p className="text-sm sm:text-base text-slate-300 font-sans-clean leading-relaxed">
                         {pillar.description}
                       </p>
                     </div>
 
                     {/* Bottom Trust Badge */}
-                    <div className="mt-8 pt-6 border-t border-slate-100 flex items-center gap-2 text-xs font-tech text-slate-500">
-                      <CheckCircle2 className="w-4 h-4 text-sky-600" />
+                    <div className="relative z-10 mt-8 pt-6 border-t border-white/10 flex items-center gap-2 text-xs font-tech text-slate-400">
+                      <CheckCircle2 className="w-4 h-4 text-[#0099FF]" />
                       <span>Guaranteed Standards &amp; Clean Execution</span>
                     </div>
                   </div>

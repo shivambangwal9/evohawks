@@ -31,11 +31,11 @@ export const HawkFlightCanvas: React.FC = () => {
     };
     window.addEventListener('resize', handleResize, { passive: true });
 
-    // High clarity vibrant particle colors for Light Theme
-    const colors = ['#0284C7', '#0EA5E9', '#6366F1', '#8B5CF6', '#06B6D4'];
+    // Cyber-creative particles: Cerulean Blue and Neon Rose against Jet Black
+    const colors = ['#0099FF', '#FF1361', '#38BDF8', '#FF2A85', '#8B5CF6'];
     const particles: Particle[] = [];
     const isMobile = width < 768;
-    const particleCount = isMobile ? 10 : 26;
+    const particleCount = isMobile ? 12 : 28;
 
     for (let i = 0; i < particleCount; i++) {
       particles.push({
@@ -44,7 +44,7 @@ export const HawkFlightCanvas: React.FC = () => {
         vx: (Math.random() - 0.3) * 0.4,
         vy: (Math.random() - 0.5) * 0.35,
         size: Math.random() * 2 + 1,
-        alpha: Math.random() * 0.35 + 0.2,
+        alpha: Math.random() * 0.45 + 0.25,
         color: colors[Math.floor(Math.random() * colors.length)],
         pulseSpeed: Math.random() * 0.02 + 0.01,
       });
@@ -60,9 +60,9 @@ export const HawkFlightCanvas: React.FC = () => {
       window.addEventListener('mousemove', handleMouseMove, { passive: true });
     }
 
-    const connectDist = 110;
+    const connectDist = 120;
     const connectDistSq = connectDist * connectDist;
-    const mouseDist = 140;
+    const mouseDist = 150;
     const mouseDistSq = mouseDist * mouseDist;
 
     let isPaused = false;
@@ -111,8 +111,8 @@ export const HawkFlightCanvas: React.FC = () => {
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = '#0284C7';
-            ctx.globalAlpha = (1 - dist / connectDist) * 0.2;
+            ctx.strokeStyle = i % 2 === 0 ? '#0099FF' : '#FF1361';
+            ctx.globalAlpha = (1 - dist / connectDist) * 0.28;
             ctx.lineWidth = 1;
             ctx.stroke();
           }
@@ -128,8 +128,8 @@ export const HawkFlightCanvas: React.FC = () => {
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(mouseX, mouseY);
-            ctx.strokeStyle = '#7C3AED';
-            ctx.globalAlpha = (1 - mdist / mouseDist) * 0.25;
+            ctx.strokeStyle = '#FF1361';
+            ctx.globalAlpha = (1 - mdist / mouseDist) * 0.35;
             ctx.lineWidth = 1;
             ctx.stroke();
           }

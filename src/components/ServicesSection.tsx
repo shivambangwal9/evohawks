@@ -35,13 +35,22 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
 
   const getAccentColor = (id: string) => {
     switch (id) {
-      case 'web-dev': return '#0284C7';
-      case 'graphic-design': return '#7C3AED';
-      case 'video-editing': return '#0EA5E9';
-      case 'social-media': return '#DB2777';
-      case 'seo-ranking': return '#059669';
-      case 'digital-marketing': return '#D97706';
-      default: return '#0284C7';
+      case 'web-dev': return '#0099FF';
+      case 'graphic-design': return '#FF1361';
+      case 'video-editing': return '#38BDF8';
+      case 'social-media': return '#FF2A85';
+      case 'seo-ranking': return '#0099FF';
+      case 'digital-marketing': return '#8B5CF6';
+      default: return '#0099FF';
+    }
+  };
+
+  const getCreativeBorderClass = (index: number) => {
+    switch (index % 3) {
+      case 0: return 'rounded-[2.75rem] rounded-tl-lg rounded-br-lg';
+      case 1: return 'rounded-[2.75rem] rounded-tr-lg rounded-bl-lg';
+      case 2: return 'rounded-[3rem] rounded-bl-lg rounded-tr-lg';
+      default: return 'rounded-[2.75rem]';
     }
   };
 
@@ -76,21 +85,21 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
           transition={{ duration: 0.6 }}
           className="flex flex-col items-center text-center max-w-3xl mx-auto mb-16 sm:mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-sky-200 text-xs font-tech text-sky-700 font-semibold mb-4 shadow-xs">
-            <Sparkles className="w-3.5 h-3.5 text-sky-600" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0B0D16]/90 border border-white/10 text-xs font-tech text-[#38BDF8] font-semibold mb-4 shadow-[0_0_20px_rgba(0,153,255,0.2)]">
+            <Sparkles className="w-3.5 h-3.5 text-[#FF1361]" />
             <span>FULL-SERVICE DIGITAL SOLUTIONS</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-black text-slate-900 tracking-tight mb-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-black text-white tracking-tight mb-4">
             What We Do
           </h2>
 
-          <p className="text-base sm:text-lg text-slate-600 font-sans-clean">
+          <p className="text-base sm:text-lg text-slate-300 font-sans-clean">
             Everything you need to build and grow your digital presence.
           </p>
         </motion.div>
 
-        {/* 6 Large Service Cards Grid with Framer Motion Stagger & 3D Tilt */}
+        {/* 6 Large Creative Asymmetrical Service Pods */}
         <motion.div 
           variants={containerVariants}
           initial="hidden"
@@ -98,56 +107,64 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
           viewport={{ once: true, amount: 0.1 }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          {SERVICES_DATA.map((service: ServiceItem) => {
+          {SERVICES_DATA.map((service: ServiceItem, index: number) => {
             const IconComponent = getIcon(service.icon);
             const accent = getAccentColor(service.id);
+            const creativeRadius = getCreativeBorderClass(index);
+            const isRoseAccent = index % 2 === 1;
+
             return (
               <motion.div
                 key={service.id}
                 variants={cardVariants}
                 className="h-full"
               >
-                <TiltCard tiltDegree={12} glareColor={accent} className="h-full">
-                  <div className="group relative rounded-3xl bg-white/90 border border-slate-200 hover:border-sky-400 p-8 flex flex-col justify-between h-full transition-all duration-300 shadow-xs hover:shadow-xl backdrop-blur-xl overflow-hidden">
-                    <BorderBeam size={120} duration={12} colorFrom={accent} colorTo="#0EA5E9" />
+                <TiltCard tiltDegree={10} glareColor={accent} className="h-full">
+                  <div className={`group relative ${creativeRadius} bg-[#0A0D18]/90 border border-white/10 hover:border-[#0099FF]/50 p-7 sm:p-8 flex flex-col justify-between h-full transition-all duration-300 shadow-[0_20px_45px_rgba(0,0,0,0.85)] hover:shadow-[0_25px_50px_rgba(0,153,255,0.2)] backdrop-blur-xl overflow-hidden`}>
+                    <BorderBeam size={120} duration={12} colorFrom={accent} colorTo={isRoseAccent ? '#0099FF' : '#FF1361'} />
 
-                    <div>
+                    {/* Subtle Large Artistic Watermark Number in Background */}
+                    <span className="absolute -top-3 -right-2 text-7xl font-display font-black text-white/[0.04] pointer-events-none group-hover:text-[#0099FF]/10 transition-colors select-none">
+                      {service.number}
+                    </span>
+
+                    <div className="relative z-10">
                       {/* Service Number & Icon Header */}
                       <div className="flex items-center justify-between mb-6">
-                        <div className="w-13 h-13 rounded-2xl bg-sky-50 border border-sky-200 flex items-center justify-center group-hover:border-sky-400 group-hover:bg-sky-100 transition-all duration-300 shadow-xs">
-                          <IconComponent className="w-6 h-6 text-sky-600 group-hover:scale-115 transition-transform duration-300" />
+                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#0099FF]/20 via-transparent to-[#FF1361]/20 border border-white/15 flex items-center justify-center group-hover:border-[#0099FF]/60 group-hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(0,153,255,0.25)]">
+                          <IconComponent className={`w-6 h-6 ${isRoseAccent ? 'text-[#FF1361]' : 'text-[#0099FF]'} group-hover:scale-115 transition-transform duration-300`} />
                         </div>
-                        <span className="font-tech text-xs tracking-widest text-slate-400 font-bold">
-                          SERVICE {service.number}
+                        <span className="font-tech text-xs tracking-widest text-[#38BDF8] font-bold bg-[#0099FF]/10 px-3 py-1 rounded-full border border-[#0099FF]/25">
+                          DISCIPLINE {service.number}
                         </span>
                       </div>
 
                       {/* Title & Tagline */}
-                      <h3 className="text-xl sm:text-2xl font-display font-extrabold text-slate-900 tracking-tight mb-2 group-hover:text-sky-600 transition-colors">
+                      <h3 className="text-xl sm:text-2xl font-display font-extrabold text-white tracking-tight mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-[#0099FF] group-hover:to-[#FF1361] group-hover:bg-clip-text transition-all">
                         {service.title}
                       </h3>
                       
-                      <p className="text-sm font-semibold text-slate-700 mb-3 font-sans-clean leading-snug">
+                      <p className="text-xs font-semibold text-[#38BDF8] mb-3 font-sans-clean leading-snug">
                         {service.tagline}
                       </p>
 
-                      <p className="text-xs text-slate-500 font-sans-clean leading-relaxed mb-6">
+                      <p className="text-xs text-slate-300 font-sans-clean leading-relaxed mb-6">
                         {service.description}
                       </p>
 
-                      {/* Sub-Services Checklist */}
-                      <div className="space-y-2 mb-8 pt-4 border-t border-slate-100">
-                        <div className="text-[11px] font-tech uppercase tracking-wider text-slate-500 font-semibold mb-2">
+                      {/* Sub-Services Checklist Capsules */}
+                      <div className="space-y-2 mb-8 pt-4 border-t border-white/10">
+                        <div className="text-[11px] font-tech uppercase tracking-wider text-slate-400 font-semibold mb-2">
                           Capabilities Included:
                         </div>
-                        {service.services.map((sub, idx) => (
-                          <div key={idx} className="flex items-start gap-2.5 text-xs text-slate-600">
-                            <div className="mt-0.5 w-3.5 h-3.5 rounded-full bg-sky-100 flex items-center justify-center flex-shrink-0">
-                              <Check className="w-2.5 h-2.5 text-sky-600" />
+                        <div className="flex flex-wrap gap-1.5">
+                          {service.services.map((sub, idx) => (
+                            <div key={idx} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] text-slate-200">
+                              <Check className="w-3 h-3 text-[#FF1361] shrink-0" />
+                              <span>{sub}</span>
                             </div>
-                            <span className="leading-tight">{sub}</span>
-                          </div>
-                        ))}
+                          ))}
+                        </div>
                       </div>
                     </div>
 
@@ -156,10 +173,10 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => onSelectService(service.title)}
-                      className="w-full inline-flex items-center justify-between px-5 py-3.5 rounded-xl font-bold text-xs sm:text-sm text-slate-700 bg-slate-50 hover:bg-gradient-to-r hover:from-sky-500 hover:to-indigo-600 hover:text-white border border-slate-200 hover:border-transparent transition-all duration-300 shadow-2xs hover:shadow-md cursor-pointer"
+                      className="relative z-10 w-full inline-flex items-center justify-between px-5 py-3 rounded-full font-bold text-xs sm:text-sm text-slate-200 bg-[#0B0D16]/90 hover:bg-gradient-to-r hover:from-[#FF1361] hover:to-[#0099FF] hover:text-white border border-white/10 hover:border-transparent transition-all duration-300 shadow-md cursor-pointer group/btn"
                     >
                       <span>{service.cta}</span>
-                      <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5" />
+                      <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1.5" />
                     </motion.button>
                   </div>
                 </TiltCard>

@@ -68,7 +68,7 @@ export const SpotlightCursor: React.FC = () => {
       style={{
         width: '450px',
         height: '450px',
-        background: 'radial-gradient(circle, rgba(2, 132, 199, 0.1) 0%, rgba(124, 58, 237, 0.05) 45%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(0, 153, 255, 0.12) 0%, rgba(255, 19, 97, 0.08) 45%, transparent 70%)',
         borderRadius: '50%',
       }}
     />

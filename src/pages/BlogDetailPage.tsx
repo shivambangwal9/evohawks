@@ -27,7 +27,7 @@ export function BlogDetailPage({ slug, onNavigate }: BlogDetailPageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[#050508] text-white pt-28 pb-24 relative overflow-hidden">
+    <div className="min-h-screen pt-28 pb-24 relative overflow-hidden">
       {/* Background glow effects */}
       <div className="absolute top-24 left-1/3 w-[500px] h-[500px] bg-[#0099FF]/10 rounded-full blur-[160px] pointer-events-none -z-10" />
       <div className="absolute top-2/3 right-10 w-96 h-96 bg-[#FF1361]/10 rounded-full blur-[140px] pointer-events-none -z-10" />

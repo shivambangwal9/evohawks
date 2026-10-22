@@ -262,7 +262,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
                       </div>
                     </div>
 
-                    <p className="text-sm sm:text-base font-semibold text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-[#FF2A85] mb-2 font-sans-clean">
+                    <p className="text-sm sm:text-base font-semibold text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-slate-700 to-[#FF2A85] dark:from-white dark:via-slate-200 dark:to-[#FF2A85] mb-2 font-sans-clean">
                       {activeService.tagline}
                     </p>
 

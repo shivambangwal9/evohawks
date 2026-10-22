@@ -67,9 +67,11 @@ export const TiltCard: React.FC<TiltCardProps> = ({
       style={{
         rotateX,
         rotateY,
-        transformStyle: 'preserve-3d',
+        transform: 'translateZ(0)',
+        backfaceVisibility: 'hidden',
+        WebkitBackfaceVisibility: 'hidden',
       }}
-      className={`relative perspective-[1000px] transition-shadow duration-300 will-change-transform ${className}`}
+      className={`relative transition-shadow duration-300 ${className}`}
     >
       {/* 3D Content Container */}
       <div className="relative w-full h-full rounded-[inherit] overflow-hidden">

@@ -2,8 +2,12 @@ import { useState, useEffect, lazy, Suspense } from 'react';
 import { usePageRouter } from './hooks/usePageRouter';
 import { AuthProvider } from './context/AuthContext';
 import { useAuth } from './context/useAuth';
+import { SiteConfigProvider, useSiteConfig } from './context/SiteConfigContext';
+import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
+import { SuperAdminFloatingBar } from './components/SuperAdminFloatingBar';
+import { PostPortfolioModal } from './components/PostPortfolioModal';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { ProjectModal } from './components/ProjectModal';
 import { BookingModal } from './components/BookingModal';
@@ -41,7 +45,7 @@ const ClientDashboardPage = lazy(() => import('./pages/ClientDashboardPage').the
 // Sleek Jet Black Route Loading Fallback
 function RouteLoadingFallback() {
   return (
-    <div className="min-h-[70vh] flex flex-col items-center justify-center bg-[#050508] text-white">
+    <div className="min-h-[70vh] flex flex-col items-center justify-center">
       <div className="relative w-12 h-12 flex items-center justify-center mb-4">
         <div className="absolute inset-0 rounded-full border-2 border-[#0099FF]/20 animate-ping" />
         <div className="w-8 h-8 rounded-full border-2 border-[#0099FF] border-t-transparent animate-spin" />
@@ -132,7 +136,7 @@ function AppContent() {
       case 'login':
         return <LoginPage key="login" onNavigate={navigateTo} />;
       case 'admin-portal':
-        if (user && user.role === 'admin') {
+        if (user && (user.role === 'admin' || user.role === 'superadmin')) {
           return <AdminDashboardPage key="admin-portal" onNavigate={navigateTo} />;
         }
         return <LoginPage key="login-admin-guard" onNavigate={navigateTo} />;
@@ -176,8 +180,12 @@ function AppContent() {
     }
   };
 
+  const { addPortfolioItem } = useSiteConfig();
+  const { theme } = useTheme();
+  const [floatingPostModalOpen, setFloatingPostModalOpen] = useState(false);
+
   return (
-    <div className="relative min-h-screen bg-[#050508] text-[#F8FAFC] selection:bg-[#FF1361] selection:text-white font-sans-clean overflow-x-hidden flex flex-col">
+    <div className={`relative min-h-screen ${theme === 'light' ? 'bg-[#F8FAFC] text-[#0F172A]' : 'bg-[#050508] text-[#F8FAFC]'} selection:bg-[#FF1361] selection:text-white font-sans-clean overflow-x-hidden flex flex-col transition-colors duration-300`}>
       {/* Dynamic SEO Head Management (Canonical, OpenGraph, JSON-LD Schemas) */}
       <SEOHead page={currentPage} slug={currentSlug} />
 
@@ -221,6 +229,20 @@ function AppContent() {
       {/* Floating WhatsApp Action Widget */}
       <FloatingWhatsApp />
 
+      {/* Super Admin Floating Quick Control Dock */}
+      <SuperAdminFloatingBar
+        onOpenPostModal={() => setFloatingPostModalOpen(true)}
+        onNavigate={navigateTo}
+        currentPage={currentPage}
+      />
+
+      {/* Super Admin Quick Post Modal */}
+      <PostPortfolioModal
+        isOpen={floatingPostModalOpen}
+        onClose={() => setFloatingPostModalOpen(false)}
+        onSave={(item) => addPortfolioItem(item)}
+      />
+
       {/* Instant Project Inquiry Modal */}
       <ProjectModal
         isOpen={projectModalOpen}
@@ -241,7 +263,11 @@ function AppContent() {
 export function App() {
   return (
     <AuthProvider>
-      <AppContent />
+      <SiteConfigProvider>
+        <ThemeProvider>
+          <AppContent />
+        </ThemeProvider>
+      </SiteConfigProvider>
     </AuthProvider>
   );
 }

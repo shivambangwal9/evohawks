@@ -403,7 +403,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                         className="w-full px-3.5 py-2.5 rounded-xl bg-[#060810] border border-white/10 text-xs sm:text-sm text-white focus:outline-none focus:border-[#0099FF] transition-all cursor-pointer"
                       >
                         {AGENCY_CONFIG.serviceOptions.map((opt) => (
-                          <option key={opt} value={opt} className="bg-[#0A0D18] text-white">
+                          <option key={opt} value={opt} className="bg-white text-slate-900 dark:bg-[#0A0D18] dark:text-white">
                             {opt}
                           </option>
                         ))}
@@ -422,7 +422,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                         className="w-full px-3.5 py-2.5 rounded-xl bg-[#060810] border border-white/10 text-xs sm:text-sm text-white focus:outline-none focus:border-[#0099FF] transition-all cursor-pointer"
                       >
                         {AGENCY_CONFIG.budgetRanges.map((range) => (
-                          <option key={range.value} value={range.value} className="bg-[#0A0D18] text-white">
+                          <option key={range.value} value={range.value} className="bg-white text-slate-900 dark:bg-[#0A0D18] dark:text-white">
                             {range.label}
                           </option>
                         ))}

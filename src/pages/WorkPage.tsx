@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
-import { PORTFOLIO_DATA, type PortfolioItem } from '../data/agencyData';
+import type { PortfolioItem } from '../data/agencyData';
 import { PortfolioModal } from '../components/PortfolioModal';
+import { PostPortfolioModal } from '../components/PostPortfolioModal';
+import { useSiteConfig } from '../context/SiteConfigContext';
+import { useAuth } from '../context/useAuth';
 import { motion } from 'framer-motion';
 import { MagneticButton } from '../components/ui/MagneticButton';
 import { 
   Search, 
   Layers, 
   ArrowRight, 
-  AlertTriangle 
+  AlertTriangle,
+  Plus,
+  Trash2,
+  Edit3
 } from 'lucide-react';
 import type { PageId } from '../hooks/usePageRouter';
 
@@ -20,9 +26,15 @@ export const WorkPage: React.FC<WorkPageProps> = ({
   onNavigate,
   onOpenProjectModal 
 }) => {
+  const { portfolioItems, addPortfolioItem, updatePortfolioItem, deletePortfolioItem } = useSiteConfig();
+  const { user } = useAuth();
+  const isSuperAdmin = user?.role === 'superadmin' || user?.role === 'admin';
+
   const [activeFilter, setActiveFilter] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedProject, setSelectedProject] = useState<PortfolioItem | null>(null);
+  const [postModalOpen, setPostModalOpen] = useState(false);
+  const [editingProject, setEditingProject] = useState<PortfolioItem | null>(null);
 
   const filters = [
     'All', 
@@ -36,7 +48,7 @@ export const WorkPage: React.FC<WorkPageProps> = ({
     'Photography'
   ];
 
-  const filteredProjects = PORTFOLIO_DATA.filter(project => {
+  const filteredProjects = portfolioItems.filter(project => {
     const matchesFilter = activeFilter === 'All' || project.category === activeFilter;
     const matchesSearch = searchQuery.trim() === '' || 
       project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -52,7 +64,7 @@ export const WorkPage: React.FC<WorkPageProps> = ({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -15 }}
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-      className="pt-28 pb-20 overflow-hidden bg-[#050508] text-white min-h-screen"
+      className="pt-28 pb-20 overflow-hidden min-h-screen"
     >
       {/* Work Page Hero */}
       <section className="relative py-16 sm:py-24 bg-transparent">
@@ -66,9 +78,24 @@ export const WorkPage: React.FC<WorkPageProps> = ({
             Engineered for <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#0099FF] via-[#38BDF8] to-[#FF1361]">Maximum Impact</span>
           </h1>
 
-          <p className="text-base sm:text-xl text-slate-300 font-sans-clean max-w-3xl mx-auto leading-relaxed mb-8">
+          <p className="text-base sm:text-xl text-slate-300 font-sans-clean max-w-3xl mx-auto leading-relaxed mb-6">
             Explore our production projects and concept benchmarks across web engineering, branding, video storytelling, and performance marketing.
           </p>
+
+          {isSuperAdmin && (
+            <div className="flex justify-center mb-8">
+              <button
+                onClick={() => {
+                  setEditingProject(null);
+                  setPostModalOpen(true);
+                }}
+                className="py-2.5 px-6 rounded-full bg-gradient-to-r from-[#FF1361] to-[#0099FF] text-white text-xs sm:text-sm font-tech font-bold hover:shadow-[0_0_25px_rgba(255,19,97,0.5)] transition-all flex items-center gap-2 cursor-pointer shadow-lg"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Post New Portfolio Project</span>
+              </button>
+            </div>
+          )}
 
           {/* Search Input Bar */}
           <div className="max-w-md mx-auto mb-8 relative">
@@ -162,6 +189,37 @@ export const WorkPage: React.FC<WorkPageProps> = ({
                             </span>
                           )}
                         </div>
+
+                        {/* Super Admin Quick Actions */}
+                        {isSuperAdmin && (
+                          <div className="absolute top-3 right-3 z-20 flex items-center gap-1.5 bg-[#05070C]/90 p-1 rounded-full border border-white/10 backdrop-blur-md">
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setEditingProject(project);
+                                setPostModalOpen(true);
+                              }}
+                              className="p-1.5 rounded-full hover:bg-white/10 text-slate-300 hover:text-[#38BDF8] transition-colors"
+                              title="Edit Project"
+                            >
+                              <Edit3 className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                if (window.confirm(`Delete "${project.title}" from portfolio?`)) {
+                                  deletePortfolioItem(project.id);
+                                }
+                              }}
+                              className="p-1.5 rounded-full hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 transition-colors"
+                              title="Delete Project"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        )}
                       </a>
 
                       {/* Card Content */}
@@ -265,6 +323,24 @@ export const WorkPage: React.FC<WorkPageProps> = ({
           }}
         />
       )}
+
+      {/* Super Admin Post / Edit Modal */}
+      <PostPortfolioModal
+        isOpen={postModalOpen}
+        onClose={() => {
+          setPostModalOpen(false);
+          setEditingProject(null);
+        }}
+        onSave={(itemData) => {
+          if (editingProject && itemData.id) {
+            updatePortfolioItem(itemData.id, itemData);
+          } else {
+            addPortfolioItem(itemData);
+          }
+          setEditingProject(null);
+        }}
+        initialData={editingProject}
+      />
     </motion.div>
   );
 };

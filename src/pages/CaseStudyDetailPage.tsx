@@ -31,7 +31,7 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
   ).slice(0, 2);
 
   return (
-    <div className="pt-28 pb-20 overflow-hidden min-h-screen bg-[#050508] text-white">
+    <div className="pt-28 pb-20 overflow-hidden min-h-screen">
       {/* Breadcrumb Navigation */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-2">
         <div className="flex items-center gap-2 text-xs font-tech text-slate-400">
@@ -92,7 +92,7 @@ export const CaseStudyDetailPage: React.FC<CaseStudyDetailPageProps> = ({
               className="w-full h-full object-cover"
               loading="lazy"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#050508]/90 via-transparent to-transparent flex items-end p-6 sm:p-10">
+            <div className="absolute bottom-0 left-0 right-0 h-36 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex items-end p-6 sm:p-10">
               <div className="text-white">
                 <div className="text-xs font-tech text-[#38BDF8] font-bold uppercase tracking-wider mb-1">
                   Deliverable Highlight

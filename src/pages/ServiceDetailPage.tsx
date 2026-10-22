@@ -84,7 +84,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
   const whatsappHref = `https://wa.me/${AGENCY_CONFIG.contact.whatsappCleanNumber}?text=${encodeURIComponent(`Hi Evo Hawks, I'm inquiring about your ${service.title} services.`)}`;
 
   return (
-    <div className="pt-28 pb-20 overflow-hidden min-h-screen bg-[#050508] text-white">
+    <div className="pt-28 pb-20 overflow-hidden min-h-screen">
       {/* Breadcrumb Navigation */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-2">
         <div className="flex items-center gap-2 text-xs font-tech text-slate-400">

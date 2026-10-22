@@ -6,7 +6,7 @@ import type { PageId } from '../hooks/usePageRouter';
 
 export const PrivacyPolicyPage: React.FC<{ onNavigate: (page: PageId) => void }> = ({ onNavigate }) => {
   return (
-    <div className="pt-28 pb-20 min-h-screen bg-[#050508] text-white">
+    <div className="pt-28 pb-20 min-h-screen">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <button
           onClick={() => onNavigate('home')}

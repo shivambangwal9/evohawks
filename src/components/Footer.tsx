@@ -1,7 +1,9 @@
 import React from 'react';
 import { AGENCY_CONFIG } from '../data/agencyData';
+import { useSiteConfig } from '../context/SiteConfigContext';
+import { useTheme } from '../context/ThemeContext';
 import { Logo } from './Logo';
-import { ArrowUp, Mail, MapPin } from 'lucide-react';
+import { ArrowUp, Mail, MapPin, ShieldCheck } from 'lucide-react';
 import type { PageId } from '../hooks/usePageRouter';
 
 interface FooterProps {
@@ -9,6 +11,9 @@ interface FooterProps {
 }
 
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
+  const { siteConfig } = useSiteConfig();
+  const { theme } = useTheme();
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -49,7 +54,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           {/* Brand & Mission Column */}
           <div className="lg:col-span-4 flex flex-col items-start space-y-4">
             <div onClick={(e) => handleLinkClick(e, 'home')} className="cursor-pointer">
-              <Logo size="lg" showTagline={true} lightText={true} />
+              <Logo size="lg" showTagline={true} lightText={theme === 'dark'} />
             </div>
             
             <p className="text-sm text-slate-300 font-sans-clean max-w-sm leading-relaxed mt-2">
@@ -59,7 +64,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <div className="flex items-center gap-3 pt-2">
               {/* Instagram */}
               <a
-                href={AGENCY_CONFIG.socials.instagram}
+                href={siteConfig.instagramUrl || AGENCY_CONFIG.socials.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Evo Hawks on Instagram"
@@ -72,7 +77,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
 
               {/* Facebook */}
               <a
-                href={AGENCY_CONFIG.socials.facebook}
+                href={siteConfig.facebookUrl || AGENCY_CONFIG.socials.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Evo Hawks on Facebook"
@@ -85,7 +90,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
 
               {/* LinkedIn */}
               <a
-                href={AGENCY_CONFIG.socials.linkedin}
+                href={siteConfig.linkedinUrl || AGENCY_CONFIG.socials.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Evo Hawks on LinkedIn"
@@ -98,7 +103,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
 
               {/* YouTube */}
               <a
-                href={AGENCY_CONFIG.socials.youtube}
+                href={siteConfig.youtubeUrl || AGENCY_CONFIG.socials.youtube}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Evo Hawks on YouTube"
@@ -152,11 +157,13 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <div className="pt-4 border-t border-white/10 text-xs font-tech text-slate-400">
               <div className="flex items-center gap-2 mb-1.5">
                 <MapPin className="w-3.5 h-3.5 text-[#0099FF]" />
-                <span>{AGENCY_CONFIG.contact.location}</span>
+                <span>{siteConfig.location || AGENCY_CONFIG.contact.location}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-3.5 h-3.5 text-[#FF1361]" />
-                <span>{AGENCY_CONFIG.contact.email}</span>
+                <a href={`mailto:${siteConfig.contactEmail || AGENCY_CONFIG.contact.email}`} className="hover:text-white transition-colors">
+                  {siteConfig.contactEmail || AGENCY_CONFIG.contact.email}
+                </a>
               </div>
             </div>
           </div>
@@ -166,14 +173,14 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         {/* Large Brand Backdrop Silhouette */}
         <div className="pt-8 sm:pt-10 pb-4 sm:pb-6 flex items-center justify-center opacity-10 select-none pointer-events-none overflow-hidden">
           <span className="text-4xl sm:text-8xl md:text-9xl font-display font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white/20 via-white/5 to-transparent whitespace-nowrap">
-            EVO HAWKS
+            {siteConfig.name?.toUpperCase() || 'EVO HAWKS'}
           </span>
         </div>
 
-        {/* Bottom Policies, Copyright & Back to Top */}
+        {/* Bottom Policies, Copyright, Super Admin Portal & Back to Top */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-tech text-slate-400">
           <div className="flex flex-wrap items-center gap-4">
-            <span>© 2026 Evo Hawks. All rights reserved.</span>
+            <span>© 2026 {siteConfig.name || 'Evo Hawks'}. All rights reserved.</span>
             <span className="text-slate-600">&bull;</span>
             <button
               onClick={(e) => handleLinkClick(e, 'privacy-policy')}
@@ -194,6 +201,14 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               className="hover:text-[#38BDF8] transition-colors cursor-pointer"
             >
               Cancellation &amp; Refund Policy
+            </button>
+            <span className="text-slate-600">&bull;</span>
+            <button
+              onClick={(e) => handleLinkClick(e, 'login')}
+              className="hover:text-[#FF2A85] text-slate-400 hover:text-white transition-colors cursor-pointer flex items-center gap-1 font-bold"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-[#FF1361]" />
+              <span>Super Admin Portal</span>
             </button>
           </div>
 

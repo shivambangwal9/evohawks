@@ -494,7 +494,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ preselectedServi
                       className="w-full px-4 py-3 rounded-2xl bg-[#060810] border border-white/10 text-base sm:text-sm text-white focus:outline-none focus:border-[#0099FF] focus:shadow-[0_0_15px_rgba(0,153,255,0.25)] transition-all cursor-pointer"
                     >
                       {AGENCY_CONFIG.serviceOptions.map((opt) => (
-                        <option key={opt} value={opt} className="bg-[#0A0D18] text-white">
+                        <option key={opt} value={opt} className="bg-white text-slate-900 dark:bg-[#0A0D18] dark:text-white">
                           {opt}
                         </option>
                       ))}

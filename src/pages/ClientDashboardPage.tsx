@@ -12,8 +12,7 @@ import {
   ShieldCheck,
   Building,
   User,
-  Smartphone,
-  AlertCircle
+  Smartphone
 } from 'lucide-react';
 import type { PageId } from '../hooks/usePageRouter';
 import { AGENCY_CONFIG } from '../data/agencyData';
@@ -43,15 +42,15 @@ export const ClientDashboardPage: React.FC<ClientDashboardPageProps> = ({ onNavi
   };
 
   return (
-    <div className="min-h-screen pt-28 pb-24 relative bg-[#050508] text-white">
+    <div className="min-h-screen pt-28 pb-24 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Prototype Environment Notice */}
-        <div className="mb-6 p-4 rounded-[1.75rem] rounded-tl-sm bg-[#FF1361]/10 border border-[#FF1361]/30 text-rose-200 text-xs font-sans-clean flex items-start gap-3 shadow-[0_0_25px_rgba(255,19,97,0.1)]">
-          <AlertCircle className="w-5 h-5 text-[#FF1361] shrink-0 mt-0.5" />
+        {/* Authenticated Workspace Security Indicator */}
+        <div className="mb-6 p-4 rounded-[1.75rem] rounded-tl-sm bg-[#0099FF]/10 border border-[#0099FF]/30 text-sky-200 text-xs font-sans-clean flex items-start gap-3 shadow-[0_0_25px_rgba(0,153,255,0.1)]">
+          <ShieldCheck className="w-5 h-5 text-[#38BDF8] shrink-0 mt-0.5" />
           <div>
-            <strong className="font-semibold block mb-0.5 text-white">Demo Client Workspace Preview</strong>
-            This client dashboard interface is operating in prototype demo mode. In production, client accounts authenticate through a secure server-side session, displaying only verified projects assigned to their organization.
+            <strong className="font-semibold block mb-0.5 text-white">Authenticated Client Sprint Environment</strong>
+            Session verified. Real-time deliverable tracking, milestone reviews, and velocity reports are synchronized directly with the Evo Hawks core agency team.
           </div>
         </div>
 

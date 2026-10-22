@@ -1,5 +1,6 @@
 import React from 'react';
 import { AGENCY_CONFIG } from '../data/agencyData';
+import { useSiteConfig } from '../context/SiteConfigContext';
 import { motion, type Variants } from 'framer-motion';
 import { BorderBeam } from './ui/BorderBeam';
 import { TiltCard } from './ui/TiltCard';
@@ -28,6 +29,8 @@ interface HeroProps {
 }
 
 export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
+  const { siteConfig } = useSiteConfig();
+
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
@@ -117,7 +120,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
             >
               <BorderBeam size={100} duration={8} colorFrom="#0099FF" colorTo="#FF1361" />
               <span className="w-2 h-2 rounded-full bg-[#FF1361] animate-ping" />
-              <span>{AGENCY_CONFIG.badge}</span>
+              <span>{siteConfig.badge || AGENCY_CONFIG.badge}</span>
             </motion.div>
 
             {/* Main Headline */}
@@ -125,10 +128,10 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
               variants={itemVariants}
               className="text-3.5xl sm:text-5xl md:text-6xl xl:text-7xl font-display font-black tracking-tight text-white leading-[1.08] mb-5 sm:mb-6 break-words"
             >
-              <span className="sr-only">Evo Hawks — Creative Production &amp; Digital Marketing Agency. </span>
-              We Build. <br />
-              <span className="text-gradient-cerulean">We Create.</span> <br />
-              <span className="text-gradient-neon-rose">We Grow.</span>
+              <span className="sr-only">{siteConfig.name || 'Evo Hawks'} — Creative Production &amp; Digital Marketing Agency. </span>
+              {siteConfig.heroHeadlineLine1 || 'We Build.'} <br />
+              <span className="text-gradient-cerulean">{siteConfig.heroHeadlineLine2 || 'We Create.'}</span> <br />
+              <span className="text-gradient-neon-rose">{siteConfig.heroHeadlineLine3 || 'We Grow.'}</span>
             </motion.h1>
 
             {/* Supporting Text */}
@@ -136,7 +139,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
               variants={itemVariants}
               className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-300 max-w-2xl font-sans-clean leading-relaxed mb-6 sm:mb-8"
             >
-              {AGENCY_CONFIG.heroDescription}
+              {siteConfig.heroDescription || AGENCY_CONFIG.heroDescription}
             </motion.p>
 
             {/* Slogan Pill */}
@@ -145,7 +148,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
               className="flex items-center gap-2 text-xs font-tech tracking-widest text-slate-400 uppercase mb-6 sm:mb-8"
             >
               <Compass className="w-4 h-4 text-[#FF1361]" />
-              <span>{AGENCY_CONFIG.slogan}</span>
+              <span>{siteConfig.slogan || AGENCY_CONFIG.slogan}</span>
             </motion.div>
 
             {/* Action Buttons */}
@@ -157,7 +160,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
                 onClick={onOpenProjectModal}
                 className="w-full sm:w-auto relative inline-flex items-center justify-center gap-2.5 px-7 sm:px-8 py-3.5 sm:py-4 rounded-full text-sm sm:text-base font-bold text-white bg-gradient-to-r from-[#FF1361] via-[#FF2A85] to-[#0099FF] hover:shadow-[0_0_35px_rgba(255,19,97,0.5)] transition-all duration-300 cursor-pointer group animate-shimmer overflow-hidden shadow-lg"
               >
-                <span>Discuss Your Project</span>
+                <span>{siteConfig.heroPrimaryCtaText || 'Discuss Your Project'}</span>
                 <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:translate-x-1.5" />
               </MagneticButton>
 
@@ -166,7 +169,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenProjectModal }) => {
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3.5 sm:py-4 rounded-full text-sm sm:text-base font-semibold text-slate-200 bg-[#0B0D16]/90 hover:bg-[#121624] border border-white/10 hover:border-[#0099FF]/50 hover:text-white shadow-[0_0_20px_rgba(0,0,0,0.5)] transition-all duration-300 cursor-pointer"
               >
                 <Layers className="w-4 h-4 text-[#38BDF8]" />
-                <span>Explore Our Work</span>
+                <span>{siteConfig.heroSecondaryCtaText || 'Explore Our Work'}</span>
               </MagneticButton>
             </motion.div>
 

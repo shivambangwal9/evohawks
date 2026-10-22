@@ -1,7 +1,9 @@
 {
-  "name": "agen",
+  "name": "evohawks",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Evo Hawks — Creative Production & Digital Marketing Agency",
+  "homepage": "https://evohawks.tech",
   "type": "module",
   "scripts": {
     "dev": "vite",

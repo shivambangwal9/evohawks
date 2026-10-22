@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { AGENCY_CONFIG } from '../data/agencyData';
+import { useSiteConfig } from '../context/SiteConfigContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BorderBeam } from './ui/BorderBeam';
 import { MessageCircle, X, ArrowRight } from 'lucide-react';
 import { trackEvent } from '../utils/analytics';
 
 export const FloatingWhatsApp: React.FC = () => {
+  const { siteConfig } = useSiteConfig();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleWhatsAppClick = (presetText: string, serviceCategory: string) => {
@@ -17,7 +19,8 @@ export const FloatingWhatsApp: React.FC = () => {
   };
 
   const getQuickChatUrl = (presetText: string) => {
-    return `https://wa.me/${AGENCY_CONFIG.contact.whatsappCleanNumber}?text=${encodeURIComponent(presetText)}`;
+    const cleanNum = siteConfig.whatsappCleanNumber || AGENCY_CONFIG.contact.whatsappCleanNumber;
+    return `https://wa.me/${cleanNum}?text=${encodeURIComponent(presetText)}`;
   };
 
   return (

@@ -93,7 +93,7 @@ export const PortfolioModal: React.FC<PortfolioModalProps> = ({
                   alt={project.title} 
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0B0D16] via-[#0B0D16]/40 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
                 
                 <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 flex flex-wrap items-center justify-between gap-2 sm:gap-3">
                   <div className="flex items-center gap-2">

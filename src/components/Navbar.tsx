@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Logo } from './Logo';
 import { MagneticButton } from './ui/MagneticButton';
 import { useAuth } from '../context/useAuth';
+import { useTheme } from '../context/ThemeContext';
+import { ThemeToggle } from './ThemeToggle';
 import { 
   Menu, 
   X, 
@@ -32,6 +34,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenBookingModal 
 }) => {
   const { user, logout } = useAuth();
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
@@ -101,18 +105,24 @@ export const Navbar: React.FC<NavbarProps> = ({
       <header 
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled 
-            ? 'bg-[#050508]/90 backdrop-blur-xl border-b border-white/10 shadow-[0_10px_35px_rgba(0,0,0,0.8),0_0_20px_rgba(0,153,255,0.1)] py-2.5 sm:py-3' 
+            ? (isLight 
+                ? 'bg-white/90 backdrop-blur-xl border-b border-slate-200/80 shadow-[0_10px_35px_rgba(0,0,0,0.06),0_0_20px_rgba(0,153,255,0.08)] py-2.5 sm:py-3' 
+                : 'bg-[#050508]/90 backdrop-blur-xl border-b border-white/10 shadow-[0_10px_35px_rgba(0,0,0,0.8),0_0_20px_rgba(0,153,255,0.1)] py-2.5 sm:py-3')
             : 'bg-transparent py-3.5 sm:py-5 md:py-6'
         }`}
       >
         <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 flex items-center justify-between gap-2">
           {/* Brand Logo */}
           <div onClick={() => onNavigate('home')} className="cursor-pointer shrink-0">
-            <Logo size="md" lightText={true} />
+            <Logo size="md" lightText={!isLight} />
           </div>
 
           {/* Desktop Navigation Links with layoutId active pill & Services Mega-dropdown */}
-          <nav className="hidden lg:flex items-center gap-1 bg-[#0A0C16]/85 px-4 py-1.5 rounded-full border border-white/10 backdrop-blur-md shadow-[0_4px_25px_rgba(0,0,0,0.6)]">
+          <nav className={`hidden lg:flex items-center gap-1 ${
+            isLight 
+              ? 'bg-white/90 border border-slate-200/90 shadow-[0_4px_25px_rgba(0,0,0,0.06)]' 
+              : 'bg-[#0A0C16]/85 border border-white/10 shadow-[0_4px_25px_rgba(0,0,0,0.6)]'
+          } px-4 py-1.5 rounded-full backdrop-blur-md`}>
             {navLinks.map((link) => {
               const isActive = currentPage === link.id || (link.id === 'services' && currentPage === 'service-detail');
               
@@ -129,8 +139,8 @@ export const Navbar: React.FC<NavbarProps> = ({
                       onClick={(e) => handleLinkClick(e, link.id)}
                       className={`relative px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-semibold transition-colors duration-200 z-10 flex items-center gap-1 ${
                         isActive 
-                          ? 'text-[#38BDF8] font-bold' 
-                          : 'text-slate-300 hover:text-white'
+                          ? (isLight ? 'text-[#0284C7] font-bold' : 'text-[#38BDF8] font-bold')
+                          : (isLight ? 'text-slate-600 hover:text-slate-900' : 'text-slate-300 hover:text-white')
                       }`}
                     >
                       {isActive && (
@@ -141,7 +151,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                         />
                       )}
                       <span>{link.name}</span>
-                      <ChevronDown className={`w-3.5 h-3.5 transition-transform ${servicesDropdownOpen ? 'rotate-180 text-[#38BDF8]' : 'text-slate-400'}`} />
+                      <ChevronDown className={`w-3.5 h-3.5 transition-transform ${servicesDropdownOpen ? 'rotate-180 text-[#38BDF8]' : (isLight ? 'text-slate-400' : 'text-slate-400')}`} />
                     </a>
 
                     {/* Desktop Services Mega Dropdown */}
@@ -152,17 +162,21 @@ export const Navbar: React.FC<NavbarProps> = ({
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 8, scale: 0.98 }}
                           transition={{ duration: 0.18, ease: "easeOut" }}
-                          className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[620px] bg-[#070912]/95 backdrop-blur-2xl border border-white/10 rounded-[2rem] shadow-[0_25px_60px_rgba(0,0,0,0.9),0_0_30px_rgba(0,153,255,0.15)] p-5 z-50 overflow-hidden"
+                          className={`absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[620px] ${
+                            isLight 
+                              ? 'bg-white/98 border border-slate-200 shadow-[0_25px_60px_rgba(0,0,0,0.12),0_0_30px_rgba(0,153,255,0.1)]' 
+                              : 'bg-[#070912]/95 border border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.9),0_0_30px_rgba(0,153,255,0.15)]'
+                          } backdrop-blur-2xl rounded-[2rem] p-5 z-50 overflow-hidden`}
                         >
-                          <div className="flex items-center justify-between pb-3 border-b border-white/10 mb-3 text-xs font-tech">
-                            <span className="font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                          <div className={`flex items-center justify-between pb-3 ${isLight ? 'border-b border-slate-100' : 'border-b border-white/10'} mb-3 text-xs font-tech`}>
+                            <span className={`font-bold ${isLight ? 'text-slate-900' : 'text-white'} uppercase tracking-wider flex items-center gap-2`}>
                               <span className="w-2 h-2 rounded-full bg-[#FF1361] animate-ping" />
                               ALL 12 CORE DISCIPLINES
                             </span>
                             <a
                               href="#services"
                               onClick={(e) => handleLinkClick(e, 'services')}
-                              className="text-[#38BDF8] hover:text-[#0099FF] font-bold flex items-center gap-1 group"
+                              className={`${isLight ? 'text-[#0284C7] hover:text-[#0369A1]' : 'text-[#38BDF8] hover:text-[#0099FF]'} font-bold flex items-center gap-1 group`}
                             >
                               <span>Explore Full Catalogue</span>
                               <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
@@ -175,13 +189,17 @@ export const Navbar: React.FC<NavbarProps> = ({
                                 key={srv.id}
                                 href={`#services/${srv.slug}`}
                                 onClick={(e) => handleLinkClick(e, 'service-detail', srv.slug)}
-                                className="p-2.5 rounded-2xl hover:bg-gradient-to-r hover:from-[#0099FF]/15 hover:to-[#FF1361]/15 border border-transparent hover:border-[#0099FF]/30 transition-all group flex flex-col"
+                                className={`p-2.5 rounded-2xl ${
+                                  isLight 
+                                    ? 'hover:bg-slate-50 border border-transparent hover:border-slate-200' 
+                                    : 'hover:bg-gradient-to-r hover:from-[#0099FF]/15 hover:to-[#FF1361]/15 border border-transparent hover:border-[#0099FF]/30'
+                                } transition-all group flex flex-col`}
                               >
-                                <span className="font-bold text-slate-100 group-hover:text-[#38BDF8] transition-colors flex items-center justify-between">
+                                <span className={`font-bold ${isLight ? 'text-slate-800 group-hover:text-[#0284C7]' : 'text-slate-100 group-hover:text-[#38BDF8]'} transition-colors flex items-center justify-between`}>
                                   <span>{srv.title}</span>
                                   <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity text-[#FF1361]" />
                                 </span>
-                                <span className="text-[11px] text-slate-400 font-sans-clean line-clamp-1 mt-0.5">
+                                <span className={`text-[11px] ${isLight ? 'text-slate-500' : 'text-slate-400'} font-sans-clean line-clamp-1 mt-0.5`}>
                                   {srv.tagline}
                                 </span>
                               </a>
@@ -201,8 +219,8 @@ export const Navbar: React.FC<NavbarProps> = ({
                   onClick={(e) => handleLinkClick(e, link.id)}
                   className={`relative px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-semibold transition-colors duration-200 z-10 ${
                     isActive 
-                      ? 'text-[#38BDF8] font-bold' 
-                      : 'text-slate-300 hover:text-white'
+                      ? (isLight ? 'text-[#0284C7] font-bold' : 'text-[#38BDF8] font-bold')
+                      : (isLight ? 'text-slate-600 hover:text-slate-900' : 'text-slate-300 hover:text-white')
                   }`}
                 >
                   {isActive && (
@@ -220,29 +238,36 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Desktop Right Action CTA Button & Portal Login with Magnetic effect */}
           <div className="hidden lg:flex items-center gap-3">
+            {/* Theme Toggle Button */}
+            <ThemeToggle size="md" />
+
             {/* User Auth Status Pill */}
             {user ? (
-              <div className="flex items-center gap-1.5 bg-[#0B0D16]/90 p-1 pl-3 rounded-full border border-white/10 shadow-2xs">
+              <div className={`flex items-center gap-1.5 ${isLight ? 'bg-slate-100 border-slate-200 shadow-xs' : 'bg-[#0B0D16]/90 border-white/10 shadow-2xs'} p-1 pl-3 rounded-full border`}>
                 <button
-                  onClick={() => onNavigate(user.role === 'admin' ? 'admin-portal' : 'client-portal')}
+                  onClick={() => onNavigate((user.role === 'superadmin' || user.role === 'admin') ? 'admin-portal' : 'client-portal')}
                   className={`text-xs font-tech font-bold flex items-center gap-1.5 transition-colors cursor-pointer ${
-                    user.role === 'admin' ? 'text-[#FF2A85] hover:text-[#FF1361]' : 'text-[#38BDF8] hover:text-white'
+                    user.role === 'superadmin' 
+                      ? (isLight ? 'text-rose-600 hover:text-rose-700' : 'text-[#FF2A85] hover:text-[#FF1361]')
+                      : (isLight ? 'text-sky-600 hover:text-sky-800' : 'text-[#38BDF8] hover:text-white')
                   }`}
-                  title="Go to Dashboard"
+                  title="Go to Control Center"
                 >
-                  {user.role === 'admin' ? (
+                  {user.role === 'superadmin' ? (
                     <ShieldCheck className="w-3.5 h-3.5 text-[#FF1361]" />
+                  ) : user.role === 'admin' ? (
+                    <ShieldCheck className="w-3.5 h-3.5 text-[#0099FF]" />
                   ) : (
                     <UserCheck className="w-3.5 h-3.5 text-[#0099FF]" />
                   )}
-                  <span className="max-w-[110px] truncate">{user.company || user.name}</span>
+                  <span className={`max-w-[120px] truncate ${isLight ? 'text-slate-800' : 'text-white'}`}>{user.role === 'superadmin' ? 'Super Admin' : user.company || user.name}</span>
                 </button>
                 <button
                   onClick={() => {
                     logout();
                     onNavigate('home');
                   }}
-                  className="p-1.5 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                  className={`p-1.5 rounded-full ${isLight ? 'text-slate-500 hover:text-slate-900 hover:bg-slate-200' : 'text-slate-400 hover:text-white hover:bg-white/10'} transition-colors cursor-pointer`}
                   title="Logout"
                 >
                   <LogOut className="w-3.5 h-3.5" />
@@ -251,19 +276,26 @@ export const Navbar: React.FC<NavbarProps> = ({
             ) : (
               <button
                 onClick={() => onNavigate('login')}
-                className="py-1.5 px-3 rounded-full text-xs font-tech font-bold text-slate-300 hover:text-white bg-[#0B0D16]/90 hover:bg-[#121624] border border-white/10 hover:border-[#0099FF]/40 transition-all cursor-pointer flex items-center gap-1.5 shadow-2xs"
-                title="Preview client sprint tracker & admin portal"
+                className={`py-1.5 px-3 rounded-full text-xs font-tech font-bold ${
+                  isLight 
+                    ? 'text-slate-700 hover:text-slate-950 bg-slate-100 hover:bg-slate-200 border-slate-200 hover:border-slate-300' 
+                    : 'text-slate-300 hover:text-white bg-[#0B0D16]/90 hover:bg-[#121624] border-white/10 hover:border-[#FF1361]/40'
+                } border transition-all cursor-pointer flex items-center gap-1.5 shadow-2xs`}
+                title="Super Admin login & client portal"
               >
-                <UserCheck className="w-3.5 h-3.5 text-[#0099FF]" />
-                <span>Portal</span>
-                <span className="text-[9px] font-tech text-[#38BDF8] bg-[#0099FF]/20 px-1.5 py-0.2 rounded font-bold">DEMO</span>
+                <ShieldCheck className="w-3.5 h-3.5 text-[#FF2A85]" />
+                <span>Admin / Portal</span>
               </button>
             )}
 
             {onOpenBookingModal && (
               <button
                 onClick={onOpenBookingModal}
-                className="py-1.5 px-3 rounded-full text-xs font-tech font-bold text-slate-300 hover:text-white bg-[#0B0D16]/90 hover:bg-[#121624] border border-white/10 hover:border-[#FF1361]/40 transition-all cursor-pointer flex items-center gap-1.5 shadow-2xs"
+                className={`py-1.5 px-3 rounded-full text-xs font-tech font-bold ${
+                  isLight 
+                    ? 'text-slate-700 hover:text-slate-950 bg-slate-100 hover:bg-slate-200 border-slate-200 hover:border-slate-300' 
+                    : 'text-slate-300 hover:text-white bg-[#0B0D16]/90 hover:bg-[#121624] border-white/10 hover:border-[#FF1361]/40'
+                } border transition-all cursor-pointer flex items-center gap-1.5 shadow-2xs`}
                 title="Schedule a 30-minute consultation"
               >
                 <PhoneCall className="w-3.5 h-3.5 text-[#FF1361]" />
@@ -283,10 +315,15 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Mobile / Tablet Actions (Visible on screens < 1024px) */}
           <div className="flex lg:hidden items-center gap-1.5 sm:gap-2">
+            {/* Mobile Theme Toggle */}
+            <ThemeToggle size="sm" />
+
             {user ? (
               <button
                 onClick={() => onNavigate(user.role === 'admin' ? 'admin-portal' : 'client-portal')}
-                className="p-2 sm:px-3 sm:py-1.5 rounded-xl bg-[#0B0D16] text-[#38BDF8] border border-white/10 text-xs font-tech font-bold flex items-center gap-1.5"
+                className={`p-2 sm:px-3 sm:py-1.5 rounded-xl ${
+                  isLight ? 'bg-slate-100 text-sky-600 border-slate-200' : 'bg-[#0B0D16] text-[#38BDF8] border-white/10'
+                } border text-xs font-tech font-bold flex items-center gap-1.5`}
                 title="Dashboard"
               >
                 <LayoutDashboard className="w-4 h-4" />
@@ -295,9 +332,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             ) : (
               <button
                 onClick={() => onNavigate('login')}
-                className="px-2.5 py-1.5 rounded-full text-[11px] font-tech font-bold text-slate-300 bg-[#0B0D16]/90 border border-white/10 hover:border-[#0099FF]/40"
+                className={`px-3 py-1.5 rounded-full text-[11px] font-tech font-bold ${
+                  isLight ? 'text-slate-700 bg-slate-100 border-slate-200 hover:bg-slate-200' : 'text-slate-300 bg-[#0B0D16]/90 border-white/10 hover:bg-[#121624]'
+                } border hover:border-[#0099FF]/40 transition-colors cursor-pointer flex items-center gap-1`}
               >
-                Demo
+                <ShieldCheck className="w-3 h-3 text-[#FF1361]" />
+                <span>Portal</span>
               </button>
             )}
 
@@ -310,7 +350,9 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-xl text-slate-300 hover:text-white bg-[#0B0D16]/90 hover:bg-[#121624] border border-white/10 transition-colors focus:outline-none cursor-pointer"
+              className={`p-2 rounded-xl ${
+                isLight ? 'text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 border-slate-200' : 'text-slate-300 hover:text-white bg-[#0B0D16]/90 hover:bg-[#121624] border-white/10'
+              } border transition-colors focus:outline-none cursor-pointer`}
               aria-label="Toggle Navigation Menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5 text-[#FF1361]" /> : <Menu className="w-5 h-5" />}
@@ -327,14 +369,31 @@ export const Navbar: React.FC<NavbarProps> = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 z-40 bg-[#050508]/98 backdrop-blur-2xl lg:hidden flex flex-col justify-between pt-20 pb-6 px-5 sm:px-8 border-b border-white/10 overflow-y-auto pb-safe"
+            className={`fixed inset-0 z-40 ${
+              isLight ? 'bg-white/98 text-slate-900' : 'bg-[#050508]/98 text-white'
+            } backdrop-blur-2xl lg:hidden flex flex-col justify-between pt-20 pb-6 px-5 sm:px-8 border-b ${
+              isLight ? 'border-slate-200' : 'border-white/10'
+            } overflow-y-auto pb-safe`}
             onClick={() => setMobileMenuOpen(false)}
           >
             <div className="flex flex-col gap-2 pt-4" onClick={(e) => e.stopPropagation()}>
-              <div className="flex items-center justify-between text-xs uppercase tracking-wider font-tech text-[#38BDF8] font-bold mb-2 px-2">
+              <div className="flex items-center justify-between text-xs uppercase tracking-wider font-tech text-[#0284C7] font-bold mb-2 px-2">
                 <span>Navigation Menu</span>
-                <span className="text-[10px] text-slate-500 font-normal">Tap to explore</span>
+                <span className={`text-[10px] ${isLight ? 'text-slate-400' : 'text-slate-500'} font-normal`}>Tap to explore</span>
               </div>
+
+              {/* Theme Toggle Row in Mobile Menu */}
+              <div className={`flex items-center justify-between px-4 py-2.5 rounded-2xl mb-1 ${
+                isLight ? 'bg-slate-100/90 border border-slate-200' : 'bg-white/5 border border-white/10'
+              }`}>
+                <span className={`text-xs font-tech font-bold uppercase tracking-wider ${
+                  isLight ? 'text-slate-700' : 'text-slate-300'
+                }`}>
+                  Display Theme
+                </span>
+                <ThemeToggle showLabel={true} size="md" />
+              </div>
+
               {navLinks.map((link, idx) => {
                 const isActive = currentPage === link.id;
                 return (
@@ -347,12 +406,16 @@ export const Navbar: React.FC<NavbarProps> = ({
                     onClick={(e) => handleLinkClick(e, link.id)}
                     className={`flex items-center justify-between px-4 py-3 min-h-[46px] rounded-2xl text-sm sm:text-base font-semibold transition-colors border ${
                       isActive 
-                        ? 'bg-gradient-to-r from-[#0099FF]/20 to-[#FF1361]/20 border-[#0099FF]/50 text-white shadow-[0_0_15px_rgba(0,153,255,0.2)]' 
-                        : 'text-slate-300 hover:text-white hover:bg-white/5 border-white/5'
+                        ? (isLight 
+                            ? 'bg-sky-50 border-sky-300 text-sky-700 shadow-xs' 
+                            : 'bg-gradient-to-r from-[#0099FF]/20 to-[#FF1361]/20 border-[#0099FF]/50 text-white shadow-[0_0_15px_rgba(0,153,255,0.2)]')
+                        : (isLight 
+                            ? 'text-slate-700 hover:text-slate-900 hover:bg-slate-100 border-slate-200/80' 
+                            : 'text-slate-300 hover:text-white hover:bg-white/5 border-white/5')
                     }`}
                   >
                     <span>{link.name}</span>
-                    <ArrowRight className={`w-4 h-4 ${isActive ? 'text-[#FF1361]' : 'text-slate-500'}`} />
+                    <ArrowRight className={`w-4 h-4 ${isActive ? 'text-[#FF1361]' : (isLight ? 'text-slate-400' : 'text-slate-500')}`} />
                   </motion.a>
                 );
               })}
@@ -365,22 +428,29 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onClick={() => {
                   setMobileMenuOpen(false);
                   if (user) {
-                    onNavigate(user.role === 'admin' ? 'admin-portal' : 'client-portal');
+                    onNavigate(user.role === 'client' ? 'client-portal' : 'admin-portal');
                   } else {
                     onNavigate('login');
                   }
                 }}
-                className="flex items-center justify-between px-4 py-3 min-h-[46px] rounded-2xl text-sm sm:text-base font-semibold transition-colors border bg-[#0B0D16] border-white/10 text-slate-200 cursor-pointer mt-1"
+                className={`flex items-center justify-between px-4 py-3 min-h-[46px] rounded-2xl text-sm sm:text-base font-semibold transition-colors border ${
+                  isLight ? 'bg-slate-100 border-slate-200 text-slate-800' : 'bg-[#0B0D16] border-white/10 text-slate-200'
+                } cursor-pointer mt-1`}
               >
                 <div className="flex items-center gap-2">
-                  <UserCheck className="w-4 h-4 text-[#0099FF]" />
-                  <span>{user ? `Dashboard (Demo: ${user.role})` : 'Portal Preview (Demo)'}</span>
+                  <ShieldCheck className="w-4 h-4 text-[#FF1361]" />
+                  <span>
+                    {user 
+                      ? (user.role === 'superadmin' ? 'Super Admin Center' : user.role === 'admin' ? 'Staff Portal' : 'Client Workspace')
+                      : 'Staff & Client Portal'
+                    }
+                  </span>
                 </div>
-                <ArrowRight className="w-4 h-4 text-slate-500" />
+                <ArrowRight className={`w-4 h-4 ${isLight ? 'text-slate-400' : 'text-slate-500'}`} />
               </motion.button>
             </div>
 
-            <div className="flex flex-col gap-2.5 pt-4 border-t border-white/10 mt-4" onClick={(e) => e.stopPropagation()}>
+            <div className={`flex flex-col gap-2.5 pt-4 border-t ${isLight ? 'border-slate-200' : 'border-white/10'} mt-4`} onClick={(e) => e.stopPropagation()}>
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
@@ -396,9 +466,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                   setMobileMenuOpen(false);
                   onNavigate('contact');
                 }}
-                className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl font-semibold text-slate-200 hover:text-white bg-white/5 border border-white/10 text-sm cursor-pointer"
+                className={`w-full flex items-center justify-center gap-2 py-3 rounded-2xl font-semibold ${
+                  isLight ? 'text-slate-700 hover:text-slate-900 bg-slate-100 border-slate-200' : 'text-slate-200 hover:text-white bg-white/5 border-white/10'
+                } border text-sm cursor-pointer`}
               >
-                <PhoneCall className="w-4 h-4 text-[#38BDF8]" />
+                <PhoneCall className="w-4 h-4 text-[#0284C7]" />
                 <span>Get in Touch</span>
               </button>
               {onOpenBookingModal && (
@@ -407,7 +479,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                     setMobileMenuOpen(false);
                     onOpenBookingModal();
                   }}
-                  className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl font-semibold text-[#FF2A85] hover:text-white bg-[#FF1361]/10 border border-[#FF1361]/30 text-sm cursor-pointer"
+                  className={`w-full flex items-center justify-center gap-2 py-3 rounded-2xl font-semibold ${
+                    isLight ? 'text-rose-600 hover:text-rose-700 bg-rose-50 border-rose-200' : 'text-[#FF2A85] hover:text-white bg-[#FF1361]/10 border-[#FF1361]/30'
+                  } border text-sm cursor-pointer`}
                 >
                   <PhoneCall className="w-4 h-4 text-[#FF1361]" />
                   <span>Book 30-Min Strategy Call</span>

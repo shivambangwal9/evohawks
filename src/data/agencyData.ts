@@ -178,7 +178,7 @@ export const AGENCY_CONFIG = {
   ecosystemText: "Your website, content, and marketing shouldn't operate in silos. We synchronize them into one interconnected growth engine where every channel multiplies the impact of the other.",
 
   contact: {
-    email: "contact@evohawks.tech",
+    email: "teamevohawks@gmail.com",
     phone: "+91 98765 43210",
     phoneDisplay: "+91 98765 43210 (Direct Consultation)",
     whatsapp: "+91 98765 43210",

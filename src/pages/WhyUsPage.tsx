@@ -77,7 +77,7 @@ export const WhyUsPage: React.FC<WhyUsPageProps> = ({ onOpenProjectModal }) => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -15 }}
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-      className="pt-28 pb-20 overflow-hidden bg-[#050508] text-white min-h-screen"
+      className="pt-28 pb-20 overflow-hidden min-h-screen"
     >
       {/* Why Us Hero */}
       <section className="relative py-16 sm:py-24 bg-transparent">

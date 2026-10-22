@@ -42,7 +42,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   };
 
   return (
-    <footer className="relative bg-[#030407] border-t border-white/10 pt-16 sm:pt-20 pb-40 sm:pb-36 lg:pb-24 pb-safe overflow-hidden">
+    <footer className="relative bg-[#030407] border-t border-white/10 pt-16 sm:pt-20 pb-12 overflow-hidden">
       {/* Dynamic Background Glow */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[250px] bg-gradient-to-r from-[#0099FF]/10 via-[#FF1361]/10 to-transparent rounded-full blur-[140px] pointer-events-none" />
 
@@ -220,6 +220,9 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <ArrowUp className="w-3.5 h-3.5 text-[#FF2A85]" />
           </button>
         </div>
+ 
+        {/* Generous physical bottom clearance so fixed bottom navigation and floating docks NEVER obscure copyright, policies, or actions */}
+        <div className="h-44 sm:h-36 lg:h-16 w-full pointer-events-none select-none" aria-hidden="true" />
 
       </div>
     </footer>

@@ -8,7 +8,8 @@ import {
   Eye, 
   LogOut,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  X
 } from 'lucide-react';
 import type { PageId } from '../hooks/usePageRouter';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -27,18 +28,52 @@ export const SuperAdminFloatingBar: React.FC<SuperAdminFloatingBarProps> = ({
   const { user, logout } = useAuth();
   const { theme } = useTheme();
   const isLight = theme === 'light';
-  const [isCollapsed, setIsCollapsed] = useState(false);
 
-  if (!user || (user.role !== 'superadmin' && user.role !== 'admin')) {
+  // Default to collapsed on mobile / tablet to prevent screen obstruction
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('evo_admin_dock_collapsed');
+      if (saved !== null) return saved === 'true';
+      return window.innerWidth < 1024;
+    }
+    return false;
+  });
+
+  const [isDismissed, setIsDismissed] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('evo_admin_dock_dismissed') === 'true';
+    }
+    return false;
+  });
+
+  if (!user || (user.role !== 'superadmin' && user.role !== 'admin') || isDismissed) {
     return null;
   }
 
   const isSuperAdmin = user.role === 'superadmin';
 
+  const handleToggleCollapse = (collapsed: boolean) => {
+    setIsCollapsed(collapsed);
+    try {
+      localStorage.setItem('evo_admin_dock_collapsed', String(collapsed));
+    } catch {
+      // storage unavailable
+    }
+  };
+
+  const handleDismiss = () => {
+    setIsDismissed(true);
+    try {
+      localStorage.setItem('evo_admin_dock_dismissed', 'true');
+    } catch {
+      // storage unavailable
+    }
+  };
+
   return (
     <AnimatePresence mode="wait">
       {isCollapsed ? (
-        /* Collapsed Floating Chip - Leaves bottom content completely visible */
+        /* Collapsed Floating Chip - Sits unobtrusively in bottom corner, freeing entire view */
         <motion.aside
           key="admin-chip-collapsed"
           aria-label="Super Admin Quick Controls (Minimized)"
@@ -46,28 +81,44 @@ export const SuperAdminFloatingBar: React.FC<SuperAdminFloatingBarProps> = ({
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.85, opacity: 0, y: 15 }}
           transition={{ duration: 0.2 }}
-          className="fixed bottom-20 lg:bottom-5 right-3 sm:right-6 z-40"
+          className="fixed bottom-20 lg:bottom-6 right-3 sm:right-6 z-40"
         >
-          <button
-            onClick={() => setIsCollapsed(false)}
-            className={`flex items-center gap-2 px-3 py-2 rounded-full border shadow-xl transition-all cursor-pointer group ${
-              isLight
-                ? 'bg-white/95 border-slate-200/90 text-slate-800 hover:border-[#FF1361]/50 shadow-[0_10px_30px_rgba(15,23,42,0.14)]'
-                : 'bg-[#080B14]/95 border-[#FF1361]/40 text-white hover:border-[#FF1361] shadow-[0_12px_35px_rgba(255,19,97,0.3)]'
-            }`}
-            title="Expand Super Admin Controls"
-            aria-label="Expand Super Admin Controls"
-          >
-            <ShieldCheck className="w-4 h-4 text-[#FF2A85] shrink-0" />
-            <span className="text-[11px] font-tech font-bold uppercase tracking-wider">
-              {isSuperAdmin ? 'Super Admin' : 'Admin'}
-            </span>
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <ChevronUp className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#FF1361] transition-colors" />
-          </button>
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => handleToggleCollapse(false)}
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-full border shadow-xl transition-all cursor-pointer group ${
+                isLight
+                  ? 'bg-white/95 border-slate-200/90 text-slate-800 hover:border-[#FF1361]/50 shadow-[0_10px_30px_rgba(15,23,42,0.14)]'
+                  : 'bg-[#080B14]/95 border-[#FF1361]/40 text-white hover:border-[#FF1361] shadow-[0_12px_35px_rgba(255,19,97,0.3)]'
+              }`}
+              title="Expand Super Admin Controls"
+              aria-label="Expand Super Admin Controls"
+            >
+              <ShieldCheck className="w-4 h-4 text-[#FF2A85] shrink-0" />
+              <span className="text-[11px] font-tech font-bold uppercase tracking-wider">
+                {isSuperAdmin ? 'Super Admin' : 'Admin'}
+              </span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <ChevronUp className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#FF1361] transition-colors" />
+            </button>
+
+            {/* Quick close chip */}
+            <button
+              onClick={handleDismiss}
+              className={`p-1.5 rounded-full border transition-colors cursor-pointer ${
+                isLight
+                  ? 'bg-white/90 border-slate-200 text-slate-400 hover:text-slate-700'
+                  : 'bg-[#080B14]/90 border-white/10 text-slate-400 hover:text-white'
+              }`}
+              title="Hide Admin Dock completely"
+              aria-label="Hide Admin Dock completely"
+            >
+              <X className="w-3 h-3" />
+            </button>
+          </div>
         </motion.aside>
       ) : (
-        /* Full Expanded Admin Dock with Close/Minimize Action */
+        /* Full Expanded Admin Dock with Minimize & Close Actions */
         <motion.aside
           key="admin-dock-expanded"
           aria-label="Super Admin Quick Controls"
@@ -75,7 +126,7 @@ export const SuperAdminFloatingBar: React.FC<SuperAdminFloatingBarProps> = ({
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 50, opacity: 0 }}
           transition={{ duration: 0.25 }}
-          className="fixed bottom-20 lg:bottom-5 left-1/2 -translate-x-1/2 z-40 max-w-xl w-[94%] sm:w-auto"
+          className="fixed bottom-20 lg:bottom-6 left-1/2 -translate-x-1/2 z-40 max-w-xl w-[94%] sm:w-auto"
         >
           <div 
             className={`flex items-center gap-1.5 sm:gap-2.5 p-1.5 sm:px-4 sm:py-2.5 rounded-full border shadow-2xl transition-colors ${
@@ -171,18 +222,32 @@ export const SuperAdminFloatingBar: React.FC<SuperAdminFloatingBarProps> = ({
               <LogOut className="w-3.5 h-3.5" />
             </button>
 
-            {/* Minimize / Collapse Button to clear bottom view */}
+            {/* Minimize to Corner Chip */}
             <button
-              onClick={() => setIsCollapsed(true)}
+              onClick={() => handleToggleCollapse(true)}
               className={`p-1.5 rounded-full transition-colors cursor-pointer ml-0.5 border ${
                 isLight
                   ? 'text-slate-500 hover:text-slate-900 hover:bg-slate-100 border-slate-200'
                   : 'text-slate-400 hover:text-white hover:bg-white/10 border-white/10'
               }`}
-              title="Minimize to floating icon (unblock bottom screen)"
-              aria-label="Minimize to floating icon"
+              title="Minimize to floating corner icon"
+              aria-label="Minimize to floating corner icon"
             >
               <ChevronDown className="w-3.5 h-3.5" />
+            </button>
+
+            {/* Dismiss completely */}
+            <button
+              onClick={handleDismiss}
+              className={`p-1.5 rounded-full transition-colors cursor-pointer border ${
+                isLight
+                  ? 'text-slate-400 hover:text-rose-600 hover:bg-slate-100 border-slate-200'
+                  : 'text-slate-400 hover:text-rose-400 hover:bg-white/10 border-white/10'
+              }`}
+              title="Hide Admin Dock completely"
+              aria-label="Hide Admin Dock completely"
+            >
+              <X className="w-3.5 h-3.5" />
             </button>
           </div>
         </motion.aside>

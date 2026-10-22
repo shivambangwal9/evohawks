@@ -216,7 +216,7 @@ function AppContent() {
       />
 
       {/* Main Dynamic Page Router Container with Suspense Code Splitting */}
-      <main id="main-content" tabIndex={-1} className="relative z-10 flex-1 outline-none pb-20 lg:pb-0">
+      <main id="main-content" tabIndex={-1} className="relative z-10 flex-1 outline-none pb-28 lg:pb-0">
         <Suspense fallback={<RouteLoadingFallback />}>
           <AnimatePresence mode="wait">
             {renderActivePage()}

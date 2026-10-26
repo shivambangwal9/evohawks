@@ -125,13 +125,13 @@ export function parseRouteFromLocation(): RouteState {
   const pathname = window.location.pathname.replace(/^\/+/, '').replace(/\/+$/, '').toLowerCase().trim();
 
   // Prefer hash if explicitly provided by user, otherwise fall back to clean pathname
-  const rawTarget = hash || pathname;
+  const rawTarget = (hash || pathname).replace(/\.html$/, '');
 
   if (!rawTarget) {
     return { page: 'home' };
   }
 
-  const parts = rawTarget.split('/').filter(Boolean);
+  const parts = rawTarget.split('/').filter(Boolean).map(p => p.replace(/\.html$/, ''));
   const root = parts[0];
   const subSlug = parts[1];
 

@@ -64,7 +64,8 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
     deletePortfolioItem,
     resetPortfolioItems,
     exportConfigJson,
-    importConfigJson
+    importConfigJson,
+    isCloudSynced
   } = useSiteConfig();
 
   const isSuperAdmin = user?.role === 'superadmin';
@@ -201,6 +202,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
     const sanitizedData = {
       ...formData,
       instagramUrl: sanitizeUrl(formData.instagramUrl),
+      facebookUrl: sanitizeUrl(formData.facebookUrl),
       linkedinUrl: sanitizeUrl(formData.linkedinUrl),
       youtubeUrl: sanitizeUrl(formData.youtubeUrl),
       twitterUrl: sanitizeUrl(formData.twitterUrl),
@@ -449,6 +451,23 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
               </div>
             </div>
 
+            {/* Cloud Sync Status Indicator */}
+            <div className={`p-3.5 rounded-2xl border flex items-center justify-between text-xs font-tech ${
+              isCloudSynced 
+                ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300' 
+                : 'bg-amber-500/10 border-amber-500/30 text-amber-300'
+            }`}>
+              <div className="flex items-center gap-2.5">
+                <span className={`w-2.5 h-2.5 rounded-full ${isCloudSynced ? 'bg-emerald-400 animate-pulse shadow-[0_0_8px_#34d399]' : 'bg-amber-400'}`} />
+                <span>
+                  <strong>{isCloudSynced ? 'Supabase Cloud Database Connected:' : 'Browser Local Storage Mode:'}</strong>{' '}
+                  {isCloudSynced 
+                    ? 'All edits sync automatically across all devices, mobile phones, and global visitors.' 
+                    : 'Changes currently save to this device only. Connect Supabase in .env to sync across all devices.'}
+                </span>
+              </div>
+            </div>
+
             {saveSuccess && (
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
@@ -456,7 +475,11 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                 className="p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 text-xs font-tech font-bold flex items-center gap-2 shadow-[0_0_20px_rgba(16,185,129,0.2)]"
               >
                 <CheckCircle className="w-4 h-4 text-emerald-400" />
-                <span>All website customizations saved successfully! Updated in real time on the live site and persisted in your browser.</span>
+                <span>
+                  {isCloudSynced 
+                    ? 'All website customizations saved and synced to Supabase! Live across all devices.' 
+                    : 'Saved locally in this browser. Connect Supabase to sync live across all visitors and devices.'}
+                </span>
               </motion.div>
             )}
 
@@ -755,6 +778,16 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                       type="text"
                       value={formData.instagramUrl}
                       onChange={(e) => setFormData({ ...formData, instagramUrl: e.target.value })}
+                      className="w-full px-4 py-2.5 rounded-xl bg-[#060810] border border-white/10 text-white text-xs sm:text-sm focus:outline-none focus:border-[#0099FF]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-tech text-slate-300 font-bold mb-1.5">Facebook URL</label>
+                    <input
+                      type="text"
+                      value={formData.facebookUrl}
+                      onChange={(e) => setFormData({ ...formData, facebookUrl: e.target.value })}
                       className="w-full px-4 py-2.5 rounded-xl bg-[#060810] border border-white/10 text-white text-xs sm:text-sm focus:outline-none focus:border-[#0099FF]"
                     />
                   </div>

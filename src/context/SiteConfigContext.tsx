@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { PortfolioItem } from '../data/agencyData';
 import { AGENCY_CONFIG } from '../data/agencyData';
+import { supabase, isSupabaseConfigured } from '../lib/supabase';
 
 export interface SiteConfig {
   // Brand & Identity
@@ -223,7 +224,8 @@ export const INITIAL_PORTFOLIO_ITEMS: PortfolioItem[] = [
 interface SiteConfigContextType {
   siteConfig: SiteConfig;
   portfolioItems: PortfolioItem[];
-  updateSiteConfig: (updates: Partial<SiteConfig>) => void;
+  isCloudSynced: boolean;
+  updateSiteConfig: (updates: Partial<SiteConfig>) => Promise<void> | void;
   resetSiteConfig: () => void;
   addPortfolioItem: (item: Omit<PortfolioItem, 'id'> & { id?: string }) => PortfolioItem;
   updatePortfolioItem: (id: string, updates: Partial<PortfolioItem>) => void;
@@ -272,7 +274,98 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     return INITIAL_PORTFOLIO_ITEMS;
   });
 
-  // Save config changes
+  const [isCloudSynced, setIsCloudSynced] = useState<boolean>(isSupabaseConfigured());
+
+  // Cloud Sync: Fetch from Supabase on load and subscribe to real-time changes
+  useEffect(() => {
+    if (!isSupabaseConfigured() || !supabase) {
+      return;
+    }
+
+    let isMounted = true;
+    const client = supabase;
+
+    const loadCloudSettings = async () => {
+      try {
+        const { data, error } = await client
+          .from('site_settings')
+          .select('config, portfolio')
+          .eq('id', 'current')
+          .maybeSingle();
+
+        if (error) {
+          console.warn('Supabase site_settings notice:', error.message);
+          return;
+        }
+
+        if (data && isMounted) {
+          setIsCloudSynced(true);
+          if (data.config && typeof data.config === 'object') {
+            setSiteConfig(prev => {
+              const merged = { ...prev, ...data.config };
+              try {
+                localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(merged));
+              } catch {
+                // ignore
+              }
+              return merged;
+            });
+          }
+          if (Array.isArray(data.portfolio) && data.portfolio.length > 0) {
+            setPortfolioItems(data.portfolio);
+            try {
+              localStorage.setItem(STORAGE_KEY_PORTFOLIO, JSON.stringify(data.portfolio));
+            } catch {
+              // ignore
+            }
+          }
+        }
+      } catch (err) {
+        console.warn('Supabase initial fetch failed:', err);
+      }
+    };
+
+    loadCloudSettings();
+
+    // Subscribe to real-time changes across devices
+    const channel = client
+      .channel('public:site_settings')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'site_settings' },
+        (payload: { new?: { config?: Partial<SiteConfig>; portfolio?: PortfolioItem[] } }) => {
+          if (payload.new?.config && typeof payload.new.config === 'object') {
+            const incomingConfig = payload.new.config;
+            setSiteConfig(prev => {
+              const updated = { ...prev, ...incomingConfig };
+              try {
+                localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(updated));
+              } catch {
+                // ignore
+              }
+              return updated;
+            });
+          }
+          if (payload.new?.portfolio && Array.isArray(payload.new.portfolio)) {
+            const incomingPortfolio = payload.new.portfolio;
+            setPortfolioItems(incomingPortfolio);
+            try {
+              localStorage.setItem(STORAGE_KEY_PORTFOLIO, JSON.stringify(incomingPortfolio));
+            } catch {
+              // ignore
+            }
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      isMounted = false;
+      client.removeChannel(channel);
+    };
+  }, []);
+
+  // Save config changes to localStorage
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(siteConfig));
@@ -281,7 +374,7 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   }, [siteConfig]);
 
-  // Save portfolio changes
+  // Save portfolio changes to localStorage
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY_PORTFOLIO, JSON.stringify(portfolioItems));
@@ -290,24 +383,71 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   }, [portfolioItems]);
 
-  const updateSiteConfig = (updates: Partial<SiteConfig>) => {
-    setSiteConfig(prev => {
-      const next = { ...prev, ...updates };
+  const updateSiteConfig = async (updates: Partial<SiteConfig>) => {
+    const next = { ...siteConfig, ...updates };
+    setSiteConfig(next);
+    try {
+      localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(next));
+    } catch (e) {
+      console.warn('Failed to save site config to localStorage', e);
+    }
+
+    if (isSupabaseConfigured() && supabase) {
       try {
-        localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(next));
+        const { error } = await supabase
+          .from('site_settings')
+          .upsert({
+            id: 'current',
+            config: next,
+            updated_at: new Date().toISOString()
+          });
+        if (!error) {
+          setIsCloudSynced(true);
+        } else {
+          console.warn('Failed to save to Supabase:', error.message);
+        }
       } catch (e) {
-        console.warn('Failed to save site config to localStorage', e);
+        console.warn('Supabase update failed:', e);
       }
-      return next;
-    });
+    }
   };
 
-  const resetSiteConfig = () => {
+  const syncPortfolioToCloud = async (newPortfolio: PortfolioItem[]) => {
+    if (isSupabaseConfigured() && supabase) {
+      try {
+        await supabase
+          .from('site_settings')
+          .upsert({
+            id: 'current',
+            portfolio: newPortfolio,
+            updated_at: new Date().toISOString()
+          });
+      } catch (e) {
+        console.warn('Supabase portfolio sync notice:', e);
+      }
+    }
+  };
+
+  const resetSiteConfig = async () => {
     setSiteConfig(DEFAULT_SITE_CONFIG);
     try {
       localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(DEFAULT_SITE_CONFIG));
     } catch {
       // ignore
+    }
+
+    if (isSupabaseConfigured() && supabase) {
+      try {
+        await supabase
+          .from('site_settings')
+          .upsert({
+            id: 'current',
+            config: DEFAULT_SITE_CONFIG,
+            updated_at: new Date().toISOString()
+          });
+      } catch {
+        // ignore
+      }
     }
   };
 
@@ -335,6 +475,7 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       } catch (e) {
         console.warn('Failed to save portfolio items to localStorage', e);
       }
+      syncPortfolioToCloud(next);
       return next;
     });
     return newItem;
@@ -359,6 +500,7 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       } catch (e) {
         console.warn('Failed to save portfolio items to localStorage', e);
       }
+      syncPortfolioToCloud(next);
       return next;
     });
   };
@@ -371,6 +513,7 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       } catch (e) {
         console.warn('Failed to save portfolio items to localStorage', e);
       }
+      syncPortfolioToCloud(next);
       return next;
     });
   };
@@ -382,6 +525,7 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     } catch {
       // ignore
     }
+    syncPortfolioToCloud(INITIAL_PORTFOLIO_ITEMS);
   };
 
   const exportConfigJson = (): string => {
@@ -399,6 +543,9 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         } catch {
           // ignore
         }
+        if (isSupabaseConfigured() && supabase) {
+          supabase.from('site_settings').upsert({ id: 'current', config: nextConfig });
+        }
       }
       if (Array.isArray(data.portfolioItems)) {
         setPortfolioItems(data.portfolioItems);
@@ -407,6 +554,7 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         } catch {
           // ignore
         }
+        syncPortfolioToCloud(data.portfolioItems);
       }
       return true;
     } catch (e) {
@@ -420,6 +568,7 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       value={{
         siteConfig,
         portfolioItems,
+        isCloudSynced,
         updateSiteConfig,
         resetSiteConfig,
         addPortfolioItem,

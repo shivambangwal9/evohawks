@@ -137,7 +137,7 @@ export function formatLeadBrief(data: EnquiryPayload): string {
 function getLiveSiteContact() {
   try {
     if (typeof window !== 'undefined') {
-      const raw = localStorage.getItem('evohawks_site_config');
+      const raw = localStorage.getItem('evohawks_custom_site_config') || localStorage.getItem('evohawks_site_config');
       if (raw) {
         const parsed = JSON.parse(raw);
         return {

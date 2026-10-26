@@ -134,13 +134,34 @@ export function formatLeadBrief(data: EnquiryPayload): string {
   return lines.filter(Boolean).join('\n');
 }
 
+function getLiveSiteContact() {
+  try {
+    if (typeof window !== 'undefined') {
+      const raw = localStorage.getItem('evohawks_site_config');
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        return {
+          email: parsed.contactEmail || AGENCY_CONFIG.contact.email,
+          whatsappCleanNumber: parsed.whatsappCleanNumber || AGENCY_CONFIG.contact.whatsappCleanNumber,
+        };
+      }
+    }
+  } catch {
+    // ignore
+  }
+  return {
+    email: AGENCY_CONFIG.contact.email,
+    whatsappCleanNumber: AGENCY_CONFIG.contact.whatsappCleanNumber,
+  };
+}
+
 /**
  * Builds safe, URL-encoded WhatsApp direct link.
  */
 export function buildWhatsAppLeadUrl(data: EnquiryPayload): string {
   const brief = formatLeadBrief(data);
-  const cleanNumber = AGENCY_CONFIG.contact.whatsappCleanNumber;
-  return `https://wa.me/${cleanNumber}?text=${encodeURIComponent(brief)}`;
+  const { whatsappCleanNumber } = getLiveSiteContact();
+  return `https://wa.me/${whatsappCleanNumber}?text=${encodeURIComponent(brief)}`;
 }
 
 /**
@@ -149,7 +170,8 @@ export function buildWhatsAppLeadUrl(data: EnquiryPayload): string {
 export function buildMailtoLeadUrl(data: EnquiryPayload): string {
   const subject = encodeURIComponent(`Project Enquiry: ${data.businessName.trim()} — ${data.service}`);
   const body = encodeURIComponent(formatLeadBrief(data));
-  return `mailto:${AGENCY_CONFIG.contact.email}?subject=${subject}&body=${body}`;
+  const { email } = getLiveSiteContact();
+  return `mailto:${email}?subject=${subject}&body=${body}`;
 }
 
 /**
@@ -179,7 +201,8 @@ export async function submitEnquiry(data: EnquiryPayload): Promise<SubmissionRes
   }
 
   // 3. Inspect configured endpoint from environment with robust fallback
-  const defaultEndpoint = `https://formsubmit.co/ajax/${AGENCY_CONFIG.contact.email || 'teamevohawks@gmail.com'}`;
+  const { email } = getLiveSiteContact();
+  const defaultEndpoint = `https://formsubmit.co/ajax/${email || 'teamevohawks@gmail.com'}`;
   const endpoint = import.meta.env.VITE_CONTACT_FORM_ENDPOINT || defaultEndpoint;
 
   // 4. Real HTTP transmission
@@ -313,14 +336,15 @@ export function formatConsultationBrief(data: ConsultationPayload): string {
 
 export function buildWhatsAppConsultationUrl(data: ConsultationPayload): string {
   const brief = formatConsultationBrief(data);
-  const cleanNumber = AGENCY_CONFIG.contact.whatsappCleanNumber;
-  return `https://wa.me/${cleanNumber}?text=${encodeURIComponent(brief)}`;
+  const { whatsappCleanNumber } = getLiveSiteContact();
+  return `https://wa.me/${whatsappCleanNumber}?text=${encodeURIComponent(brief)}`;
 }
 
 export function buildMailtoConsultationUrl(data: ConsultationPayload): string {
   const subject = encodeURIComponent(`Strategy Session Request: ${data.fullName.trim()} (${data.format})`);
   const body = encodeURIComponent(formatConsultationBrief(data));
-  return `mailto:${AGENCY_CONFIG.contact.email}?subject=${subject}&body=${body}`;
+  const { email } = getLiveSiteContact();
+  return `mailto:${email}?subject=${subject}&body=${body}`;
 }
 
 export async function submitConsultation(data: ConsultationPayload): Promise<SubmissionResult> {
@@ -345,7 +369,8 @@ export async function submitConsultation(data: ConsultationPayload): Promise<Sub
   }
 
   // 3. Inspect endpoint with robust fallback
-  const defaultEndpoint = `https://formsubmit.co/ajax/${AGENCY_CONFIG.contact.email || 'teamevohawks@gmail.com'}`;
+  const { email } = getLiveSiteContact();
+  const defaultEndpoint = `https://formsubmit.co/ajax/${email || 'teamevohawks@gmail.com'}`;
   const endpoint = import.meta.env.VITE_CONTACT_FORM_ENDPOINT || defaultEndpoint;
 
   // 4. Send HTTP request

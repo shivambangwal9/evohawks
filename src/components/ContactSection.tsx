@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { AGENCY_CONFIG } from '../data/agencyData';
+import { useSiteConfig } from '../context/SiteConfigContext';
 import { motion } from 'framer-motion';
 import { BorderBeam } from './ui/BorderBeam';
 import { MagneticButton } from './ui/MagneticButton';
@@ -30,6 +31,14 @@ interface ContactSectionProps {
 }
 
 export const ContactSection: React.FC<ContactSectionProps> = ({ preselectedService = '' }) => {
+  const { siteConfig } = useSiteConfig();
+  const contactEmail = siteConfig.contactEmail || AGENCY_CONFIG.contact.email;
+  const whatsappCleanNumber = siteConfig.whatsappCleanNumber || AGENCY_CONFIG.contact.whatsappCleanNumber;
+  const whatsappNumber = siteConfig.whatsappNumber || AGENCY_CONFIG.contact.whatsapp;
+  const location = siteConfig.location || AGENCY_CONFIG.contact.location || AGENCY_CONFIG.contact.globalReach;
+  const operatingHours = siteConfig.operatingHours || AGENCY_CONFIG.contact.workingHours;
+  const responseTime = siteConfig.responseTime || AGENCY_CONFIG.contact.responseTime;
+
   const [formData, setFormData] = useState<EnquiryPayload>({
     fullName: '',
     businessName: '',
@@ -165,7 +174,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ preselectedServi
                 {/* Email Item */}
                 <motion.a 
                   whileHover={{ x: 6 }}
-                  href={`mailto:${AGENCY_CONFIG.contact.email}`}
+                  href={`mailto:${contactEmail}`}
                   className="flex items-center gap-3.5 sm:gap-4 p-3.5 sm:p-4 rounded-2xl rounded-tr-sm bg-[#060810]/90 border border-white/10 hover:border-[#0099FF]/50 transition-all group"
                 >
                   <div className="w-11 h-11 rounded-xl bg-[#0099FF]/10 border border-[#0099FF]/30 flex items-center justify-center text-[#38BDF8] group-hover:scale-110 group-hover:bg-[#0099FF]/20 transition-all shrink-0 shadow-[0_0_15px_rgba(0,153,255,0.25)]">
@@ -174,7 +183,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ preselectedServi
                   <div className="min-w-0">
                     <div className="text-[10px] font-tech text-slate-400 uppercase font-semibold tracking-wider">Official Business Email</div>
                     <div className="text-xs sm:text-sm font-semibold text-white group-hover:text-[#38BDF8] transition-colors truncate">
-                      {AGENCY_CONFIG.contact.email}
+                      {contactEmail}
                     </div>
                   </div>
                 </motion.a>
@@ -182,7 +191,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ preselectedServi
                 {/* WhatsApp Item */}
                 <motion.a 
                   whileHover={{ x: 6 }}
-                  href={`https://wa.me/${AGENCY_CONFIG.contact.whatsappCleanNumber}`}
+                  href={`https://wa.me/${whatsappCleanNumber}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3.5 sm:gap-4 p-3.5 sm:p-4 rounded-2xl rounded-bl-sm bg-[#060810]/90 border border-white/10 hover:border-[#FF1361]/50 transition-all group"
@@ -193,7 +202,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ preselectedServi
                   <div className="min-w-0">
                     <div className="text-[10px] font-tech text-slate-400 uppercase font-semibold tracking-wider">WhatsApp Direct Lead</div>
                     <div className="text-xs sm:text-sm font-semibold text-white group-hover:text-[#FF2A85] transition-colors truncate">
-                      {AGENCY_CONFIG.contact.whatsapp}
+                      {whatsappNumber}
                     </div>
                   </div>
                 </motion.a>
@@ -206,7 +215,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ preselectedServi
                   <div>
                     <div className="text-[10px] font-tech text-slate-400 uppercase font-semibold tracking-wider">Operating Model</div>
                     <div className="text-xs sm:text-sm font-semibold text-white">
-                      {AGENCY_CONFIG.contact.globalReach}
+                      {location}
                     </div>
                   </div>
                 </div>
@@ -218,8 +227,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ preselectedServi
                   <ShieldCheck className="w-4 h-4 text-[#0099FF]" />
                   <span>Working Hours &amp; Response SLA</span>
                 </div>
-                <div>{AGENCY_CONFIG.contact.workingHours}</div>
-                <div className="text-[#38BDF8] text-[11px] font-tech">{AGENCY_CONFIG.contact.responseTime}</div>
+                <div>{operatingHours}</div>
+                <div className="text-[#38BDF8] text-[11px] font-tech">{responseTime}</div>
               </div>
 
             </div>

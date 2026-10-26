@@ -20,6 +20,7 @@ import {
 import type { PageId } from '../hooks/usePageRouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SERVICES_DATA, AGENCY_CONFIG } from '../data/agencyData';
+import { useSiteConfig } from '../context/SiteConfigContext';
 
 interface NavbarProps {
   currentPage: PageId;
@@ -35,6 +36,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenBookingModal 
 }) => {
   const { user, logout } = useAuth();
+  const { siteConfig } = useSiteConfig();
+  const whatsappCleanNumber = siteConfig.whatsappCleanNumber || AGENCY_CONFIG.contact.whatsappCleanNumber;
   const { theme } = useTheme();
   const isLight = theme === 'light';
   const [isScrolled, setIsScrolled] = useState(false);
@@ -536,7 +539,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
               <div className="grid grid-cols-2 gap-2">
                 <a
-                  href={`https://wa.me/${AGENCY_CONFIG.contact.whatsappCleanNumber}`}
+                  href={`https://wa.me/${whatsappCleanNumber}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-1.5 py-3 rounded-2xl font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/25 text-xs hover:bg-emerald-500/20 transition-colors"

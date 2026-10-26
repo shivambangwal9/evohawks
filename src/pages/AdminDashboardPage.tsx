@@ -186,11 +186,32 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
   }, [siteConfig]);
 
   // Handle Customizer Save
-  const handleSaveCustomizer = (e: React.FormEvent) => {
-    e.preventDefault();
-    updateSiteConfig(formData);
+  const handleSaveCustomizer = (e?: React.FormEvent) => {
+    if (e && e.preventDefault) e.preventDefault();
+    
+    // Sanitize URLs to avoid broken social links
+    const sanitizeUrl = (url?: string) => {
+      if (!url) return '';
+      const trimmed = url.trim();
+      if (!trimmed) return '';
+      if (/^https?:\/\//i.test(trimmed)) return trimmed;
+      return `https://${trimmed}`;
+    };
+
+    const sanitizedData = {
+      ...formData,
+      instagramUrl: sanitizeUrl(formData.instagramUrl),
+      linkedinUrl: sanitizeUrl(formData.linkedinUrl),
+      youtubeUrl: sanitizeUrl(formData.youtubeUrl),
+      twitterUrl: sanitizeUrl(formData.twitterUrl),
+      contactEmail: formData.contactEmail?.trim() || '',
+      whatsappCleanNumber: formData.whatsappCleanNumber?.replace(/[^0-9]/g, '') || formData.whatsappCleanNumber,
+    };
+
+    setFormData(sanitizedData);
+    updateSiteConfig(sanitizedData);
     setSaveSuccess(true);
-    setTimeout(() => setSaveSuccess(false), 3000);
+    setTimeout(() => setSaveSuccess(false), 4000);
   };
 
   // Handle Portfolio Save
@@ -201,6 +222,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
       addPortfolioItem(itemData);
     }
     setEditingPortfolioItem(null);
+    setPostModalOpen(false);
   };
 
   // Filtered Portfolio Items
@@ -393,6 +415,15 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
               <div className="flex flex-wrap items-center gap-2">
                 <button
                   type="button"
+                  onClick={() => handleSaveCustomizer()}
+                  className="px-4 py-2 rounded-full bg-gradient-to-r from-[#FF1361] to-[#0099FF] hover:shadow-[0_0_20px_rgba(255,19,97,0.4)] text-white text-xs font-tech font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-md active:scale-95"
+                >
+                  <Save className="w-3.5 h-3.5" />
+                  <span>{saveSuccess ? '✓ Saved Live!' : 'Save All Changes Live'}</span>
+                </button>
+
+                <button
+                  type="button"
                   onClick={() => {
                     if (window.confirm('Reset all website customizations back to initial factory baseline?')) {
                       resetSiteConfig();
@@ -425,12 +456,12 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                 className="p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 text-xs font-tech font-bold flex items-center gap-2 shadow-[0_0_20px_rgba(16,185,129,0.2)]"
               >
                 <CheckCircle className="w-4 h-4 text-emerald-400" />
-                <span>All website customizations saved successfully! Updated in real time on the live site.</span>
+                <span>All website customizations saved successfully! Updated in real time on the live site and persisted in your browser.</span>
               </motion.div>
             )}
 
             {/* Customizer Form */}
-            <form onSubmit={handleSaveCustomizer} className="space-y-8">
+            <form onSubmit={handleSaveCustomizer} noValidate className="space-y-8">
               
               {/* Section A: Brand & Hero Identity */}
               <div className="p-6 sm:p-8 rounded-[2.5rem] bg-[#0A0D18] border border-white/10 shadow-[0_15px_35px_rgba(0,0,0,0.5)]">
@@ -588,6 +619,50 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                 </div>
               </div>
 
+              {/* Section C: Top Announcement Bar */}
+              <div className="p-6 sm:p-8 rounded-[2.5rem] bg-[#0A0D18] border border-white/10 shadow-[0_15px_35px_rgba(0,0,0,0.5)]">
+                <div className="flex items-center gap-2 pb-4 mb-6 border-b border-white/10">
+                  <Sparkles className="w-5 h-5 text-amber-400" />
+                  <div>
+                    <h3 className="text-lg font-display font-black text-white">Top Announcement Bar</h3>
+                    <p className="text-xs text-slate-400">Display a global banner across the very top of all pages</p>
+                  </div>
+                </div>
+
+                <div className="space-y-5">
+                  <label className="flex items-center gap-3 cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      checked={formData.announcementEnabled}
+                      onChange={(e) => setFormData({ ...formData, announcementEnabled: e.target.checked })}
+                      className="w-4 h-4 rounded text-[#FF1361] focus:ring-0 cursor-pointer accent-[#FF1361]"
+                    />
+                    <span className="text-xs font-tech font-bold text-white">Enable Global Announcement Bar</span>
+                  </label>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    <div className="md:col-span-2">
+                      <label className="block text-xs font-tech text-slate-300 font-bold mb-1.5">Announcement Message</label>
+                      <input
+                        type="text"
+                        value={formData.announcementText}
+                        onChange={(e) => setFormData({ ...formData, announcementText: e.target.value })}
+                        className="w-full px-4 py-2.5 rounded-xl bg-[#060810] border border-white/10 text-white text-xs sm:text-sm focus:outline-none focus:border-[#0099FF]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-tech text-slate-300 font-bold mb-1.5">CTA Link Text</label>
+                      <input
+                        type="text"
+                        value={formData.announcementLinkText}
+                        onChange={(e) => setFormData({ ...formData, announcementLinkText: e.target.value })}
+                        className="w-full px-4 py-2.5 rounded-xl bg-[#060810] border border-white/10 text-white text-xs sm:text-sm focus:outline-none focus:border-[#0099FF]"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
 
               {/* Section D: Contact Info & WhatsApp */}
               <div className="p-6 sm:p-8 rounded-[2.5rem] bg-[#0A0D18] border border-white/10 shadow-[0_15px_35px_rgba(0,0,0,0.5)]">
@@ -603,7 +678,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                   <div>
                     <label className="block text-xs font-tech text-slate-300 font-bold mb-1.5">Primary Contact Email</label>
                     <input
-                      type="email"
+                      type="text"
                       value={formData.contactEmail}
                       onChange={(e) => setFormData({ ...formData, contactEmail: e.target.value })}
                       className="w-full px-4 py-2.5 rounded-xl bg-[#060810] border border-white/10 text-white text-xs sm:text-sm focus:outline-none focus:border-[#0099FF]"
@@ -677,7 +752,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                   <div>
                     <label className="block text-xs font-tech text-slate-300 font-bold mb-1.5">Instagram URL</label>
                     <input
-                      type="url"
+                      type="text"
                       value={formData.instagramUrl}
                       onChange={(e) => setFormData({ ...formData, instagramUrl: e.target.value })}
                       className="w-full px-4 py-2.5 rounded-xl bg-[#060810] border border-white/10 text-white text-xs sm:text-sm focus:outline-none focus:border-[#0099FF]"
@@ -687,7 +762,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                   <div>
                     <label className="block text-xs font-tech text-slate-300 font-bold mb-1.5">LinkedIn URL</label>
                     <input
-                      type="url"
+                      type="text"
                       value={formData.linkedinUrl}
                       onChange={(e) => setFormData({ ...formData, linkedinUrl: e.target.value })}
                       className="w-full px-4 py-2.5 rounded-xl bg-[#060810] border border-white/10 text-white text-xs sm:text-sm focus:outline-none focus:border-[#0099FF]"
@@ -697,7 +772,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                   <div>
                     <label className="block text-xs font-tech text-slate-300 font-bold mb-1.5">YouTube URL</label>
                     <input
-                      type="url"
+                      type="text"
                       value={formData.youtubeUrl}
                       onChange={(e) => setFormData({ ...formData, youtubeUrl: e.target.value })}
                       className="w-full px-4 py-2.5 rounded-xl bg-[#060810] border border-white/10 text-white text-xs sm:text-sm focus:outline-none focus:border-[#0099FF]"
@@ -707,7 +782,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                   <div>
                     <label className="block text-xs font-tech text-slate-300 font-bold mb-1.5">X / Twitter URL</label>
                     <input
-                      type="url"
+                      type="text"
                       value={formData.twitterUrl}
                       onChange={(e) => setFormData({ ...formData, twitterUrl: e.target.value })}
                       className="w-full px-4 py-2.5 rounded-xl bg-[#060810] border border-white/10 text-white text-xs sm:text-sm focus:outline-none focus:border-[#0099FF]"
@@ -720,15 +795,16 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
               <div className="sticky bottom-6 z-30 p-4 rounded-3xl bg-[#080B14]/95 border border-[#FF1361]/50 backdrop-blur-xl shadow-[0_15px_40px_rgba(0,0,0,0.85)] flex items-center justify-between gap-4">
                 <span className="text-xs font-tech text-slate-300 font-bold flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-[#FF2A85]" />
-                  <span>Unsaved changes will be applied instantly to the live website.</span>
+                  <span>{saveSuccess ? 'Changes saved and active across the live website!' : 'Unsaved changes will be applied instantly to the live website.'}</span>
                 </span>
 
                 <button
-                  type="submit"
-                  className="px-8 py-3.5 rounded-full bg-gradient-to-r from-[#FF1361] via-[#FF2A85] to-[#0099FF] text-white text-xs sm:text-sm font-tech font-bold hover:shadow-[0_0_30px_rgba(255,19,97,0.5)] transition-all flex items-center gap-2 cursor-pointer shadow-lg"
+                  type="button"
+                  onClick={() => handleSaveCustomizer()}
+                  className="px-8 py-3.5 rounded-full bg-gradient-to-r from-[#FF1361] via-[#FF2A85] to-[#0099FF] text-white text-xs sm:text-sm font-tech font-bold hover:shadow-[0_0_30px_rgba(255,19,97,0.5)] transition-all flex items-center gap-2 cursor-pointer shadow-lg active:scale-95"
                 >
                   <Save className="w-4 h-4" />
-                  <span>Save All Changes Live</span>
+                  <span>{saveSuccess ? '✓ Saved Live & Persisted!' : 'Save All Changes Live'}</span>
                 </button>
               </div>
 
@@ -1813,6 +1889,17 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
           </div>
         </div>
       )}
+
+      {/* Portfolio Work Creation & Edit Modal */}
+      <PostPortfolioModal
+        isOpen={postModalOpen}
+        initialData={editingPortfolioItem}
+        onClose={() => {
+          setPostModalOpen(false);
+          setEditingPortfolioItem(null);
+        }}
+        onSave={handleSavePortfolioItem}
+      />
 
     </div>
   );

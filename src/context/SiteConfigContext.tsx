@@ -248,7 +248,6 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         if (parsed.contactEmail === 'contact@evohawks.tech' || !parsed.contactEmail) {
           parsed.contactEmail = 'teamevohawks@gmail.com';
         }
-        parsed.announcementEnabled = false;
         return { ...DEFAULT_SITE_CONFIG, ...parsed };
       }
     } catch (e) {
@@ -292,13 +291,21 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   }, [portfolioItems]);
 
   const updateSiteConfig = (updates: Partial<SiteConfig>) => {
-    setSiteConfig(prev => ({ ...prev, ...updates }));
+    setSiteConfig(prev => {
+      const next = { ...prev, ...updates };
+      try {
+        localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(next));
+      } catch (e) {
+        console.warn('Failed to save site config to localStorage', e);
+      }
+      return next;
+    });
   };
 
   const resetSiteConfig = () => {
     setSiteConfig(DEFAULT_SITE_CONFIG);
     try {
-      localStorage.removeItem(STORAGE_KEY_CONFIG);
+      localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(DEFAULT_SITE_CONFIG));
     } catch {
       // ignore
     }
@@ -321,33 +328,57 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       relatedProjectIds: item.relatedProjectIds || []
     };
 
-    setPortfolioItems(prev => [newItem, ...prev]);
+    setPortfolioItems(prev => {
+      const next = [newItem, ...prev];
+      try {
+        localStorage.setItem(STORAGE_KEY_PORTFOLIO, JSON.stringify(next));
+      } catch (e) {
+        console.warn('Failed to save portfolio items to localStorage', e);
+      }
+      return next;
+    });
     return newItem;
   };
 
   const updatePortfolioItem = (id: string, updates: Partial<PortfolioItem>) => {
-    setPortfolioItems(prev => prev.map(item => {
-      if (item.id === id) {
-        return {
-          ...item,
-          ...updates,
-          client: updates.clientName || updates.client || item.client,
-          description: updates.description || updates.overview || item.description,
-          solution: updates.solution || updates.strategy || item.solution
-        };
+    setPortfolioItems(prev => {
+      const next = prev.map(item => {
+        if (item.id === id) {
+          return {
+            ...item,
+            ...updates,
+            client: updates.clientName || updates.client || item.client,
+            description: updates.description || updates.overview || item.description,
+            solution: updates.solution || updates.strategy || item.solution
+          };
+        }
+        return item;
+      });
+      try {
+        localStorage.setItem(STORAGE_KEY_PORTFOLIO, JSON.stringify(next));
+      } catch (e) {
+        console.warn('Failed to save portfolio items to localStorage', e);
       }
-      return item;
-    }));
+      return next;
+    });
   };
 
   const deletePortfolioItem = (id: string) => {
-    setPortfolioItems(prev => prev.filter(item => item.id !== id));
+    setPortfolioItems(prev => {
+      const next = prev.filter(item => item.id !== id);
+      try {
+        localStorage.setItem(STORAGE_KEY_PORTFOLIO, JSON.stringify(next));
+      } catch (e) {
+        console.warn('Failed to save portfolio items to localStorage', e);
+      }
+      return next;
+    });
   };
 
   const resetPortfolioItems = () => {
     setPortfolioItems(INITIAL_PORTFOLIO_ITEMS);
     try {
-      localStorage.removeItem(STORAGE_KEY_PORTFOLIO);
+      localStorage.setItem(STORAGE_KEY_PORTFOLIO, JSON.stringify(INITIAL_PORTFOLIO_ITEMS));
     } catch {
       // ignore
     }
@@ -361,10 +392,21 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     try {
       const data = JSON.parse(jsonStr);
       if (data.siteConfig) {
-        setSiteConfig({ ...DEFAULT_SITE_CONFIG, ...data.siteConfig });
+        const nextConfig = { ...DEFAULT_SITE_CONFIG, ...data.siteConfig };
+        setSiteConfig(nextConfig);
+        try {
+          localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(nextConfig));
+        } catch {
+          // ignore
+        }
       }
       if (Array.isArray(data.portfolioItems)) {
         setPortfolioItems(data.portfolioItems);
+        try {
+          localStorage.setItem(STORAGE_KEY_PORTFOLIO, JSON.stringify(data.portfolioItems));
+        } catch {
+          // ignore
+        }
       }
       return true;
     } catch (e) {

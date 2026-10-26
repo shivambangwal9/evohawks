@@ -11,7 +11,6 @@ import {
   Lock, 
   Mail, 
   ArrowRight, 
-  Sparkles, 
   Eye, 
   EyeOff, 
   Sliders,
@@ -240,17 +239,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
           )}
         </AnimatePresence>
 
-        {/* Role Privileges & Guidance Callout */}
-        {activeRole === 'superadmin' && (
-          <div className="mb-6 p-4 rounded-[2rem] bg-gradient-to-br from-[#0A0D18] to-[#120716] border border-[#FF1361]/30 text-rose-200/90 text-xs font-sans-clean leading-relaxed shadow-[0_0_20px_rgba(255,19,97,0.15)] flex items-start gap-3">
-            <Sparkles className="w-5 h-5 text-[#FF2A85] shrink-0 mt-0.5" />
-            <div>
-              <strong className="font-semibold block mb-0.5 text-white">Super Admin Access Guard:</strong>
-              Use registered superadmin email or username (<strong>teamevohawks</strong>) and your root password to access the Master Control Center and Staff Team Manager.
-            </div>
-          </div>
-        )}
-
         {/* Card Container */}
         <div className="p-6 sm:p-10 rounded-[3rem] rounded-tl-lg bg-[#060810] border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.8)] relative overflow-hidden">
           <BorderBeam 
@@ -278,10 +266,10 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
                   disabled={isLocked || isSubmitting}
                   placeholder={
                     activeRole === 'superadmin' 
-                      ? 'teamevohawks or teamevohawks@gmail.com' 
+                      ? 'Enter username or email' 
                       : activeRole === 'admin'
-                      ? 'e.g. aryan@evohawks.tech'
-                      : 'e.g. client@hyperion.com'
+                      ? 'Enter staff email'
+                      : 'Enter client email'
                   }
                   autoComplete={activeRole === 'superadmin' ? 'username' : 'email'}
                   className="w-full pl-11 pr-4 py-3 rounded-full bg-[#050508] border border-white/10 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#FF1361] shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)] transition-all disabled:opacity-50 disabled:cursor-not-allowed"

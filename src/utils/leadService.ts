@@ -178,17 +178,9 @@ export async function submitEnquiry(data: EnquiryPayload): Promise<SubmissionRes
     };
   }
 
-  // 3. Inspect configured endpoint from environment
-  const endpoint = import.meta.env.VITE_CONTACT_FORM_ENDPOINT;
-
-  if (!endpoint || endpoint.trim().length === 0) {
-    // Honest status: endpoint is unconfigured in this environment
-    return {
-      success: false,
-      status: 'unconfigured',
-      message: 'Direct online form delivery endpoint (VITE_CONTACT_FORM_ENDPOINT) is pending configuration.',
-    };
-  }
+  // 3. Inspect configured endpoint from environment with robust fallback
+  const defaultEndpoint = `https://formsubmit.co/ajax/${AGENCY_CONFIG.contact.email || 'teamevohawks@gmail.com'}`;
+  const endpoint = import.meta.env.VITE_CONTACT_FORM_ENDPOINT || defaultEndpoint;
 
   // 4. Real HTTP transmission
   try {
@@ -199,6 +191,8 @@ export async function submitEnquiry(data: EnquiryPayload): Promise<SubmissionRes
         'Accept': 'application/json',
       },
       body: JSON.stringify({
+        _subject: `New Project Enquiry: ${data.businessName.trim()} (${data.service})`,
+        _template: 'table',
         fullName: data.fullName.trim(),
         businessName: data.businessName.trim(),
         email: data.email.trim(),
@@ -206,6 +200,10 @@ export async function submitEnquiry(data: EnquiryPayload): Promise<SubmissionRes
         service: data.service,
         budget: data.budget,
         description: data.description?.trim() || '',
+        websiteOrSocial: data.websiteOrSocial?.trim() || '',
+        engagementType: data.engagementType || '',
+        deadline: data.deadline || '',
+        businessGoal: data.businessGoal || '',
         submittedAt: new Date().toISOString(),
         sourceUrl: window.location.href,
       }),
@@ -346,15 +344,9 @@ export async function submitConsultation(data: ConsultationPayload): Promise<Sub
     };
   }
 
-  // 3. Inspect endpoint
-  const endpoint = import.meta.env.VITE_CONTACT_FORM_ENDPOINT;
-  if (!endpoint || endpoint.trim().length === 0) {
-    return {
-      success: false,
-      status: 'unconfigured',
-      message: 'Direct server booking transmission is pending configuration.',
-    };
-  }
+  // 3. Inspect endpoint with robust fallback
+  const defaultEndpoint = `https://formsubmit.co/ajax/${AGENCY_CONFIG.contact.email || 'teamevohawks@gmail.com'}`;
+  const endpoint = import.meta.env.VITE_CONTACT_FORM_ENDPOINT || defaultEndpoint;
 
   // 4. Send HTTP request
   try {
@@ -365,6 +357,8 @@ export async function submitConsultation(data: ConsultationPayload): Promise<Sub
         'Accept': 'application/json',
       },
       body: JSON.stringify({
+        _subject: `New Consultation Request: ${data.fullName.trim()} (${data.format} - ${data.timeSlot})`,
+        _template: 'table',
         formType: 'consultation_request',
         fullName: data.fullName.trim(),
         email: data.email.trim(),

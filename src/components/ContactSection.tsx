@@ -279,9 +279,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ preselectedServi
                   <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-start gap-3">
                     <AlertCircle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
                     <div className="text-xs text-amber-200 leading-relaxed font-sans-clean">
-                      <strong className="font-semibold block mb-1 text-amber-300">Direct Delivery Service Ready</strong>
-                      The web form delivery endpoint is currently awaiting production environment configuration (<code className="text-amber-300 bg-amber-950/60 px-1 py-0.5 rounded border border-amber-500/30">VITE_CONTACT_FORM_ENDPOINT</code>).
-                      Your project brief has been compiled below — dispatch it directly to our leads via WhatsApp or Email:
+                      <strong className="font-semibold block mb-1 text-amber-300">Direct Brief Delivery</strong>
+                      Your project brief has been compiled below. Dispatch it directly to our team via WhatsApp or Email for immediate priority review:
                     </div>
                   </div>
 

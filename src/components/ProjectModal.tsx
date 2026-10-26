@@ -188,11 +188,11 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
             {/* UNCONFIGURED FALLBACK */}
             {submissionStatus === 'unconfigured' && (
               <div className="py-4 space-y-4">
-                <div className="p-4 rounded-[1.75rem] rounded-tl-sm bg-[#FF1361]/10 border border-[#FF1361]/30 flex items-start gap-3">
-                  <AlertCircle className="w-4 h-4 text-[#FF1361] shrink-0 mt-0.5" />
-                  <div className="text-xs text-rose-200 leading-relaxed font-sans-clean">
-                    <strong className="font-semibold block mb-0.5 text-white">Form Delivery Configuration Notice</strong>
-                    The direct form delivery endpoint (<code className="text-[#FF2A85] bg-white/10 px-1 py-0.5 rounded font-mono">VITE_CONTACT_FORM_ENDPOINT</code>) is pending deployment. Please send your compiled brief directly to our team:
+                <div className="p-4 rounded-[1.75rem] rounded-tl-sm bg-[#0099FF]/10 border border-[#0099FF]/30 flex items-start gap-3">
+                  <AlertCircle className="w-4 h-4 text-[#0099FF] shrink-0 mt-0.5" />
+                  <div className="text-xs text-sky-200 leading-relaxed font-sans-clean">
+                    <strong className="font-semibold block mb-0.5 text-white">Direct Brief Delivery</strong>
+                    Your project brief has been compiled. Send it directly to our senior team via WhatsApp or Email for immediate priority review:
                   </div>
                 </div>
 

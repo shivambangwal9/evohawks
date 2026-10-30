@@ -45,15 +45,15 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
   const dropdownTimeoutRef = useRef<any>(null);
 
-  const navLinks: { name: string; id: PageId }[] = [
-    { name: 'Home', id: 'home' },
-    { name: 'Services', id: 'services' },
-    { name: 'Work', id: 'work' },
-    { name: 'Packages', id: 'packages' },
-    { name: 'Resources', id: 'blog' },
-    { name: 'About', id: 'about' },
-    { name: 'Process', id: 'process' },
-    { name: 'Contact', id: 'contact' },
+  const navLinks: { name: string; id: PageId; path: string }[] = [
+    { name: 'Home', id: 'home', path: '/' },
+    { name: 'Services', id: 'services', path: '/services' },
+    { name: 'Work', id: 'work', path: '/portfolio' },
+    { name: 'Packages', id: 'packages', path: '/packages' },
+    { name: 'Resources', id: 'blog', path: '/blog' },
+    { name: 'About', id: 'about', path: '/about' },
+    { name: 'Process', id: 'process', path: '/process' },
+    { name: 'Contact', id: 'contact', path: '/contact' },
   ];
 
   useEffect(() => {
@@ -139,7 +139,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     onMouseLeave={handleMouseLeaveServices}
                   >
                     <a
-                      href={`#${link.id}`}
+                      href={link.path}
                       onClick={(e) => handleLinkClick(e, link.id)}
                       className={`relative px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-semibold transition-colors duration-200 z-10 flex items-center gap-1 ${
                         isActive 
@@ -178,7 +178,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                               ALL 12 CORE DISCIPLINES
                             </span>
                             <a
-                              href="#services"
+                              href="/services"
                               onClick={(e) => handleLinkClick(e, 'services')}
                               className={`${isLight ? 'text-[#0284C7] hover:text-[#0369A1]' : 'text-[#38BDF8] hover:text-[#0099FF]'} font-bold flex items-center gap-1 group`}
                             >
@@ -191,7 +191,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                             {SERVICES_DATA.map((srv) => (
                               <a
                                 key={srv.id}
-                                href={`#services/${srv.slug}`}
+                                href={`/services/${srv.slug}`}
                                 onClick={(e) => handleLinkClick(e, 'service-detail', srv.slug)}
                                 className={`p-2.5 rounded-2xl ${
                                   isLight 
@@ -219,7 +219,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               return (
                 <a
                   key={link.id}
-                  href={`#${link.id}`}
+                  href={link.path}
                   onClick={(e) => handleLinkClick(e, link.id)}
                   className={`relative px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-semibold transition-colors duration-200 z-10 ${
                     isActive 
@@ -468,7 +468,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                         initial={{ opacity: 0, y: 6 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: idx * 0.02 }}
-                        href={`#${link.id}`}
+                        href={link.path}
                         onClick={(e) => handleLinkClick(e, link.id)}
                         className={`p-3 rounded-2xl flex flex-col justify-between border transition-all ${
                           isActive 

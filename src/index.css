@@ -7,20 +7,20 @@
     --font-mono: 'Space Grotesk', monospace;
 
     /* Jet Black Theme Base Colors */
-    --bg-jet: #050508;
-    --bg-jet-surface: #0B0D14;
-    --bg-jet-elevated: #111420;
-    --text-primary: #F8FAFC;
-    --text-secondary: #CBD5E1;
-    --text-muted: #94A3B8;
+    --bg-jet: #08090C;
+    --bg-jet-surface: #111318;
+    --bg-jet-elevated: #191C24;
+    --text-primary: #F5F7FA;
+    --text-secondary: #A5ADB8;
+    --text-muted: #7E8794;
 
     /* Cyber-Creative Brand Accents: Cerulean Blue & Neon Rose */
-    --accent-cerulean: #0099FF;
-    --accent-cerulean-deep: #007BA7;
-    --accent-cerulean-light: #38BDF8;
-    --accent-neon-rose: #FF1361;
-    --accent-neon-rose-hot: #FF2A85;
-    --accent-neon-rose-soft: #FB7185;
+    --accent-cerulean: #007BA7;
+    --accent-cerulean-deep: #005F83;
+    --accent-cerulean-light: #2094BF;
+    --accent-neon-rose: #FF2E78;
+    --accent-neon-rose-hot: #FF4D8E;
+    --accent-neon-rose-soft: #FFA0C0;
     --accent-violet: #8B5CF6;
   }
 
@@ -29,21 +29,21 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #050508;
-    color: #F8FAFC;
+    background-color: #08090C;
+    color: #F5F7FA;
   }
 
   body {
     font-family: var(--font-body);
-    background-color: #050508;
-    color: #F8FAFC;
+    background-color: #08090C;
+    color: #F5F7FA;
     overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
     letter-spacing: -0.025em;
-    color: #F8FAFC;
+    color: #F5F7FA;
   }
 }
 
